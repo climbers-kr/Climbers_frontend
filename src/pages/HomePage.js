@@ -1,10 +1,10 @@
 import React from 'react';
-import LinkWrapperButton from "../components/common/Button";
+import LinkWrapperButton from "../components/common/LinkedButton";
 import Button from "@material-ui/core/Button";
 import Container from '@material-ui/core/Container';
 import {Link} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import ScopedCssBaseline from '@material-ui/core/CssBaseline';
 import Theming from "../components/common/test";
 
 const useStyles = makeStyles(theme => ({
@@ -27,14 +27,28 @@ const HomePage=()=>{
     const classes = useStyles();
     return (
         <Container  component="main" maxWidth="xs">
-            <CssBaseline />
+            <ScopedCssBaseline />
             <div className={classes.paper}>
                 <LinkWrapperButton
                     to="/login"
                     className={classes.child}
-                    icon="icontest"
-                    primary="pri"
-                    something="something"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                >test</LinkWrapperButton>
+                <LinkWrapperButton
+                    to="/login"
+                    className={classes.child}
+                    variant="contained"
+                    color="primary"
+
+                >test</LinkWrapperButton>
+                <LinkWrapperButton
+                    to="/login"
+                    className={classes.child}
+                    variant="outlined"
+                    color="secondary"
+                    size="large"
                 >test</LinkWrapperButton>
                 <Button
                     variant="outlined"
