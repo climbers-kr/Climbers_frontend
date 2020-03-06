@@ -93,6 +93,10 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
 
     },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
@@ -103,16 +107,17 @@ const useStyles = makeStyles(theme => ({
 }));
 const AuthForm=({ type, form, onChange, onSubmit, error })=> {
     const classes = useStyles();
-    //const text=textMap[type];
-    const text='로그인';
+    const text=textMap[type];
+    //const text='로그인';
     return (
-        <AuthFormBlock>
+        <div className={classes.paper}>
             <h3>로그인</h3>
-            <form onSubmit={onSubmit}>
-
-
-            </form>
-
+            <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                Sign in
+            </Typography>
 
             <form className={classes.form} noValidate onSubmit={onSubmit}>
                 <TextField
@@ -178,7 +183,7 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                     </Grid>
                 </Footer>
             </form>
-        </AuthFormBlock>
+        </div>
     );
 };
 
