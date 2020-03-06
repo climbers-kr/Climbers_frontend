@@ -11,42 +11,11 @@ import Avatar from "@material-ui/core/Avatar";
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+
 /*
     회원가입 또는 로그인 폼을 보여준다
 */
-
-const AuthFormBlock=styled.div`
-    h3 {
-        margin: 0;
-        color: ${palette.gray[8]};
-        margin-bottom: 1rem;
-        text-align: center;
-    }
-`;
-
-
-/*스타일링된 input*/
-const StyledInput=styled.input`
-    font-size: 1rem;
-    border: none;
-    border-bottom: 1px solid ${palette.gray[5]};
-    padding-bottom: 0.5rem;
-    outline: none;
-    width: 100%;
-    //margin-top: 1rem;
-    &:focus {
-        color: $oc-teal-7;
-        border-bottom: 1px solid ${palette.gray[7]};
-    }
-    &+&{
-        margin-top: 1rem;
-    }
-`;
-
-
 
 
 //폼 하단에 로그인 혹은 회원가입 링크를 보여줌
@@ -62,13 +31,10 @@ const Footer=styled(Grid)`
     }
 `;
 
-const ButtonWithMarginTop=styled(Button)`
-    margin-top: 1rem;
-`;
 
 const textMap={
-    login: '로그인',
-    register: '회원가입',
+    login: 'LOGIN',
+    register: 'SIGN UP',
 };
 
 
@@ -83,11 +49,7 @@ const ErrorMessage=styled.div`
 
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
-    },
     paper: {
-        marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -111,12 +73,11 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
     //const text='로그인';
     return (
         <div className={classes.paper}>
-            <h3>로그인</h3>
             <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Sign in
+                {text}
             </Typography>
 
             <form className={classes.form} noValidate onSubmit={onSubmit}>
@@ -141,23 +102,32 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                     label="Password"
                     type="password"
                     id="password"
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     onChange={onChange}
                 />
                 {type === 'register' && (
                     <TextField
-                        autoComplete="new-password"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
                         name="passwordConfirm"
-                        placeholder="비밀번호 확인"
+                        label="Password Conform"
                         type="password"
+                        id="passwordConfirm"
+                        autoComplete="new-password"
                         onChange={onChange}
-
                     />
                 )}
-                <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                />
+                {type === 'login' ? (
+                    <FormControlLabel
+                        control={<Checkbox value="remember" color="primary" />}
+                        label="Remember me"
+                    />
+                ) : (
+                    undefined
+                )}
+
                 {error && <ErrorMessage>{error}</ErrorMessage>}
                 <LinkedButton
                     type="submit"
@@ -170,15 +140,20 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                 </LinkedButton>
                 <Footer container>
                     <Grid item xs>
-                        <Link href="#" variant="body2">
-                            Forgot password?
-                        </Link>
+                        {type === 'login' ? (
+                            <Link href="#" variant="body2">
+                                Forgot password?
+                            </Link>
+                        ) : (
+                            undefined
+                        )}
+
                     </Grid>
                     <Grid item>
                         {type === 'login' ? (
-                            <Link to="/register">회원가입</Link>
+                            <Link to="/register">SIGN UP</Link>
                         ) : (
-                            <Link to="/login">로그인</Link>
+                            <Link to="/login">LOGIN</Link>
                         )}
                     </Grid>
                 </Footer>
