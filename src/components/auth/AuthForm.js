@@ -3,7 +3,6 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Link} from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 import Button from "@material-ui/core/Button";
-import LinkedButton from '../common/LinkedButton';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -88,10 +87,11 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                     fullWidth
                     id="email"
                     label="Email Address"
-                    name="email"
+                    name="username"
                     autoComplete="email"
                     autoFocus
                     onChange={onChange}
+                    value={form.username}
                 />
                 <TextField
                     variant="outlined"
@@ -104,6 +104,7 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                     id="password"
                     autoComplete="new-password"
                     onChange={onChange}
+                    value={form.password}
                 />
                 {type === 'register' && (
                     <TextField
@@ -117,6 +118,7 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                         id="passwordConfirm"
                         autoComplete="new-password"
                         onChange={onChange}
+                        value={form.passwordConfirm}
                     />
                 )}
                 {type === 'login' ? (
@@ -129,7 +131,7 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                 )}
 
                 {error && <ErrorMessage>{error}</ErrorMessage>}
-                <LinkedButton
+                <Button
                     type="submit"
                     fullWidth
                     variant="contained"
@@ -137,7 +139,7 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                     className={classes.submit}
                 >
                     {text}
-                </LinkedButton>
+                </Button>
                 <Footer container>
                     <Grid item xs>
                         {type === 'login' ? (
