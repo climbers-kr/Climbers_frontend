@@ -54,7 +54,9 @@ const RegisterForm = ({ history }) => {
     //회원가입 성공/실패 처리
     useEffect(()=> {
         if(authError) {
+            console.log('계정명이 이미 존재할 때');
             //계정명이 이미 존재할 때
+            console.dir(authError);
             if(authError.response.status === 409) {
                 setError('이미 존재하는 계정명입니다.');
                 return;
@@ -62,6 +64,9 @@ const RegisterForm = ({ history }) => {
             //기타 이유
             setError('회원가입 실패');
             return;
+        }else{
+            //FIX BUG. 로그인 에러 발생한 상태에서 회원가입 폼으로 넘어가면 authError가 존재한 상태로 넘어가게 된다.
+            setError('');
         }
         if(auth) {
             console.log('회원가입 성공');

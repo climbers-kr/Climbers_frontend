@@ -46,6 +46,9 @@ const LoginForm = ({ history }) => {
             console.log(authError);
             setError('로그인 실패');
             return;
+        }else{
+            //FIX BUG. 로그인 에러 발생한 상태에서 회원가입 폼으로 넘어가면 authError가 존재한 상태로 넘어가게 된다.
+            setError('');
         }
         if(auth) {
             console.log('로그인 성공');
