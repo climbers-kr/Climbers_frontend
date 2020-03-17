@@ -5,7 +5,7 @@ import InputImage from "../components/post/InputImage";
 
 
 
-const HomePage=()=>{
+const CenterListPage=()=>{
     return (
         <>
             <HeaderContainer />
@@ -15,4 +15,4 @@ const HomePage=()=>{
 };
 
 
-export default HomePage;
+export default CenterListPage;
