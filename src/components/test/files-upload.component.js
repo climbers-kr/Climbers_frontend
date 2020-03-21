@@ -32,16 +32,19 @@ export default class FilesUploadComponent extends Component {
         for (const key of Object.keys(this.state.imgCollection)) {
             console.log("test");
             console.dir(this.state.imgCollection);
+            console.dir(this.state.imgCollection[key]);
             formData.append('imgCollection', this.state.imgCollection[key])
         }
-        axios.post("http://localhost:4000/api/test/upload-images", formData, {
-            onUploadProgress: ({ interval : 250 },(progressEvent) => {
-                let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                console.log(progressEvent.lengthComputable);
-                console.log(percentCompleted);
-                console.log(this.state.loadPercent)
 
-            })
+        const trackProcess=(progressEvent) => {
+            let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            console.log(progressEvent.lengthComputable);
+            console.log(percentCompleted);
+            console.log(this.state.loadPercent)
+
+        };
+        axios.post("http://localhost:4000/api/test/upload-images", formData, {
+            onUploadProgress: ({ interval : 250 }, trackProcess)
 
         }).then(res => {
             console.log(res.data)
@@ -58,7 +61,7 @@ export default class FilesUploadComponent extends Component {
                             <input type="file" name="imgCollection" onChange={this.onFileChange} multiple />
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-primary" type="submit">Upload</button>
+                            <button className="btn btn-primary" type="submit" >Upload</button>
                         </div>
                     </form>
                 </div>

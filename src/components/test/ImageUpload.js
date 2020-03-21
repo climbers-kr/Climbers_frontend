@@ -12,9 +12,9 @@ const Input=styled.input`
     width: 0;
     height: 0;
 `;
-const ImageUpload = ({onChange,file, onSubmit})=> {
+const ImageUpload = ({onChange, onSubmit})=> {
     const url=logo;
-    console.dir(file)
+
     return (
         <div className="container">
             <div className="row">

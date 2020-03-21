@@ -1,23 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import ImageUpload from '../../components/test/ImageUpload';
-import {selectImage, submitButton} from "../../modules/upload";
+import {selectImage, submitImageList} from "../../modules/upload";
 import {initializeForm} from "../../modules/auth";
 
 const UploadContainer = ()=> {
-  const [file, setFile]=useState(null);
-  const { imgList} = useSelector(({ upload }) => ({
+  //const [file, setFile]=useState(null);
+  const { imgList, imgCount} = useSelector(({ upload }) => ({
     imgList: upload.queue.imgList,
+    imgCount: upload.queue.imgCount
 
   }));
   const dispatch = useDispatch();
     useEffect(() => {
       console.dir(imgList);
-    }, [imgList]);
+      console.dir(imgCount);
+    }, [imgList, imgCount]);
+
+
   const onFileChange = e=> {
     const fileObject= e.target.files[0];
-    setFile(e.target.files[0]);
-    console.dir(file)
+    console.dir(fileObject)
     let formData=new FormData();
     formData.append('selectedImg', e.target.files[0]);
 
@@ -35,14 +38,14 @@ const UploadContainer = ()=> {
   const onSubmit=(e)=>{
     e.preventDefault();
     dispatch(
-        submitButton()
+        submitImageList({imgCount, imgList})
     )
   }
   return (
       <ImageUpload
         onChange={onFileChange}
         onSubmit={onSubmit}
-        file={file}
+
       />
   )
 };
