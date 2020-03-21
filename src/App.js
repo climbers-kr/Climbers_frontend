@@ -6,19 +6,21 @@ import RegisterPage from "./pages/RegisterPage";
 import CenterListPage from "./pages/CenterListPage";
 import CommunityPage from "./pages/CommunityPage";
 import TestPage from "./pages/TestPage";
+import ImageUploadPage from "./pages/community/ImageUploadPage";
+
 
 function App() {
-  return (
-    <>
+    return (
+        <>
 
-        <Route component={HomePage} path="/" exact />
-        <Route component={LoginPage} path="/login" />
-        <Route component={RegisterPage} path="/register" />
-        <Route component={CenterListPage} path="/centers" />
-        <Route component={CommunityPage} path="/community" />
-        <Route component={TestPage} path="/test" />
-    </>
-  );
+            <Route component={HomePage} path="/" exact/>
+            <Route component={LoginPage} path="/login"/>
+            <Route component={RegisterPage} path="/register"/>
+            <Route component={CenterListPage} path="/centers"/>
+            <Route component={CommunityPage} path="/community"/>
+            <Route component={TestPage} path="/test"/>
+            <Route component={ImageUploadPage} path="/upload"/>
+        </>
+    );
 }
-
 export default App;

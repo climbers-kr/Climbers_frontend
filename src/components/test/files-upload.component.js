@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useCallback} from 'react';
 import axios from 'axios';
 
 export default class FilesUploadComponent extends Component {
@@ -10,12 +10,19 @@ export default class FilesUploadComponent extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            imgCollection: ''
+            imgCollection: '',
+            loadPercent: 0,
         }
+
     }
 
     onFileChange(e) {
         this.setState({ imgCollection: e.target.files })
+        console.log("e.target.files 객체 확인");
+        console.dir(e.target.files);
+        console.log("e.target.files[0] 객체 확인");
+        console.dir(e.target.files[0]);
+        console.dir(this.state.imgCollection);
     }
 
     onSubmit(e) {
@@ -23,11 +30,22 @@ export default class FilesUploadComponent extends Component {
 
         var formData = new FormData();
         for (const key of Object.keys(this.state.imgCollection)) {
+            console.log("test");
+            console.dir(this.state.imgCollection);
             formData.append('imgCollection', this.state.imgCollection[key])
         }
-        axios.post("http://localhost:4000/api/upload-images", formData, {
+        axios.post("http://localhost:4000/api/test/upload-images", formData, {
+            onUploadProgress: ({ interval : 250 },(progressEvent) => {
+                let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                console.log(progressEvent.lengthComputable);
+                console.log(percentCompleted);
+                console.log(this.state.loadPercent)
+
+            })
+
         }).then(res => {
             console.log(res.data)
+            console.log(this.state.loadPercent)
         })
     }
 
