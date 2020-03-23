@@ -7,7 +7,7 @@ import CenterListPage from "./pages/CenterListPage";
 import CommunityPage from "./pages/CommunityPage";
 import TestPage from "./pages/TestPage";
 import ImageUploadPage from "./pages/community/ImageUploadPage";
-
+import WritePostPage from "./pages/community/WritePostPage";
 
 function App() {
     return (
@@ -20,6 +20,7 @@ function App() {
             <Route component={CommunityPage} path="/community"/>
             <Route component={TestPage} path="/test"/>
             <Route component={ImageUploadPage} path="/upload"/>
+            <Route component={WritePostPage} path="/newPost"/>
         </>
     );
 }

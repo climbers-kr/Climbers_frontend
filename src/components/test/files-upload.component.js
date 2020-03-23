@@ -10,14 +10,16 @@ export default class FilesUploadComponent extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            imgCollection: '',
+            imgCollection: [],
             loadPercent: 0,
         }
 
     }
 
     onFileChange(e) {
-        this.setState({ imgCollection: e.target.files })
+        const imgCollection=this.state.imgCollection;
+        imgCollection.push(e.target.files[0]);
+        this.setState({ imgCollection: imgCollection })
         console.log("e.target.files 객체 확인");
         console.dir(e.target.files);
         console.log("e.target.files[0] 객체 확인");
@@ -32,12 +34,13 @@ export default class FilesUploadComponent extends Component {
         for (const key of Object.keys(this.state.imgCollection)) {
             console.log("test");
             console.dir(this.state.imgCollection);
-            console.dir(this.state.imgCollection[key]);
+            console.dir(this.state.imgCollection[key]); //File 객체
             formData.append('imgCollection', this.state.imgCollection[key])
         }
 
         const trackProcess=(progressEvent) => {
             let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            console.dir(progressEvent);
             console.log(progressEvent.lengthComputable);
             console.log(percentCompleted);
             console.log(this.state.loadPercent)
