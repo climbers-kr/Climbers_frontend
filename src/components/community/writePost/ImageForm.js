@@ -1,17 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
-import Container from "@material-ui/core/Container";
-import AddIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import Fab from "@material-ui/core/Fab";
-
+import logo from '../../../images/ClimbersLogo.png';
+import AddIcon from '@material-ui/icons/Add';
+const PreviewContainer=styled.div`
+    display: flex;
+    flex-wrap: wrap;
+   justify-content: center;
+`;
 const ImgPreview=styled.img`
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
     
 `;
+const PreviewBox=styled.div`
+    width: 150px;
+    height: 150px;
 
+`;
+
+const ImgSelector=styled.div`
+    width: 150px;
+    height: 150px;
+    display: flex;
+    border-style: dashed; 
+    align-items: center;
+    justify-content: center;
+`;
 const Input=styled.input`
     overflow: hidden;
     width: 0;
@@ -45,23 +62,60 @@ const useStyles = makeStyles(theme => ({
     },
     fab:{
         margin: '0.5rem',
+    },
+    addIcon: {
+        fontSize: '5rem',
     }
 }));
-const ImageForm=({IsSelected, previewUrlArray, onChange})=>{
+const ImageForm=({ isSelected, imgList, onChange })=>{
     const classes = useStyles();
+    console.dir(isSelected);
+    const url=logo;
+
     return (
         <>
-            <div className="form-group">
-                <form>
-                <label>
-                    <Fab color="primary" aria-label="add" variant="extended" className={classes.fab}>
-                        <AddIcon className={classes.extendedIcon}/>
-                        새 게시글
-                    </Fab>
-                    <Input type="file" name="imgCollection" multiple onChange={onChange}/>
-                </label>
-                </form>
-            </div>
+            { !isSelected ? (
+                <div className="form-group">
+                    <input
+                        accept="image/*"
+                        className={classes.input}
+                        style={{ display: 'none' }}
+                        id="raised-button-file"
+                        multiple
+                        type="file"
+                        onChange={onChange}
+                    />
+                    <label htmlFor="raised-button-file">
+                        <Fab color="primary" aria-label="add" component="span" variant="extended" className={classes.fab} >
+                            <InsertPhotoIcon className={classes.extendedIcon}/>
+                            사진/동영상
+                        </Fab>
+                    </label>
+                </div>
+            ):(
+                <PreviewContainer>
+                    {imgList.map(object => {
+                        const url=URL.createObjectURL(object.file);
+                        return (
+
+                            <PreviewBox key={object.id}>
+                                <ImgPreview src={url} alt="preview" />
+                            </PreviewBox>
+
+                        );
+                    })}
+                    <label>
+                        <ImgSelector>
+                            <AddIcon className={classes.addIcon}/>
+                        </ImgSelector>
+                        <Input type="file" name="imgCollection" multiple onChange={onChange}/>
+                    </label>
+                </PreviewContainer>
+            )}
+
+
+
+
         </>
     )
 };

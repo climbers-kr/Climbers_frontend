@@ -90,6 +90,7 @@ const initialState = {
         selectedImg: null,
         loadPercent: 0,
     },
+    isSelected: false, //선택된 이미지 파일이 있는지
     resMessage: null,
     status: 'initial', //initial, pending, ready, complete, failure
     uploadError: null,
@@ -102,6 +103,7 @@ const upload = handleActions(
                 console.dir(selectedImg);
             draft.queue.imgList.push(selectedImg);
             draft.queue.imgCount++;
+            draft.isSelected=true;
         }),
         [SUBMIT]: (state)=>({
             ...state,

@@ -33,11 +33,13 @@ const WhiteBox=styled(Container)`
     padding: 2rem;
     background: white;
     border-radius: 2px;
+    display: flex;
+    flex-direction: column;
 `;
 const WriteTemplate=( {children} )=>{
     return(
         <WriteTemplateBlock>
-            <WhiteBox maxWidth="xs">
+            <WhiteBox maxWidth="md">
                 {children}
             </WhiteBox>
         </WriteTemplateBlock>
