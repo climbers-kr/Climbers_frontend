@@ -1,26 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import styled from 'styled-components';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import Fab from "@material-ui/core/Fab";
-import logo from '../../../images/ClimbersLogo.png';
 import AddIcon from '@material-ui/icons/Add';
+import Done from '@material-ui/icons/Done';
+
 const PreviewContainer=styled.div`
     display: flex;
     flex-wrap: wrap;
    justify-content: center;
 `;
+
+const PreviewItem=styled.div`
+    width: 150px;
+    height: 150px;
+    position: relative;
+`;
+const ImgFilter=styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 2;
+    position: absolute;
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 const ImgPreview=styled.img`
     width: 100%;
     height: 100%;
-    
+    z-index: 1;
+    top: 0;
+    position: absolute;
 `;
-const PreviewBox=styled.div`
-    width: 150px;
-    height: 150px;
-
-`;
-
 const ImgSelector=styled.div`
     width: 150px;
     height: 150px;
@@ -35,30 +49,14 @@ const Input=styled.input`
     height: 0;
 `;
 const useStyles = makeStyles(theme => ({
-    root: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        right: 0,
-        backgroundColor: theme.palette.background.paper,
-        display: 'flex',
-
-    },
-    tabBox:{
-        display: 'flex',
-        flexDirection: 'column',
-        marginLeft: '10rem',
-        marginTop:'10rem',
-    },
-    tabs: {
-
-        borderRight: `1px solid ${theme.palette.divider}`,
-        backgroundColor: 'yellow',
-
-    },
     extendedIcon: {
         marginRight: theme.spacing(1),
+    },
+    doneIcon: {
+        color: 'white',
+        zIndex: 3,
+        fontSize: '5rem',
+
     },
     fab:{
         margin: '0.5rem',
@@ -67,14 +65,12 @@ const useStyles = makeStyles(theme => ({
         fontSize: '5rem',
     }
 }));
-const ImageForm=({ isSelected, imgList, onChange })=>{
+const ImageForm=({ hasImages, imgList, onChange })=>{
     const classes = useStyles();
-    console.dir(isSelected);
-    const url=logo;
 
     return (
         <>
-            { !isSelected ? (
+            { !hasImages ? (
                 <div className="form-group">
                     <input
                         accept="image/*"
@@ -98,10 +94,15 @@ const ImageForm=({ isSelected, imgList, onChange })=>{
                         const url=URL.createObjectURL(object.file);
                         return (
 
-                            <PreviewBox key={object.id}>
-                                <ImgPreview src={url} alt="preview" />
-                            </PreviewBox>
+                            <PreviewItem key={object.id}>
+                                {object.done ? (
+                                    <ImgFilter>
+                                        <Done className={classes.doneIcon}/>
+                                    </ImgFilter>
+                                ): (undefined)}
 
+                                <ImgPreview src={url} alt="preview" />
+                            </PreviewItem>
                         );
                     })}
                     <label>
@@ -112,10 +113,6 @@ const ImageForm=({ isSelected, imgList, onChange })=>{
                     </label>
                 </PreviewContainer>
             )}
-
-
-
-
         </>
     )
 };

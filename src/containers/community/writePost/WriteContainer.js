@@ -7,8 +7,8 @@ import {selectImage, submitImageList} from "../../../modules/upload";
 const WriteContainer=()=>{
 
 
-    const { isSelected, imgList, imgCount, curOrder } = useSelector(({ upload }) => ({
-        isSelected: upload.isSelected,
+    const { hasImages, imgList, imgCount, curOrder } = useSelector(({ upload }) => ({
+        hasImages: upload.hasImages,
         imgList: upload.queue.imgList, //type: Array [{file: File}]
         imgCount: upload.queue.imgCount,
         curOrder: upload.queue.curOrder,
@@ -16,17 +16,12 @@ const WriteContainer=()=>{
 
     const dispatch = useDispatch();
 
-
-    useEffect(() => {
-        console.dir(isSelected);
+    useEffect(()=>{
         console.dir(imgList);
-        console.dir(imgCount);
-        console.dir(curOrder);
-    }, [isSelected,imgList, imgCount, curOrder]);
+    }, [imgList]);
 
-
-
-    const onFileChange = e=> {
+    const onFileChange = e => {
+        console.log("onFileChange called");
         const fileObject= e.target.files[0]; //type: File
         console.dir(fileObject);
 
@@ -34,12 +29,14 @@ const WriteContainer=()=>{
             selectImage({
                 file: e.target.files[0],
                 id: imgCount,
+                done: false,
             })
         );
     };
 
     const onSubmit=(e)=>{
         e.preventDefault();
+        console.log("onSubmit called");
         dispatch(
             submitImageList({imgCount, curOrder, imgList})
         )
@@ -47,7 +44,7 @@ const WriteContainer=()=>{
     return (
         <>
             <ImageForm
-                isSelected={isSelected}
+                hasImages={hasImages}
                 onChange={onFileChange}
                 imgList={imgList}
             />

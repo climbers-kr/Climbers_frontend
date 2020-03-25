@@ -7,9 +7,9 @@ import createRequestSaga, {
 import * as uploadAPI from '../lib/api/upload';
 import {startLoading, finishLoading} from "../modules/loading";
 
-
-const [UPLOAD, UPLOAD_SUCCESS, UPLOAD_FAILURE] = createRequestActionTypes(
-    'upload/UPLOAD',
+//UPLOAD=> 이미지 파일 업로드, PUBLISH
+const [UPLOAD_SINGLE_IMG, UPLOAD_SINGLE_IMG_SUCCESS, UPLOAD_SINGLE_IMG_FAILURE] = createRequestActionTypes(
+    'upload/UPLOAD_SINGLE_IMG',
 );
 
 const SUBMIT='upload/SUBMIT';
@@ -31,7 +31,7 @@ function* uploadQueue(action){
     console.dir(imgList);
     for(let i=curOrder; i< imgCount; i++){
         yield put({
-            type: UPLOAD,
+            type: UPLOAD_SINGLE_IMG,
             payload: {
                 fileObject: imgList[i].file,
                 curOrder: i,
@@ -42,57 +42,60 @@ function* uploadQueue(action){
 
 function* uploadSingleImage(action) {
 
-    yield put(startLoading(UPLOAD));
+    yield put(startLoading(UPLOAD_SINGLE_IMG));
     console.log('start UPLOAD');
    // console.dir(action.payload);
     try{
         const response =  yield call(uploadAPI.imageUpload, action.payload);
 
         yield put({
-            type: UPLOAD_SUCCESS,
-            payload: response.data,
-            curOrder: action.payload.curOrder,
+            type: UPLOAD_SINGLE_IMG_SUCCESS,
+            payload: {
+                response: response.data,
+                curOrder: action.payload.curOrder,
+            },
         });
-        console.dir(response);
-        console.dir(action.payload.curOrder);
     }catch(e){
         console.error(e);
         yield put({
-            type: UPLOAD_FAILURE,
+            type: UPLOAD_SINGLE_IMG_FAILURE,
             payload: e,
             error: true,
         });
     }
-    yield put(finishLoading(UPLOAD));
+    yield put(finishLoading(UPLOAD_SINGLE_IMG));
 }
 
-function onUploadSuccess(){
+function onUploadImageSuccess(action){
     console.log("success");
     //Todo: 업로드 완료된 이미지 프리뷰에 완료 표시, listCompleted에 추가, listToUpload에서 제거
+
 }
 /*
 *
 * */
 export function* uploadSaga() {
     yield takeLatest(SUBMIT, uploadQueue);
-    yield takeEvery(UPLOAD, uploadSingleImage);
-    yield takeLatest(UPLOAD_SUCCESS, onUploadSuccess);
+    yield takeEvery(UPLOAD_SINGLE_IMG, uploadSingleImage);
+    yield takeEvery(UPLOAD_SINGLE_IMG_SUCCESS, onUploadImageSuccess);
 }
 
 const initialState = {
     queue: {
         imgList: [],
-        listToUpload: [],
-        listCompleted: [],
+        listToUpload: [], //Todo: 실패시 다시 업로드 시도
         imgCount: 0,
         curOrder: 0,
         uploadedCount: 0,
         selectedImg: null,
         loadPercent: 0,
+        status: 'initial', //initial, pending, ready, complete, failure
     },
-    isSelected: false, //선택된 이미지 파일이 있는지
+    title: '',
+    body: '',
+    tags: [],
+    hasImages: false, //선택된 이미지 파일이 있는지
     resMessage: null,
-    status: 'initial', //initial, pending, ready, complete, failure
     uploadError: null,
 };
 
@@ -103,23 +106,32 @@ const upload = handleActions(
                 console.dir(selectedImg);
             draft.queue.imgList.push(selectedImg);
             draft.queue.imgCount++;
-            draft.isSelected=true;
+            draft.hasImages=true;
         }),
-        [SUBMIT]: (state)=>({
-            ...state,
-            status: 'ready',
-        }),
-        [UPLOAD]: (state)=>({
-            ...state,
-            status: 'pending',
-        }),
-        [UPLOAD_SUCCESS]: (state)=>({
-            ...state,
-            status: 'ready',
-        }),
+        [SUBMIT]: (state, {payload: {imgList, imgCount}})=>
+            produce(state, draft=> {
+                const queue=draft.queue;
 
+                queue.status='ready';
+                queue.listToUpload=imgList;
+            }),
+        [UPLOAD_SINGLE_IMG]: (state)=>
+            produce(state, draft => {
+                draft.queue.status='pending';
+            }),
+        [UPLOAD_SINGLE_IMG_SUCCESS]: (state, {payload: {curOrder, response}})=>
+            produce(state, draft => {
+                const queue=draft.queue;
 
+                queue.status='ready';
+                queue.uploadedCount++;
+                queue.imgList[curOrder].done=true;
+                queue.listToUpload.splice(
+                    queue.listToUpload.findIndex(item => item.id === curOrder),
+                    1
+                );
 
+            }),
 
     },
     initialState
