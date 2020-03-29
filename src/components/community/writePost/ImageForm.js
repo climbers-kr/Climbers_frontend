@@ -92,6 +92,7 @@ const ImageForm=({ hasImages, imgList, onChange })=>{
                 <PreviewContainer>
                     {imgList.map(object => {
                         const url=URL.createObjectURL(object.file);
+
                         return (
 
                             <PreviewItem key={object.id}>

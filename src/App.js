@@ -6,8 +6,9 @@ import RegisterPage from "./pages/RegisterPage";
 import CenterListPage from "./pages/CenterListPage";
 import CommunityPage from "./pages/CommunityPage";
 import TestPage from "./pages/TestPage";
+import WritePage from "./pages/community/WritePage";
 
-import WritePostPage from "./pages/community/WritePostPage";
+import WritePostPage_temp from "./pages/community/WritePostPage_temp";
 
 function App() {
     return (
@@ -19,8 +20,8 @@ function App() {
             <Route component={CenterListPage} path="/centers"/>
             <Route component={CommunityPage} path="/community"/>
             <Route component={TestPage} path="/test"/>
-
-            <Route component={WritePostPage} path="/newPost"/>
+            <Route component={WritePage} path="/write"/>
+            <Route component={WritePostPage_temp} path="/newPost"/>
         </>
     );
 }

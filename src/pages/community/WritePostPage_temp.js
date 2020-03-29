@@ -2,7 +2,7 @@ import React from "react";
 import WriteTemplate from "../../components/community/writePost/WriteTemplate";
 import WriteContainer from "../../containers/community/writePost/WriteContainer";
 
-const WritePostPage=()=>{
+const WritePostPage_temp=()=>{
     return (
         <WriteTemplate>
             <WriteContainer/>
@@ -11,4 +11,4 @@ const WritePostPage=()=>{
 };
 
 
-export default WritePostPage;
+export default WritePostPage_temp;

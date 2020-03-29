@@ -47,7 +47,7 @@ function* uploadSingleImage(action) {
    // console.dir(action.payload);
     try{
         const response =  yield call(uploadAPI.imageUpload, action.payload);
-
+        console.dir(response);
         yield put({
             type: UPLOAD_SINGLE_IMG_SUCCESS,
             payload: {
@@ -66,7 +66,7 @@ function* uploadSingleImage(action) {
     yield put(finishLoading(UPLOAD_SINGLE_IMG));
 }
 
-function onUploadImageSuccess(action){
+function onUploadSingleImgSuccess(action){
     console.log("success");
     //Todo: 업로드 완료된 이미지 프리뷰에 완료 표시, listCompleted에 추가, listToUpload에서 제거
 
@@ -77,7 +77,7 @@ function onUploadImageSuccess(action){
 export function* uploadSaga() {
     yield takeLatest(SUBMIT, uploadQueue);
     yield takeEvery(UPLOAD_SINGLE_IMG, uploadSingleImage);
-    yield takeEvery(UPLOAD_SINGLE_IMG_SUCCESS, onUploadImageSuccess);
+    yield takeEvery(UPLOAD_SINGLE_IMG_SUCCESS, onUploadSingleImgSuccess);
 }
 
 const initialState = {
@@ -122,8 +122,7 @@ const upload = handleActions(
         [UPLOAD_SINGLE_IMG_SUCCESS]: (state, {payload: {curOrder, response}})=>
             produce(state, draft => {
                 const queue=draft.queue;
-
-                queue.status='ready';
+                //queue.status='ready';
                 queue.uploadedCount++;
                 queue.imgList[curOrder].done=true;
                 queue.listToUpload.splice(
