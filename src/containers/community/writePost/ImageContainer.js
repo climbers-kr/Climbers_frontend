@@ -2,16 +2,16 @@ import React, {useEffect, useState} from 'react';
 import ImageForm from '../../../components/community/writePost/ImageForm';
 import PostForm from '../../../components/community/writePost/PostForm';
 import {useDispatch, useSelector} from "react-redux";
-import {selectImage, submitImageList} from "../../../modules/upload";
+import {selectImage, submitImageList} from "../../../modules/write";
 
 const ImageContainer=()=>{
 
 
-    const { hasImages, imgList, imgCount, curOrder } = useSelector(({ upload }) => ({
-        hasImages: upload.hasImages,
-        imgList: upload.queue.imgList, //type: Array [{file: File}]
-        imgCount: upload.queue.imgCount,
-        curOrder: upload.queue.curOrder,
+    const { hasImages, imgList, imgCount, curOrder } = useSelector(({ write }) => ({
+        hasImages: write.hasImages,
+        imgList: write.imgQueue.imgList, //type: Array [{file: File, id: number, done: boolean}]
+        imgCount: write.imgQueue.imgCount,
+        curOrder: write.imgQueue.curOrder,
     }));
 
     const dispatch = useDispatch();

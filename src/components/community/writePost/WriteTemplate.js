@@ -39,7 +39,7 @@ const WhiteBox=styled(Container)`
 const WriteTemplate=( {children} )=>{
     return(
         <WriteTemplateBlock>
-            <WhiteBox maxWidth="md">
+            <WhiteBox maxWidth="sm">
                 {children}
             </WhiteBox>
         </WriteTemplateBlock>

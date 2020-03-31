@@ -1,25 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import TextForm from '../../../components/community/writePost/TextForm';
 import {useDispatch, useSelector} from "react-redux";
-import {selectImage, submitImageList} from "../../../modules/upload";
+import {changeField, initialize} from "../../../modules/write";
 
 const TextContainer=()=>{
-
-
+    const dispatch = useDispatch();
     const { body } = useSelector(({ write }) => ({
         body: write.body,
     }));
 
-    const dispatch = useDispatch();
+    const onChangeField=useCallback(e=> {
+        console.dir(e);
+        console.dir(e.target.value);
+        return dispatch(changeField({key: 'body', value: e.target.value}));
+    }, [
+        dispatch,
+    ]);
 
-    useEffect(()=>{
-        console.dir(body);
-    }, [body]);
 
-
+    //언마운트 될 때 초기화
+    useEffect(()=> {
+        return() => {
+            dispatch(initialize());
+        };
+    }, [dispatch]);
     return (
         <>
-            <TextForm/>
+            <TextForm onChangeField={onChangeField} body={body} />
         </>
     )
 };

@@ -3,7 +3,7 @@ import createRequestSaga, {
     createRequestActionTypes,
 } from "../lib/createRequestSaga";
 //import * as postsAPI from '../lib/api/posts';
-import { takeLatest, takeEvery, take, call, put } from 'redux-saga/effects';
+import { takeLatest, takeEvery, take, call, put, select } from 'redux-saga/effects';
 import {finishLoading, startLoading} from "./loading";
 
 import * as writeAPI from "../lib/api/community/write";
@@ -53,11 +53,12 @@ export const writePost=createAction(WRITE_POST, ({imgList, body, tags})=> ({
 //이미지 파일 리스트 업로드를 위한 큐
 function* uploadQueueSaga(action){
     console.log("큐 시작");
+    console.dir(action.payload);
     //curOrder 인덱스부터 배열 요소 하나씩 업로드
-    const { imgCount, curOrder, imgList } = action.payload;
-    console.dir(imgCount);
+    const { imgList } = action.payload;
     console.dir(imgList);
-    for(let i=curOrder; i< imgCount; i++){
+    for(let i=0; i< imgList.length; i++){
+        console.dir(imgList[i]);
         yield put({
             type: SAVE_FILE,
             payload: {
@@ -66,13 +67,22 @@ function* uploadQueueSaga(action){
             },
         });
     }
+
+    yield takeLatest(SAVE_FILE_SUCCESS, function* onFileSuccess(){
+        console.log('test');
+        //console.dir(curOrder);
+        const items=yield select();
+        console.dir(items);
+
+    })
+
 }
 //개별 파일 업로드
 function* saveFileSaga(action) {
 
     yield put(startLoading(SAVE_FILE));
     console.log('start UPLOAD');
-    // console.dir(action.payload);
+    console.dir(action.payload);
     try{
         const response =  yield call(writeAPI.imageUpload, action.payload);
         console.dir(response);
@@ -92,6 +102,7 @@ function* saveFileSaga(action) {
         });
     }
     yield put(finishLoading(SAVE_FILE));
+
 }
 function* onSaveFileSuccessSaga(action){
     console.log("success");
@@ -99,17 +110,33 @@ function* onSaveFileSuccessSaga(action){
 
 }
 
-const writePostSaga=createRequestSaga(WRITE_POST, writeAPI.writePost);
+function* writePostSaga(action){
+    console.dir(action)
+    const { imgList, body, tags } = action.payload;
+    console.dir(imgList)
+    console.dir(body)
+    console.dir(tags)
+    yield put({
+        type: UPLOAD_QUEUE,
+        payload: {
+            imgList: imgList,
+        },
+    });
+}
+const callWriteApiSaga=createRequestSaga(WRITE_POST, writeAPI.writePost);
 export function* writeSaga() {
-    yield takeLatest(WRITE_POST, uploadQueueSaga);
+    //yield takeLatest(WRITE_POST, uploadQueueSaga);
+    yield takeLatest(WRITE_POST, writePostSaga);
+    yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);
+    yield takeEvery(SAVE_FILE, saveFileSaga);
+    //yield takeEvery(SAVE_FILE_SUCCESS, onSaveFileSuccessSaga);
 }
 
 const initialState={
     imgQueue: {
         imgList: [],
         listToUpload: [], //Todo: 실패시 다시 업로드 시도
-        imgCount: 0,
-        curOrder: 0,
+        imgCount: 0, //temp
         uploadedCount: 0,
         selectedImg: null,
         loadPercent: 0,
@@ -127,6 +154,10 @@ const initialState={
 const write=handleActions(
     {
         [INITIALIZE]: state=> initialState,
+        [CHANGE_FIELD]: (state, {payload: {key, value}})=>({
+            ...state,
+            [key]: value, //특정 key 값을 업데이트
+        }),
         [SELECT_IMAGE]: (state, { payload: selectedImg }) =>
             produce(state, draft => {
                 console.dir(selectedImg);
@@ -136,7 +167,7 @@ const write=handleActions(
             }),
         [UPLOAD_QUEUE]: (state)=>
             produce(state, draft => {
-                draft.queue.status='pending';
+                draft.imgQueue.status='pending';
             }),
         [SAVE_FILE_SUCCESS]: (state, {payload: {curOrder, response}})=>
             produce(state, draft => {

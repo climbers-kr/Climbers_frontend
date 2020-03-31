@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import LinkWrapperButton from "../common/LinkedButton";
+import LinkWrapperFab from "../common/LinkedFab";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -81,12 +82,12 @@ export default function VerticalTabs({children}) {
     return (
         <div className={classes.root}>
             <div className={classes.tabBox}>
-                <LinkWrapperButton color="inherit" variant="outlined" to="/newPost">Login</LinkWrapperButton>
-            <Fab color="primary" aria-label="add" variant="extended" className={classes.fab}>
-                <AddIcon className={classes.extendedIcon}/>
-                새 게시글
-            </Fab>
-            <Tabs
+
+                <LinkWrapperFab color="primary" aria-label="add" variant="extended" to="/write">
+                    새 게시글
+                </LinkWrapperFab>
+
+                <Tabs
                 orientation="vertical"
                 variant="scrollable"
                 value={value}

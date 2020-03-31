@@ -23,10 +23,10 @@ const useStyles = makeStyles(theme => ({
 
     },
 }));
-const TextForm=({onChange})=>{
+const TextForm=({onChangeField, body})=>{
     const classes = useStyles();
     return (
-
+        <form>
                 <TextField
                     margin="normal"
                     fullWidth
@@ -34,10 +34,11 @@ const TextForm=({onChange})=>{
                     label="공유할 텍스트"
                     name="postText"
                     autoFocus
-                    onChange={onChange}
+                    onChange={onChangeField}
+                    value={body}
                     multiline
                 />
-
+        </form>
     )
 };
 
