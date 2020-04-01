@@ -10,11 +10,14 @@ import * as writeAPI from "../lib/api/community/write";
 import produce from "immer";
 
 const INITIALIZE='write/INITIALIZE';
-
 const SELECT_IMAGE='write/SELECT_IMAGE';
-
-
 const CHANGE_FIELD='write/CHANGE_FIELD';
+
+const [
+    UPLOAD_QUEUE,
+    UPLOAD_QUEUE_SUCCESS,
+    UPLOAD_QUEUE_FAILURE,
+] = createRequestActionTypes('write/UPLOAD_QUEUE');
 /*포스트 폼 전체를 담당*/
 const [
     WRITE_POST,
@@ -22,12 +25,6 @@ const [
     WRITE_POST_FAILURE,
 ] = createRequestActionTypes('write/WRITE_POST');
 
-/*이미지 리스트 업로드 담당*/
-const [
-    UPLOAD_QUEUE,
-    UPLOAD_QUEUE_SUCCESS,
-    UPLOAD_QUEUE_FAILURE,
-]= createRequestActionTypes('write/UPLOAD_QUEUE');
 
 /*개별 이미지 파일 업로드 담당*/
 const [
@@ -51,48 +48,45 @@ export const writePost=createAction(WRITE_POST, ({imgList, body, tags})=> ({
     tags,
 }));
 //이미지 파일 리스트 업로드를 위한 큐
-function* uploadQueueSaga(action){
+function* uploadQueueSaga(imgList){
     console.log("큐 시작");
-    console.dir(action.payload);
-    //curOrder 인덱스부터 배열 요소 하나씩 업로드
-    const { imgList } = action.payload;
-    console.dir(imgList);
+
     for(let i=0; i< imgList.length; i++){
         console.dir(imgList[i]);
-        yield put({
+        const response=yield call (saveFileSaga, {
             type: SAVE_FILE,
             payload: {
                 fileObject: imgList[i].file,
                 curOrder: i,
             },
         });
+        if(!response){
+            yield put({
+                type: UPLOAD_QUEUE_FAILURE
+            });
+            return false;
+        }
     }
-
-    yield takeLatest(SAVE_FILE_SUCCESS, function* onFileSuccess(){
-        console.log('test');
-        //console.dir(curOrder);
-        const items=yield select();
-        console.dir(items);
-
-    })
-
+    yield put({
+        type: UPLOAD_QUEUE_SUCCESS
+    });
+    return true;
 }
 //개별 파일 업로드
 function* saveFileSaga(action) {
 
-    yield put(startLoading(SAVE_FILE));
-    console.log('start UPLOAD');
-    console.dir(action.payload);
     try{
-        const response =  yield call(writeAPI.imageUpload, action.payload);
-        console.dir(response);
+        const response = yield call(writeAPI.imageUpload, action.payload);
+        console.dir(response);console.dir(response.data.url);
         yield put({
             type: SAVE_FILE_SUCCESS,
             payload: {
-                response: response.data,
+                url: response.data.url,
                 curOrder: action.payload.curOrder,
             },
         });
+        return true;
+
     }catch(e){
         console.error(e);
         yield put({
@@ -100,36 +94,51 @@ function* saveFileSaga(action) {
             payload: e,
             error: true,
         });
+        return false;
     }
-    yield put(finishLoading(SAVE_FILE));
-
-}
-function* onSaveFileSuccessSaga(action){
-    console.log("success");
-    //Todo: 업로드 완료된 이미지 프리뷰에 완료 표시, listCompleted에 추가, listToUpload에서 제거
-
 }
 
 function* writePostSaga(action){
     console.dir(action)
+    yield put(startLoading(WRITE_POST));
     const { imgList, body, tags } = action.payload;
-    console.dir(imgList)
-    console.dir(body)
-    console.dir(tags)
-    yield put({
-        type: UPLOAD_QUEUE,
-        payload: {
-            imgList: imgList,
-        },
-    });
+
+    if(imgList.length !== 0){
+        const isUploaded=yield call (uploadQueueSaga, imgList);
+        if(!isUploaded) {
+            yield put({
+                type: WRITE_POST_FAILURE,
+                payload: 'IMAGE UPLOAD QUEUE ERROR'
+            });
+            return -1;
+        }
+    }
+    const imgUrlList=yield select(state=> state.write.imgUrlList);
+    try{
+        const response=yield call (writeAPI.writePost, {
+            imgUrlList,
+            body,
+            tags
+        });
+        console.dir(response);
+        yield put({
+            type: WRITE_POST_SUCCESS,
+            payload: response.data,
+        });
+    }catch(e){
+        yield put({
+            type: WRITE_POST_FAILURE,
+            payload: e,
+            error: true,
+        })
+    }
+    yield put(finishLoading(WRITE_POST));
 }
-const callWriteApiSaga=createRequestSaga(WRITE_POST, writeAPI.writePost);
+
 export function* writeSaga() {
-    //yield takeLatest(WRITE_POST, uploadQueueSaga);
     yield takeLatest(WRITE_POST, writePostSaga);
     yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);
-    yield takeEvery(SAVE_FILE, saveFileSaga);
-    //yield takeEvery(SAVE_FILE_SUCCESS, onSaveFileSuccessSaga);
+
 }
 
 const initialState={
@@ -161,15 +170,17 @@ const write=handleActions(
         [SELECT_IMAGE]: (state, { payload: selectedImg }) =>
             produce(state, draft => {
                 console.dir(selectedImg);
-                draft.imgQueue.imgList.push(selectedImg);
-                draft.imgQueue.imgCount++;
-                draft.hasImages=true;
+                if (selectedImg.file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    //파일 확장자 검증
+                    draft.imgQueue.imgList.push(selectedImg);
+                    draft.imgQueue.imgCount++;
+                    draft.hasImages=true;
+                }else{
+                    //Todo: 이미지 파일이 아닌 파일 선택하면 에러 메세지 보여주기
+                    console.log("ONLY IMAGE FILE ACCECPTED");
+                }
             }),
-        [UPLOAD_QUEUE]: (state)=>
-            produce(state, draft => {
-                draft.imgQueue.status='pending';
-            }),
-        [SAVE_FILE_SUCCESS]: (state, {payload: {curOrder, response}})=>
+        [SAVE_FILE_SUCCESS]: (state, {payload: {url, curOrder}})=>
             produce(state, draft => {
                 const queue=draft.imgQueue;
                 queue.uploadedCount++;
@@ -178,8 +189,9 @@ const write=handleActions(
                     queue.listToUpload.findIndex(item => item.id === curOrder),
                     1
                 );
+                draft.imgUrlList[curOrder]=url;
             }),
-        [WRITE_POST]: (state, {payload: {imgList, imgCount}})=>
+        [WRITE_POST]: (state, {payload: {imgList}})=>
             produce(state, draft=> {
                 const queue=draft.imgQueue;
                 queue.status='ready';
@@ -188,18 +200,21 @@ const write=handleActions(
                 draft.post=null;
                 draft.postError=null;
             }),
-        [CHANGE_FIELD]: (state, {payload: {key, value}})=>({
-            ...state,
-            [key]: value, //특정 key 값을 업데이트
+        [WRITE_POST_SUCCESS]: (state, {payload: post})=>
+            produce(state, draft=> {
+                draft.post=post;
+            }),
+        [WRITE_POST_FAILURE]: (state, {payload: postError}) => produce(state, draft=> {
+            draft.postError=postError;
         }),
-        [WRITE_POST_SUCCESS]: (state, {payload: post})=> ({
-            ...state,
-            post,
-        }),
-        [WRITE_POST_FAILURE]: (state, {payload: postError}) => ({
-            ...state,
-            postError,
-        }),
+        [UPLOAD_QUEUE_SUCCESS]: (state)=>
+            produce(state, draft=> {
+                draft.imgQueue.status='complete';
+            }),
+        [UPLOAD_QUEUE_FAILURE]: (state)=>
+            produce(state, draft=> {
+                draft.imgQueue.status='failure';
+            }),
     },
     initialState,
 );

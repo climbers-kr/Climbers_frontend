@@ -110,7 +110,12 @@ const ImageForm=({ hasImages, imgList, onChange })=>{
                         <ImgSelector>
                             <AddIcon className={classes.addIcon}/>
                         </ImgSelector>
-                        <Input type="file" name="imgCollection" multiple onChange={onChange}/>
+                        <Input
+                            accept="image/*"
+                            type="file"
+                            name="imgCollection"
+                            multiple onChange={onChange}
+                        />
                     </label>
                 </PreviewContainer>
             )}
