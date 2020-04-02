@@ -6,32 +6,24 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import GridList from '@material-ui/core/GridList';
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+import PostListItem from "./postList/PostListItem";
 
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
 
 const useStyles = makeStyles(theme => ({
     root: {
-        //flexGrow: 1,
+        flexGrow: 1,
+        marginTop: '1rem',
+        backgroundColor: 'red',
     },
     paper: {
+
         padding: theme.spacing(2),
         margin: 'auto',
-        maxWidth: 1000,
+        maxWidth: '650px',
 
+        //width: '100%',
+        //flexGrow: 1,
+        //width: '650px',
     },
     image: {
         width: 128,
@@ -45,7 +37,26 @@ const useStyles = makeStyles(theme => ({
     },
     gridList: {}
 }));
+const CommunityForm=({loading, error, posts, user})=>{
+    const classes = useStyles();
+    let numbers = [1, 2, 3, 4, 5];
+    const menus = ["Menu1", "Menu2", "Menu3", "Menu4"]
+    const menuList = menus.map((menu) => (<PostListItem/>));
+    return (
+        <>
+            <div className={classes.root}>
+                {!loading && posts && (
+                    posts.map(post => (
+                        <PostListItem post={post} key={post._id}/>
+                    ))
+                )}
+            </div>
+        </>
+    )
+};
 
+export default CommunityForm;
+/*
 const TempCard=()=>{
     const classes = useStyles();
     return (
@@ -84,23 +95,5 @@ const TempCard=()=>{
             </Paper>
         </>
     )
-}
+}*/
 
-const CommunityForm=({value})=>{
-    const classes = useStyles();
-    let numbers = [1, 2, 3, 4, 5];
-    const menus = ["Menu1", "Menu2", "Menu3", "Menu4"]
-    const menuList = menus.map((menu) => (<TempCard/>));
-    return (
-        <>
-            <div className={classes.root}>
-
-                {menuList}
-            </div>
-        </>
-    )
-
-
-};
-
-export default CommunityForm;

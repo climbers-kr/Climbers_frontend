@@ -32,6 +32,8 @@ const WriteActionButtonContainer= ({history}) => {
         if(post) {
             const {_id, user}=post;
             history.push(`/@${user.username}/${_id}`);
+        }else{
+            console.log('no post');
         }
         if(postError){
             console.log(postError);

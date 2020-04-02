@@ -2,11 +2,9 @@ import {createAction, handleActions} from 'redux-actions';
 import createRequestSaga, {
     createRequestActionTypes,
 } from "../lib/createRequestSaga";
-//import * as postsAPI from '../lib/api/posts';
 import { takeLatest, takeEvery, take, call, put, select } from 'redux-saga/effects';
 import {finishLoading, startLoading} from "./loading";
-
-import * as writeAPI from "../lib/api/community/write";
+import * as postsAPI from "../lib/api/community/posts";
 import produce from "immer";
 
 const INITIALIZE='write/INITIALIZE';
@@ -76,7 +74,7 @@ function* uploadQueueSaga(imgList){
 function* saveFileSaga(action) {
 
     try{
-        const response = yield call(writeAPI.imageUpload, action.payload);
+        const response = yield call(postsAPI.imageUpload, action.payload);
         console.dir(response);console.dir(response.data.url);
         yield put({
             type: SAVE_FILE_SUCCESS,
@@ -104,6 +102,7 @@ function* writePostSaga(action){
     const { imgList, body, tags } = action.payload;
 
     if(imgList.length !== 0){
+
         const isUploaded=yield call (uploadQueueSaga, imgList);
         if(!isUploaded) {
             yield put({
@@ -115,7 +114,7 @@ function* writePostSaga(action){
     }
     const imgUrlList=yield select(state=> state.write.imgUrlList);
     try{
-        const response=yield call (writeAPI.writePost, {
+        const response=yield call (postsAPI.writePost, {
             imgUrlList,
             body,
             tags

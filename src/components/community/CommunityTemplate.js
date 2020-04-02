@@ -8,7 +8,9 @@ import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import LinkWrapperButton from "../common/LinkedButton";
+import AlignItemList from '../common/AlignItemList';
 import LinkWrapperFab from "../common/LinkedFab";
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -42,6 +44,7 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(theme => ({
     root: {
+        marginTop: '4rem',
         position: 'absolute',
         left: 0,
         top: 0,
@@ -68,10 +71,22 @@ const useStyles = makeStyles(theme => ({
     },
     fab:{
         margin: '0.5rem',
+    },
+    postList: {
+        backgroundColor: 'skyBlue',
+        flex: 1,
+        display: 'flex',
+
+
+
+    },
+    sideBox: {
+        backgroundColor: 'gray',
+        flex: 1
     }
 }));
 
-export default function VerticalTabs({children}) {
+export default function CommunityTemplate({children}) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -94,17 +109,22 @@ export default function VerticalTabs({children}) {
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
-            >
-                <Tab label="Item One" {...a11yProps(0)} />
-                <Tab label="Item Two" {...a11yProps(1)} />
-                <Tab label="Item Three" {...a11yProps(2)} />
-                <Tab label="Item Four" {...a11yProps(3)} />
-                <Tab label="Item Five" {...a11yProps(4)} />
-                <Tab label="Item Six" {...a11yProps(5)} />
-                <Tab label="Item Seven" {...a11yProps(6)} />
-            </Tabs>
+                >
+                    <Tab label="Item One" {...a11yProps(0)} />
+                    <Tab label="Item Two" {...a11yProps(1)} />
+                    <Tab label="Item Three" {...a11yProps(2)} />
+                    <Tab label="Item Four" {...a11yProps(3)} />
+                    <Tab label="Item Five" {...a11yProps(4)} />
+                    <Tab label="Item Six" {...a11yProps(5)} />
+                    <Tab label="Item Seven" {...a11yProps(6)} />
+                </Tabs>
             </div>
-            {children}
+            <div className={classes.postList}>
+                {children}
+            </div>
+            <div className={classes.sideBox}>
+                <AlignItemList/>
+            </div>
         </div>
     );
 }

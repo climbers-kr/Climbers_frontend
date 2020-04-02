@@ -1,4 +1,5 @@
 import client from '../client';
+import qs from 'qs';
 
 //이미지 업로드
 export const imageUpload=({fileObject}) => {
@@ -15,3 +16,12 @@ export const imageUpload=({fileObject}) => {
 //포스트 전체 업로드
 export const writePost=({imgUrlList, body, tags})=>
     client.post('/api/community/post', {imgUrlList, body, tags});
+
+export const listPosts=({page, username, tag})=> {
+    const queryString = qs.stringify({
+        page,
+        username,
+        tag,
+    });
+    return client.get(`/api/community?${queryString}`);
+};

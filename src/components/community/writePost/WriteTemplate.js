@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+
 
 import Container from "@material-ui/core/Container";
 /*화면 전체를 채움*/
