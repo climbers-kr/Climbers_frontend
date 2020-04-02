@@ -15,6 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Carousel from './Carousel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,7 +39,14 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: red[500],
     },
 }));
-
+/*
+            {imgUrlList.length && (
+                <CardMedia
+                    className={classes.media}
+                    image={imgUrlList[0]}
+                    title="Paella dish"
+                />
+            )}*/
 export default function PostListItem({post}) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -69,13 +77,15 @@ export default function PostListItem({post}) {
                 title={user.username}
                 subheader={new Date(publishedDate).toLocaleDateString()}
             />
+
             {imgUrlList.length && (
-                <CardMedia
+                <Carousel
                     className={classes.media}
-                    image={imgUrlList[0]}
+                    imgUrlList={imgUrlList}
                     title="Paella dish"
                 />
             )}
+
 
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
