@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image, Dot, DotGroup, CarouselContext  } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image, Dot, CarouselContext  } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {makeStyles} from "@material-ui/core/styles";
-//import DotGroup from './DotGroup';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,28 +19,27 @@ const useStyles = makeStyles((theme) => ({
         right: 0,
         transform: 'translateY(-50%)'
     },
-    dotGroup:{
-        textAlign: 'center',
-       // backgroundColor: 'blue',
-        color:'blue',
-        button: {
-            background: 'red',
-            color: 'red'
-        }
-    },
     dot: {
-        visibility:'',
-        //opacity: 0,
-        background: 'blue'
+        background: 'skyblue',
+        //borderRadius: '75px',
+        border: '1px solid skyblue',
+        //color: 'skyblue'
+        margin: '1px'
+
+    },
+    dotSelected: {
+        background: 'blue',
+        border: '1px solid skyblue',
+        margin: '1px'
+    },
+    dotBox: {
+        textAlign: 'center',
+
     }
 }));
-function renderButton(){
-    return(
-        <button/>
-    )
-}
 
-export function MyComponentUsingContext() {
+
+export function DotComponentUsingContext({imgUrlList, classes}) {
     const carouselContext = useContext(CarouselContext);
     const [currentSlide, setCurrentSlide] = useState(carouselContext.state.currentSlide);
     useEffect(() => {
@@ -51,14 +49,17 @@ export function MyComponentUsingContext() {
         carouselContext.subscribe(onChange);
         return () => carouselContext.unsubscribe(onChange);
     }, [carouselContext]);
-    return `The current slide is: ${currentSlide}`;
+
+    const dotComponents=imgUrlList.map((image, index)=>(
+        index===currentSlide ? (
+            <Dot key={index} className={classes.dotSelected} slide={index}/>
+        ) : (
+            <Dot key={index} className={classes.dot} slide={index}/>
+            )
+    ));
+    return <div className={classes.dotBox}>{dotComponents}</div>;
 }
 export default function Carousel({imgUrlList}) {
-    useEffect(()=>{
-        console.dir(Dot.defaultProps)
-    }, [Dot.defaultProps])
-
-    const carouselContext = useContext(CarouselContext);
 
     const classes = useStyles();
     const count=imgUrlList.length;
@@ -68,7 +69,7 @@ export default function Carousel({imgUrlList}) {
                 naturalSlideWidth={100}
                 naturalSlideHeight={50}
                 totalSlides={count}
-                value={carouselContext}
+                dragEnabled={false}
             >
                 <Slider>
                     {
@@ -76,17 +77,16 @@ export default function Carousel({imgUrlList}) {
                             <Slide index={index} key={index}><Image src={image}/></Slide>
                         ))
                     }
-
                 </Slider>
-                <MyComponentUsingContext/>
-                <ButtonBack className={classes.buttonBack}>Back</ButtonBack>
-                <ButtonNext className={classes.buttonNext}>Next</ButtonNext>
-                <DotGroup className={classes.dotGroup} dotNumbers={true}/>
-                <button><Dot className={classes.dot} slide={2}/></button>
+                {imgUrlList.length>1 && (
+                    <>
+                        <ButtonBack className={classes.buttonBack}>Back</ButtonBack>
+                        <ButtonNext className={classes.buttonNext}>Next</ButtonNext>
 
+                    </>
+                )}
+                {imgUrlList.length>1 && <DotComponentUsingContext imgUrlList={imgUrlList} classes={classes}/>}
             </CarouselProvider>
         </div>
-
     );
-
 }
