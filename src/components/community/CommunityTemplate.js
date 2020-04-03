@@ -5,9 +5,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import LinkWrapperButton from "../common/LinkedButton";
 import AlignItemList from '../common/AlignItemList';
 import LinkWrapperFab from "../common/LinkedFab";
 
@@ -52,38 +49,33 @@ const useStyles = makeStyles(theme => ({
         right: 0,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
+    },
+    leftBox:{
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'flex-end',
 
     },
-    tabBox:{
-        display: 'flex',
-        flexDirection: 'column',
-        marginLeft: '10rem',
-        marginTop:'10rem',
+    tabBox: {
+        //background: 'black',
+        paddingRight: '1rem',
+        position: 'fixed',
+        width: '15%',
     },
     tabs: {
-
         borderRight: `1px solid ${theme.palette.divider}`,
-        backgroundColor: 'yellow',
 
-    },
-    extendedIcon: {
-        marginRight: theme.spacing(1),
-    },
-    fab:{
-        margin: '0.5rem',
     },
     postList: {
         backgroundColor: 'skyBlue',
-        flex: 1,
+        flex: 2,
         display: 'flex',
-
-
-
     },
-    sideBox: {
+    rightBox: {
         backgroundColor: 'gray',
-        flex: 1
-    }
+        flex: 2
+    },
+
 }));
 
 export default function CommunityTemplate({children}) {
@@ -96,33 +88,36 @@ export default function CommunityTemplate({children}) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.tabBox}>
+            <div className={classes.leftBox}>
+                <div className={classes.tabBox}>
 
-                <LinkWrapperFab color="primary" aria-label="add" variant="extended" to="/write">
-                    새 게시글
-                </LinkWrapperFab>
+                    <LinkWrapperFab color="primary" aria-label="add" variant="extended" to="/write">
+                        새 게시글
+                    </LinkWrapperFab>
 
-                <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={value}
-                onChange={handleChange}
-                aria-label="Vertical tabs example"
-                className={classes.tabs}
-                >
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
-                    <Tab label="Item Four" {...a11yProps(3)} />
-                    <Tab label="Item Five" {...a11yProps(4)} />
-                    <Tab label="Item Six" {...a11yProps(5)} />
-                    <Tab label="Item Seven" {...a11yProps(6)} />
-                </Tabs>
+                    <Tabs
+                        orientation="vertical"
+                        variant="scrollable"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="Vertical tabs example"
+                        className={classes.tabs}
+                    >
+                        <Tab label="Item One" {...a11yProps(0)} />
+                        <Tab label="Item Two" {...a11yProps(1)} />
+                        <Tab label="Item Three" {...a11yProps(2)} />
+                        <Tab label="Item Four" {...a11yProps(3)} />
+                        <Tab label="Item Five" {...a11yProps(4)} />
+                        <Tab label="Item Six" {...a11yProps(5)} />
+                        <Tab label="Item Seven" {...a11yProps(6)} />
+                    </Tabs>
+                </div>
+
             </div>
             <div className={classes.postList}>
                 {children}
             </div>
-            <div className={classes.sideBox}>
+            <div className={classes.rightBox}>
                 <AlignItemList/>
             </div>
         </div>

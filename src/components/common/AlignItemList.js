@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         maxWidth: '36ch',
         backgroundColor: theme.palette.background.paper,
+        position: 'fixed',
     },
     inline: {
         display: 'inline',
