@@ -8,8 +8,8 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
     },
     fab:{
-        //margin: '0.5rem',
-        width: '100%',
+        //margin: '2rem',
+        width: '90%',
     }
 }));
 function LinkWrapperFab(props) {

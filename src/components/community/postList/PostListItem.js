@@ -20,6 +20,9 @@ import Carousel, {MyComponentUsingContext} from './Carousel';
 const useStyles = makeStyles((theme) => ({
     root: {
         //maxWidth: 345,
+
+        marginBottom: theme.spacing(2),
+        //minHeight: '700px'
     },
     media: {
         height: 0,

@@ -1,34 +1,32 @@
 import React, {useEffect, useRef} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PostListItem from "./postList/PostListItem";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        marginTop: '1rem',
-        backgroundColor: 'red',
-    },
-    paper: {
+       // backgroundColor: 'red',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
 
-        padding: theme.spacing(2),
+        //position: 'relative'
+    },
+    loaderBox: {
+        //background: 'pink',
         margin: 'auto',
-        maxWidth: '650px',
+        //top: '-10px',
+        //position: 'absolute'
+        position: 'relative'
     },
-    image: {
-        width: 128,
-        height: 128,
-    },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
-    },
-    gridList: {}
+    loader: {
+        top: '-15px',
+        position: 'absolute'
+    }
 }));
 
-const CommunityForm=({loading, error, posts, user, loader,containerRef})=>{
+const CommunityForm=({loading, loading2, error, posts, user, loader,containerRef})=>{
     const classes = useStyles();
 
     return (
@@ -39,14 +37,17 @@ const CommunityForm=({loading, error, posts, user, loader,containerRef})=>{
                         <PostListItem post={post} key={post._id}/>
                     ))
                 )}
+                <div className={classes.loaderBox}
+                    ref={loader}
+                >
+                    {loading && (
+                        <CircularProgress />
+                    )}
+                    {loading2 && (
+                        <CircularProgress className={classes.loader}/>
+                    )}
 
-                    <div
-                        ref={loader}
-                    >
-                        <span>Loading...</span>
-                    </div>
-
-
+                </div>
             </div>
 
         </>

@@ -67,7 +67,7 @@ export default function Carousel({imgUrlList}) {
         <div className={classes.root}>
             <CarouselProvider
                 naturalSlideWidth={100}
-                naturalSlideHeight={50}
+                naturalSlideHeight={70}
                 totalSlides={count}
                 dragEnabled={false}
             >

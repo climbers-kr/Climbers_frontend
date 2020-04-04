@@ -11,6 +11,7 @@ import WritePage from "./pages/community/WritePage";
 
 import PostListPage from "./pages/community/PostListPage";
 import LoadingTestPage from "./pages/test/LoadingTestPage";
+import DashboardPage from "./pages/admin/DashboardPage";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
             <Route component={PostListPage} path="/list"/>
 
             <Route component={LoadingTestPage} path="/test"/>
+            <Route component={DashboardPage} path="/dashboard"/>
         </>
     );
 }
