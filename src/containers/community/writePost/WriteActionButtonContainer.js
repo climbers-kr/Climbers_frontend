@@ -14,7 +14,8 @@ const WriteActionButtonContainer= ({history}) => {
         postError: write.postError,
     }));
 
-    const onPublish = ()=> {
+    const onPublish = (e)=> {
+        e.preventDefault();
         dispatch(
             writePost({
                 imgList,

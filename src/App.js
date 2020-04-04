@@ -10,6 +10,7 @@ import WritePage from "./pages/community/WritePage";
 
 
 import PostListPage from "./pages/community/PostListPage";
+import LoadingTestPage from "./pages/test/LoadingTestPage";
 
 function App() {
     return (
@@ -20,10 +21,10 @@ function App() {
             <Route component={RegisterPage} path="/register"/>
             <Route component={CenterListPage} path="/centers"/>
             <Route component={CommunityPage} path="/community"/>
-
             <Route component={WritePage} path="/write"/>
-
             <Route component={PostListPage} path="/list"/>
+
+            <Route component={LoadingTestPage} path="/test"/>
         </>
     );
 }
