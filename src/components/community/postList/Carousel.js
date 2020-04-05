@@ -20,16 +20,16 @@ const useStyles = makeStyles((theme) => ({
         transform: 'translateY(-50%)'
     },
     dot: {
-        background: 'skyblue',
+        background: '#3c4146',
         //borderRadius: '75px',
-        border: '1px solid skyblue',
+        border: '1px solid #3c4146',
         //color: 'skyblue'
         margin: '1px'
 
     },
     dotSelected: {
-        background: 'blue',
-        border: '1px solid skyblue',
+        background: '#B68DFF',
+        border: '1px solid #B68DFF',
         margin: '1px'
     },
     dotBox: {

@@ -19,6 +19,8 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import url from '../../images/ClimbersLogo.png';
+
 
 const breakpointValues = {
     xs: 0,
@@ -30,7 +32,7 @@ const breakpointValues = {
 const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
 const useStyles = makeStyles(theme => ({
     appBar:{
-        background: 'black',
+        background: '#414449',
         position: 'fixed',
     },
     menuButton: {
@@ -146,9 +148,10 @@ const Header = ({ user, onLogout }) => {
                             <MenuIcon />
                         </IconButton>
 
-                    <Typography variant="h6" className={classes.title}>
-                        Climbers
-                    </Typography>
+
+                    <a className="navbar-item" href="/" className={classes.title}>
+                        <img src={url} alt="logo" width="112" height="28" />
+                    </a>
                         <nav className={classes.menuItem}>
                             <Link variant="button" color="inherit" href="/centers" className={classes.link}>
                                 암장 정보

@@ -3,12 +3,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import logo from '../../images/ClimbersLogo.png';
 import Container from "@material-ui/core/Container";
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 //회원가입/로그인 페이지의 레이아웃을 담당하는 컴포넌트
 
 /*화면 전체를 채움*/
