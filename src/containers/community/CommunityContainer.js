@@ -38,8 +38,8 @@ const CommunityContainer=({location})=> {
     const options = {
         root: containerRef.current,
         //root: null,
-        rootMargin: "5px",
-        threshold: 0.5
+        rootMargin: "10px",
+        threshold: 0
     };
 
 
@@ -54,7 +54,7 @@ const CommunityContainer=({location})=> {
                         ignoreQueryPrefix: true,
                     });
                     //dispatch(readMore({tag, username, currentPage}));
-
+                    //Todo: fix page bug
                     dispatch(scrollBottom({tag, username, page: currentPage.current++}));
                 }
             })

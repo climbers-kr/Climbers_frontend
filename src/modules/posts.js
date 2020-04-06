@@ -74,8 +74,10 @@ function* scrollBottomSaga(action) {
     console.dir(state);
     const isLoading=state.loading['posts/LIST_POSTS'];
     const postsState=state.posts;
-    if(!isLoading && postsState.posts && postsState.lastPage===action.payload.page) {
+    if(!isLoading && postsState.posts && postsState.lastPage!==action.payload.page) {
         //Todo: lastPage 인 경우 다 읽었다고 띄우기, 스크롤 감지 멈추기
+        console.dir(postsState.lastPage);
+        console.dir(action.payload.page);
         yield call(readMorePostsSaga, action);
         //console.dir(response);
     }else {

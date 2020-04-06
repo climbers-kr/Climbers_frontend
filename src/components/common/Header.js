@@ -4,15 +4,13 @@ import Button from "@material-ui/core/Button";
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
+import {Link} from 'react-router-dom';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
-import Link from '@material-ui/core/Link';
-import useMediaQuery from "@material-ui/core/useMediaQuery/useMediaQuery";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
@@ -50,6 +48,8 @@ const useStyles = makeStyles(theme => ({
     },
     link: {
         margin: theme.spacing(1, 1.5),
+        textDecoration: 'none',
+        color: 'white',
     },
     menuItem: {
         flexGrow: 1,
@@ -149,23 +149,23 @@ const Header = ({ user, onLogout }) => {
                         </IconButton>
 
 
-                    <a className="navbar-item" href="/" className={classes.title}>
+                    <Link className="navbar-item" to="/" className={classes.title}>
                         <img src={url} alt="logo" width="112" height="28" />
-                    </a>
+                    </Link>
                         <nav className={classes.menuItem}>
-                            <Link variant="button" color="inherit" href="/centers" className={classes.link}>
+                            <Link to="/centers" className={classes.link}>
                                 암장 정보
                             </Link>
-                            <Link variant="button" color="inherit" href="/events" className={classes.link}>
+                            <Link to="/events" className={classes.link}>
                                 이벤트
                             </Link>
-                            <Link variant="button" color="inherit" href="/community" className={classes.link}>
+                            <Link to="/community" className={classes.link}>
                                 커뮤니티
                             </Link>
-                            <Link variant="button" color="inherit" href="/friends" className={classes.link}>
+                            <Link to="/friends" className={classes.link}>
                                 친구 찾기
                             </Link>
-                            <Link variant="button" color="inherit" href="/market" className={classes.link}>
+                            <Link variant="button" color="inherit" to="/market" className={classes.link}>
                                 중고 장터
                             </Link>
                         </nav>

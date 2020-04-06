@@ -22,10 +22,14 @@ const useStyles = makeStyles((theme) => ({
         //maxWidth: 345,
 
         marginBottom: theme.spacing(2),
+        borderStyle: 'solid',
+        borderImageSlice: 1,
+        borderImage: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
+        borderImageWidth:'2px',
         //minHeight: '700px'
     },
     media: {
-        height: 0,
+        //height: 0,
         paddingTop: '56.25%', // 16:9
     },
     expand: {
