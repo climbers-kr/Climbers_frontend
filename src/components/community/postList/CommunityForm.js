@@ -1,6 +1,6 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import PostListItem from "./postList/PostListItem";
+import PostListItem from "./PostListItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     },
     loader: {
         top: '-15px',
-        position: 'absolute'
+        position: 'absolute',
+        background: 'yellow',
     }
 }));
 

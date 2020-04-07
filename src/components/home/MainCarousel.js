@@ -12,12 +12,11 @@ export default function MainCarousel() {
     return (
         <CarouselBox>
             <Carousel>
-                <img src={url} />
-                <img src="https://via.placeholder.com/400/ffffff/c0392b/&text=slide2" />
-                <img src="https://via.placeholder.com/400/ffffff/c0392b/&text=slide3" />
-                <img src="https://via.placeholder.com/400/ffffff/c0392b/&text=slide4" />
-                <img src="https://via.placeholder.com/400/ffffff/c0392b/&text=slide5" />
-                <img src="https://via.placeholder.com/400/ffffff/c0392b/&text=slide6" />
+                <img src={url} alt="test"/>
+                <img src={url} alt="test"/>
+                <img src={url} alt="test"/>
+                <img src={url} alt="test"/>
+                <img src={url} alt="test"/>
             </Carousel>
         </CarouselBox>
 

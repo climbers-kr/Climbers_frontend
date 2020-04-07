@@ -149,7 +149,7 @@ const Header = ({ user, onLogout }) => {
                         </IconButton>
 
 
-                    <Link className="navbar-item" to="/" className={classes.title}>
+                    <Link className={classes.title} to="/" >
                         <img src={url} alt="logo" width="112" height="28" />
                     </Link>
                         <nav className={classes.menuItem}>

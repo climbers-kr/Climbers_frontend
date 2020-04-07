@@ -4,12 +4,11 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import CenterListPage from "./pages/CenterListPage";
-import CommunityPage from "./pages/CommunityPage";
+import CommunityPage from "./pages/community/CommunityPage";
 
 import WritePage from "./pages/community/WritePage";
 
 
-import PostListPage from "./pages/community/PostListPage";
 import LoadingTestPage from "./pages/test/LoadingTestPage";
 import DashboardPage from "./pages/admin/DashboardPage";
 
@@ -23,7 +22,7 @@ function App() {
             <Route component={CenterListPage} path="/centers"/>
             <Route component={CommunityPage} path="/community"/>
             <Route component={WritePage} path="/write"/>
-            <Route component={PostListPage} path="/list"/>
+
 
             <Route component={LoadingTestPage} path="/test"/>
             <Route component={DashboardPage} path="/dashboard"/>

@@ -113,6 +113,7 @@ function* writePostSaga(action){
         }
     }
     const imgUrlList=yield select(state=> state.write.imgUrlList);
+    //for(let i=0; i<20; i++){//createDummy
     try{
         const response=yield call (postsAPI.writePost, {
             imgUrlList,
@@ -132,6 +133,7 @@ function* writePostSaga(action){
         })
     }
     yield put(finishLoading(WRITE_POST));
+    //}//createDummy
 }
 
 export function* writeSaga() {

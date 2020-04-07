@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import ImageForm from '../../../components/community/writePost/ImageForm';
-import PostForm from '../../../components/community/writePost/PostForm';
 import {useDispatch, useSelector} from "react-redux";
-import {selectImage, submitImageList} from "../../../modules/write";
+import {selectImage} from "../../../modules/write";
 
 const ImageContainer=()=>{
 

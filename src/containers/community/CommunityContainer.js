@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useCallback} from 'react';
+import React, {useEffect, useRef} from 'react';
 import qs from 'qs';
 import {withRouter} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {listPosts, readMore, scrollBottom} from '../../modules/posts';
-import CommunityForm from '../../components/community/CommunityForm';
+import {listPosts, scrollBottom} from '../../modules/posts';
+import CommunityForm from '../../components/community/postList/CommunityForm';
 import styled from 'styled-components';
 
 const TestWrapper=styled.div`
@@ -17,13 +17,14 @@ const CommunityContainer=({location})=> {
     const loader=useRef();
     const containerRef=useRef();
     const currentPage=useRef(1);
-    const {posts, error, postsLoading, user, morePostsLoading}=useSelector(
+    const {posts, error, postsLoading, user, morePostsLoading, page}=useSelector(
         ({ posts, loading, user })=> ({
             posts: posts.posts,
             error: posts.error,
             postsLoading: loading['posts/LIST_POSTS'],
             user: user.user,
             morePostsLoading: loading['posts/READ_MORE'],
+            page: posts.page,
         }),
     );
 
@@ -34,6 +35,10 @@ const CommunityContainer=({location})=> {
         currentPage.current=parseInt(page || '1', 10);
         dispatch(listPosts({tag, username, page}));
     }, [dispatch, location.search]);
+
+    useEffect(()=>{
+        console.log('current page state: ', page);
+    }, [page]);
 
     const options = {
         root: containerRef.current,
@@ -53,9 +58,7 @@ const CommunityContainer=({location})=> {
                     const {tag, username}=qs.parse(location.search, {
                         ignoreQueryPrefix: true,
                     });
-                    //dispatch(readMore({tag, username, currentPage}));
-                    //Todo: fix page bug
-                    dispatch(scrollBottom({tag, username, page: currentPage.current++}));
+                    dispatch(scrollBottom({tag, username})); //page는 redux 내부에서 state 참조함
                 }
             })
         }, options);

@@ -1,7 +1,7 @@
 import React from 'react';
-import CommunityTemplate from '../components/community/CommunityTemplate';
-import HeaderContainer from "../containers/common/HeaderContainer";
-import CommunityContainer from "../containers/community/CommunityContainer";
+import CommunityTemplate from '../../components/community/postList/CommunityTemplate';
+import HeaderContainer from "../../containers/common/HeaderContainer";
+import CommunityContainer from "../../containers/community/CommunityContainer";
 const CommunityPage=()=>{
     return (
         <>

@@ -20,13 +20,13 @@ import Carousel, {MyComponentUsingContext} from './Carousel';
 const useStyles = makeStyles((theme) => ({
     root: {
         //maxWidth: 345,
-
         marginBottom: theme.spacing(2),
-        borderStyle: 'solid',
+        //borderStyle: 'solid',
+        border: '1px solid',
         borderImageSlice: 1,
         borderImage: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
-        borderImageWidth:'2px',
-        //minHeight: '700px'
+        borderImageWidth:'1.5px',
+
     },
     media: {
         //height: 0,
