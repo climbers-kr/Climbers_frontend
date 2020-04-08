@@ -105,8 +105,8 @@ const useStyles = makeStyles(theme => ({
     },
     postList: {
         //backgroundColor: 'skyBlue',
-        flex: 2,
-        display: 'flex',
+        flex: 1,
+        //display: 'flex',
         justifyContent: 'center',
         marginRight: '1rem',
         marginLeft: '1rem',
@@ -114,7 +114,7 @@ const useStyles = makeStyles(theme => ({
     },
     rightBox: {
         //backgroundColor: 'gray',
-        flex: 2,
+        flex: 1,
         [theme.breakpoints.down('sm')]: {
             display: 'none',
         },
@@ -143,7 +143,7 @@ export default function CommunityTemplate({children}) {
                     새 게시글
                 </LinkWrapperFab>
 
-                <FormControl variant="outlined" className={classes.formControl}>
+                <FormControl variant="outlined">
                     <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
                     <Select
                         labelId="demo-simple-select-outlined-label"

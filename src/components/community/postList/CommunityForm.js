@@ -5,26 +5,18 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
-       // backgroundColor: 'red',
+        //backgroundColor: 'red',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-
-        //position: 'relative'
     },
     loaderBox: {
         //background: 'pink',
-        margin: 'auto',
-        //top: '-10px',
-        //position: 'absolute'
-        position: 'relative'
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '80px'
     },
-    loader: {
-        top: '-15px',
-        position: 'absolute',
-        background: 'yellow',
-    }
 }));
 
 const CommunityForm=({loading, loading2, error, posts, user, loader,containerRef})=>{
@@ -44,8 +36,9 @@ const CommunityForm=({loading, loading2, error, posts, user, loader,containerRef
                     {loading && (
                         <CircularProgress />
                     )}
+
                     {loading2 && (
-                        <CircularProgress className={classes.loader}/>
+                        <CircularProgress />
                     )}
 
                 </div>

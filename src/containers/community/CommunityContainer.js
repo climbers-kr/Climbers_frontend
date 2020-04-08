@@ -68,7 +68,7 @@ const CommunityContainer=({location})=> {
     }, [dispatch]);
 
     return (
-        <TestWrapper>
+        <>
             <CommunityForm
                 loading={postsLoading}
                 loading2={morePostsLoading}
@@ -79,8 +79,7 @@ const CommunityContainer=({location})=> {
                 containerRef={containerRef}
 
             />
-
-        </TestWrapper>
+        </>
 
 
     );
