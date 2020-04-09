@@ -5,17 +5,20 @@ import loading from './loading';
 import user, {userSaga} from './user';
 import write, {writeSaga} from "./write";
 import posts, {postsSaga} from "./posts";
+import saveCenter, {saveCenterSaga} from "./admin/saveCenter";
+
 const rootReducer=combineReducers({
     auth,
     loading,
     user,
     write,
-    posts
+    posts,
+    saveCenter,
 });
 
 
 export function* rootSaga() {
-    yield all([authSaga(), userSaga(), writeSaga(), postsSaga()]);
+    yield all([authSaga(), userSaga(), writeSaga(), postsSaga(), saveCenterSaga()]);
 }
 
 

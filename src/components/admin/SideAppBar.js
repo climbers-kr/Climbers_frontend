@@ -23,6 +23,11 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        right: 0,
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -72,13 +77,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
+        //padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     },
     content: {
+        marginTop: '4rem',
         flexGrow: 1,
-        padding: theme.spacing(3),
+        display: 'flex',
+        alignItems: 'stretch',
+        justifyContent: 'center',
     },
 }));
 

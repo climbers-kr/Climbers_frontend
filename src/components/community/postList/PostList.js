@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const CommunityForm=({loading, loading2, error, posts, user, loader,containerRef})=>{
+const PostList=({loading, loading2, error, posts, user, loader,containerRef})=>{
     const classes = useStyles();
 
     return (
@@ -48,5 +48,5 @@ const CommunityForm=({loading, loading2, error, posts, user, loader,containerRef
     )
 };
 
-export default CommunityForm;
+export default PostList;
 

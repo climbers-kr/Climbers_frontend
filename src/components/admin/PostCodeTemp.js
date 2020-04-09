@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import '../../App.css'
-export default function PostCode(){
+export default function PostCodeTemp({onClick}){
     const handleComplete = (data) => {
         let fullAddress = data.address;
         let extraAddress = '';
@@ -18,6 +18,7 @@ export default function PostCode(){
 
         console.log(fullAddress);  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
         console.dir(data);
+
     };
     //------postcode
 
@@ -63,6 +64,7 @@ export default function PostCode(){
         <>
             <DaumPostcode
                 onComplete={handleComplete}
+                width={300}
 
             />
             <div id="map"></div>

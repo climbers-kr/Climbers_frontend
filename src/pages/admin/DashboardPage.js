@@ -1,12 +1,13 @@
 import React from 'react';
 import SideAppBar from "../../components/admin/SideAppBar";
-import PostCode from '../../components/admin/PostCode';
+import PostCodeTemp from '../../components/admin/PostCodeTemp';
+import SaveForm from '../../components/admin/saveCenterInfo/SaveForm';
 
 const DashboardPage=()=>{
     return (
         <>
             <SideAppBar>
-                <PostCode/>
+                <SaveForm/>
             </SideAppBar>
 
         </>

@@ -149,7 +149,6 @@ const initialState={
         imgCount: 0, //temp
         uploadedCount: 0,
         selectedImg: null,
-        loadPercent: 0,
         status: 'initial', //initial, pending, ready, complete, failure,
         queueError: null,
     },

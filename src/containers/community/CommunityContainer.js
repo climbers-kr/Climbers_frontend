@@ -3,7 +3,7 @@ import qs from 'qs';
 import {withRouter} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {listPosts, scrollBottom} from '../../modules/posts';
-import CommunityForm from '../../components/community/postList/CommunityForm';
+import PostList from '../../components/community/postList/PostList';
 import styled from 'styled-components';
 
 const TestWrapper=styled.div`
@@ -69,7 +69,7 @@ const CommunityContainer=({location})=> {
 
     return (
         <>
-            <CommunityForm
+            <PostList
                 loading={postsLoading}
                 loading2={morePostsLoading}
                 error={error}
