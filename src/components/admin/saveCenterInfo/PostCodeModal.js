@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
 import PostCode from './PostCode';
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -52,14 +53,14 @@ export default function PostCodeModal({onSelectLocation}) {
 
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Open Modal
-            </button>
+            <Button variant="outlined" color="primary" onClick={handleOpen}>
+                주소 검색
+            </Button>
             <Modal
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
+                aria-labelledby="search-postcode"
+                aria-describedby="search-postcode-description"
             >
                 {body}
             </Modal>
