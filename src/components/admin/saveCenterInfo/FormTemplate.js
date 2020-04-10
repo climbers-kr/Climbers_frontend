@@ -6,7 +6,9 @@ const FormTemplateBlock=styled.div`
     background: gray;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     overflow: scroll;
+    padding: 4rem;
 `;
 const WhiteBox=styled.div`
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
@@ -18,7 +20,12 @@ const WhiteBox=styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    &>:nth-child(2) {order: -1}
+    &>:nth-child(2) {order: -1};
+    &>*{
+        flex:1
+    };
+    //height: 300px;
+    //margin-top: 4rem;
 `;
 
 const FormTemplate=({children})=>{

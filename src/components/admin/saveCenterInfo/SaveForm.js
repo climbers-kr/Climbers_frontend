@@ -25,17 +25,17 @@ const InputLabelBox=styled.label`
 `;
 
 
-const SaveForm=({
-                    title,
-                    contact,
-                    sites,
-                    prices,
-                    time,
-                    hasParking,
-                    onSubmit,
-                    onChangeCheck,
-                    onChangeField,
-                    onChangeArray
+const SaveForm=(
+    {
+        title,
+        contact,
+        sites,
+        prices,
+        time,
+        hasParking,
+        onChangeCheck,
+        onChangeField,
+        onChangeArray
 }) => {
     return (
         <>
@@ -60,9 +60,6 @@ const SaveForm=({
                 label="Facility"
                 onChangeCheck={onChangeCheck}
             />
-            <Button onClick={onSubmit} variant="contained" color="secondary">
-                Submit
-            </Button>
         </>
     )
 };

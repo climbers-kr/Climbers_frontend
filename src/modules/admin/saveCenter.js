@@ -2,7 +2,7 @@ import {createAction, handleActions} from 'redux-actions';
 import produce from 'immer';
 import {takeLatest, call, put, select} from 'redux-saga/effects';
 import createRequestSaga, {createRequestActionTypes,} from "../../lib/createRequestSaga";
-import * as authAPI from '../../lib/api/auth';
+import * as saveAPI from '../../lib/api/admin/saveCenter';
 import * as postsAPI from "../../lib/api/community/posts";
 import {finishLoading, startLoading} from "../loading";
 
@@ -42,12 +42,40 @@ export const changeField=createAction(CHANGE_FIELD, ({key, value}) => ({
 export const setLocation=createAction(SET_LOCATION, ({data}) => ({
     data,
 }));
+export const writePost=createAction(
+    WRITE_POST,
+    (data)=> (data));
 
-export const writePost=createAction(WRITE_POST, ({imgList, body, tags})=> ({
-    imgList,
-    body,
-    tags,
-}));
+/*
+export const writePost=createAction(
+    WRITE_POST,
+    ({
+         imgList,
+         imageSource,
+         title,
+         location,
+         locationDetail,
+         locationObject,
+         contact,
+         sites,
+         prices,
+         time,
+         hasParking,
+         facility,
+    })=> ({
+        imgList,
+        imageSource,
+        title,
+        location,
+        locationDetail,
+        locationObject,
+        contact,
+        sites,
+        prices,
+        time,
+        hasParking,
+        facility,
+}));*/
 
 //이미지 파일 리스트 업로드를 위한 큐
 function* uploadQueueSaga(imgList){
@@ -119,11 +147,7 @@ function* writePostSaga(action){
     const imgUrlList=yield select(state=> state.write.imgUrlList);
     //for(let i=0; i<20; i++){//createDummy
     try{
-        const response=yield call (postsAPI.writePost, {
-            imgUrlList,
-            body,
-            tags
-        });
+        const response=yield call (saveAPI.saveCenter, action.payload);
         console.dir(response);
         yield put({
             type: WRITE_POST_SUCCESS,
@@ -143,8 +167,8 @@ function* writePostSaga(action){
 //사가 생성
 
 export function* saveCenterSaga(){
-    //yield takeLatest(WRITE_POST, writePostSaga);
-    //yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);
+    yield takeLatest(WRITE_POST, writePostSaga);
+    yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);
 }
 
 const initialState={
@@ -168,6 +192,7 @@ const initialState={
     imgUrlList: [],
     hasParking: false,
     facility: [],
+    imageSource:[],
     hasImages: false, //선택된 이미지 파일이 있는지
     post: null,
     postError: null,
