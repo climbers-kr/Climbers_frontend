@@ -56,9 +56,7 @@ export default function PostListItem({post}) {
     };
 
     const { publishedDate, user, tags, imgUrlList, body, _id}=post;
-    useEffect(()=>{
-        //MyComponentUsingContext();
-    }, [imgUrlList]);
+
     return (
         <Card className={classes.root}>
             <CardHeader

@@ -3,7 +3,7 @@ import AddIcon from '@material-ui/icons/Add';
 import React, {useCallback, useEffect, useState} from "react";
 import styled, {css} from "styled-components";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-import palette from "../../../lib/styles/palette";
+import palette from "../../../../lib/styles/palette";
 const StyledInput=styled(OutlinedInput)`
     height: 40px;
     ${props =>
@@ -32,7 +32,6 @@ const SiteListBlock = styled.div`
 
 const SiteForm=styled.form`
     display: flex;
-    grid-template-columns: 4fr 1fr;
     align-items: center;
     width: 100%;
   
@@ -50,16 +49,19 @@ const SiteItem=React.memo(({tag, onRemove})=>(
 );
 
 //React.memo를 사용하여 tags 값이 바뀔 때만 리렌더링되도록 처리
-const SiteList=React.memo(({tags, onRemove})=>(
+const SiteList=React.memo(({tags, onRemove})=>{
+    console.dir(tags);
+
+    return(
     <SiteListBlock>
         {tags.map(tag=>(
             <SiteItem key={tag} tag={tag} onRemove={onRemove}/>
         ))}
     </SiteListBlock>
-));
+)});
 
 
-const SiteBox=({ tags, onChangeSites })=>{
+const SiteBox=({ tags, onChangeArray })=>{
 
     const [input, setInput]=useState('');
     const [localTags, setLocalTags]=useState([]);
@@ -69,18 +71,18 @@ const SiteBox=({ tags, onChangeSites })=>{
             if(localTags.includes(tag)) return; //이미 존재한다면 추가하지 않음
             const nextTags=[...localTags, tag];
             setLocalTags(nextTags);
-            onChangeSites(nextTags);
+            onChangeArray("sites", nextTags);
         },
-        [localTags, onChangeSites],
+        [localTags, onChangeArray],
     );
 
     const onRemove=useCallback(
         tag=> {
             const nextTags=localTags.filter(t=> t!==tag);
             setLocalTags(nextTags);
-            onChangeSites(nextTags);
+            onChangeArray("sites", nextTags);
         },
-        [localTags, onChangeSites],
+        [localTags, onChangeArray],
     );
 
     const onChange=useCallback(e=>{

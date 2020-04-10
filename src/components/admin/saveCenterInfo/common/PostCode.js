@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
 export default function PostCode({onSelectLocation, handleClose}){

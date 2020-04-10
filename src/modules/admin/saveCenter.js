@@ -143,8 +143,8 @@ function* writePostSaga(action){
 //사가 생성
 
 export function* saveCenterSaga(){
-    yield takeLatest(WRITE_POST, writePostSaga);
-    yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);
+    //yield takeLatest(WRITE_POST, writePostSaga);
+    //yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);
 }
 
 const initialState={
@@ -167,6 +167,7 @@ const initialState={
     time: '',
     imgUrlList: [],
     hasParking: false,
+    facility: [],
     hasImages: false, //선택된 이미지 파일이 있는지
     post: null,
     postError: null,

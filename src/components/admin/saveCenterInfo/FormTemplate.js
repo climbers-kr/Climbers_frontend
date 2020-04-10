@@ -4,25 +4,21 @@ import styled from 'styled-components';
 const FormTemplateBlock=styled.div`
     flex: 1;
     background: gray;
-    /*flex로 내부 내용 중앙 정렬*/
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    overflow: scroll;
 `;
 const WhiteBox=styled.div`
-    .logo-area{
-        display: block;
-        padding-bottom: 2rem;
-        text-align: center;
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
     padding: 2rem;
-    width: 50%;
+    width: 60%;
     background: white;
     border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &>:nth-child(2) {order: -1}
 `;
 
 const FormTemplate=({children})=>{
@@ -34,7 +30,6 @@ const FormTemplate=({children})=>{
             </WhiteBox>
         </FormTemplateBlock>
     )
-
 };
 
 export default FormTemplate;

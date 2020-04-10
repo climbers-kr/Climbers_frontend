@@ -1,75 +1,70 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
-import FormTemplate from './FormTemplate';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import LocationSearchContainer from '../../../containers/admin/saveCenterInfo/LocationSearchContainer';
-import SiteBox from './SiteBox';
-import PriceBox from './PriceBox';
-import Select from '@material-ui/core/Select';
+import styled from 'styled-components';
+import SiteBox from './common/SiteBox';
+import PriceBox from './common/PriceBox';
+import CheckBox from './common/CheckBox';
+import BooleanSelectBox from './common/BooleanSelectBox';
+import {makeStyles} from "@material-ui/core/styles";
+import InputWithLabel from "./common/InputWithLabel";
+import Button from "@material-ui/core/Button";
 
-const InputLabel=styled.label`
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+}));
+
+const InputLabelBox=styled.label`
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    background: skyblue;
-    width: 80%;
+    grid-template-columns: 1fr 2fr;
+    //background: skyblue;
+    width: 100%;
     align-items: center;
+    flex: 1;
 `;
-const StyledInput=styled(OutlinedInput)`
-    height: 40px;
-    ${props =>
-    props.right &&
-    css`
-        grid-column: 2 / 3;
-        margin-bottom: 4px;
-    `}  
-`;
-const testSite=[1,2,3,4 ];
 
 
-const SaveForm=({type, form, onChange, onSubmit, prices, sites, onChangeSites, onChangePricess})=>{
-    const [state, setState] = React.useState({
-        age: '',
-        name: 'hai',
-    });
-    const handleChange = (event) => {
-        const name = event.target.name;
-        console.dir(event)
-        setState({
-            ...state,
-            [name]: event.target.value,
-        });
-    };
+const SaveForm=({
+                    title,
+                    contact,
+                    sites,
+                    prices,
+                    time,
+                    hasParking,
+                    onSubmit,
+                    onChangeCheck,
+                    onChangeField,
+                    onChangeArray
+}) => {
     return (
-        <FormTemplate>
-
-                <InputLabel>
-                    <h3>Title</h3>
-                    <StyledInput />
-                </InputLabel>
-                <InputLabel>
-                    <h3>Location</h3>
-                    <LocationSearchContainer/>
-                    <StyledInput right disabled={true}/>
-                    <StyledInput placeholder="상세주소 입력" right />
-                </InputLabel>
-                <InputLabel>
-                    <h3>Contact</h3>
-                    <StyledInput/>
-                </InputLabel>
-                <InputLabel>
-                    <h3>Site</h3>
-                    <SiteBox tags={sites} onChangeSites={onChangeSites}/>
-                </InputLabel>
-                <InputLabel>
-                    <h3>Price</h3>
-
-                    <PriceBox tags={prices} onChangeSites={onChangePricess}/>
-
-                </InputLabel>
-
-        </FormTemplate>
+        <>
+            <InputWithLabel label="Title" name="title" value={title} onChange={onChangeField}/>
+            <InputWithLabel label="Contact" name="contact" value={contact} onChange={onChangeField}/>
+            <InputLabelBox>
+                <h3>Site</h3>
+                <SiteBox tags={sites} onChangeArray={onChangeArray}/>
+            </InputLabelBox>
+            <InputLabelBox>
+                <h3>Price</h3>
+                <PriceBox prices={prices} onChangeArray={onChangeArray}/>
+            </InputLabelBox>
+            <InputWithLabel label="Operating hours" name="time" value={time} onChange={onChangeField}/>
+            <BooleanSelectBox
+                onChangeField={onChangeField}
+                value={hasParking}
+                name="hasParking"
+                label="Parking"
+            />
+            <CheckBox
+                label="Facility"
+                onChangeCheck={onChangeCheck}
+            />
+            <Button onClick={onSubmit} variant="contained" color="secondary">
+                Submit
+            </Button>
+        </>
     )
-
 };
 
 export default SaveForm;

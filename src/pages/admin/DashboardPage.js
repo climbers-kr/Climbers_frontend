@@ -1,19 +1,20 @@
 import React from 'react';
 import SideAppBar from "../../components/admin/SideAppBar";
-import PostCodeTemp from '../../components/admin/PostCodeTemp';
-import SaveForm from '../../components/admin/saveCenterInfo/SaveForm';
+import FormTemplate from '../../components/admin/saveCenterInfo/FormTemplate';
 import SaveFormContainer from '../../containers/admin/saveCenterInfo/SaveFormContainer';
+import LocationSearchContainer from '../../containers/admin/saveCenterInfo/LocationSearchContainer';
 
 const DashboardPage=()=>{
     return (
         <>
             <SideAppBar>
-                <SaveFormContainer/>
+                <FormTemplate>
+                    <LocationSearchContainer/>
+                    <SaveFormContainer/>
+                </FormTemplate>
             </SideAppBar>
-
         </>
     );
 };
-
 
 export default DashboardPage;

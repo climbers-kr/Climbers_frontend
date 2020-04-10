@@ -9,7 +9,7 @@ import CommunityPage from "./pages/community/CommunityPage";
 import WritePage from "./pages/community/WritePage";
 
 
-import LoadingTestPage from "./pages/test/LoadingTestPage";
+import HorizontalSlidePage from "./pages/test/HorizontalSlidePage";
 import DashboardPage from "./pages/admin/DashboardPage";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
             <Route component={WritePage} path="/write"/>
 
 
-            <Route component={LoadingTestPage} path="/test"/>
+            <Route component={HorizontalSlidePage} path="/test"/>
             <Route component={DashboardPage} path="/dashboard"/>
         </>
     );

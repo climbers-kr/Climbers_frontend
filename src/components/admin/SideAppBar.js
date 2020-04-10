@@ -83,10 +83,11 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         marginTop: '4rem',
-        flexGrow: 1,
+        flex: 1,
         display: 'flex',
-        alignItems: 'stretch',
-        justifyContent: 'center',
+        //alignItems: 'stretch',
+        //justifyContent: 'center',
+        background: 'red',
     },
 }));
 
