@@ -6,12 +6,6 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import Done from '@material-ui/icons/Done';
 
-const PreviewContainer=styled.div`
-    display: flex;
-    flex-wrap: wrap;
-   justify-content: center;
-`;
-
 const PreviewBox=styled.div`
     display: flex;
     flex-wrap: nowrap;

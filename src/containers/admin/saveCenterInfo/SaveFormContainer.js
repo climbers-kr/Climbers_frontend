@@ -6,8 +6,9 @@ import {changeField} from "../../../modules/admin/saveCenter";
 
 const SaveFormContainer=({history})=>{
     const dispatch=useDispatch();
-    const {title, location, sites, prices, hasParking}= useSelector(({saveCenter})=>({
+    const {title, imageSource, location, sites, prices, hasParking}= useSelector(({saveCenter})=>({
         title: saveCenter.title,
+        imageSource: saveCenter.imageSource,
         location: saveCenter.location,
         sites: saveCenter.sites,
         prices: saveCenter.prices,
@@ -34,6 +35,7 @@ const SaveFormContainer=({history})=>{
     return(
         <SaveForm
             title={title}
+            imageSource={imageSource}
             location={location}
             sites={sites}
             prices={prices}

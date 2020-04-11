@@ -1,5 +1,5 @@
 import React, { useEffect} from 'react';
-import styled from 'styled-components';
+import { InputLabelBox } from "./commonComponents";
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -11,14 +11,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3),
     },
 }));
-
-const InputLabelBox=styled.label`
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    //background: skyblue;
-    width: 100%;
-    align-items: center;
-`;
 
 const CheckBox=({ label, onChangeCheck})=>{
     const classes = useStyles();

@@ -1,18 +1,9 @@
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import React, {useCallback, useEffect, useState} from "react";
-import styled, {css} from "styled-components";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
+import styled from "styled-components";
+import { StyledInput, InputLabelBox } from "./commonComponents";
 import palette from "../../../../lib/styles/palette";
-const StyledInput=styled(OutlinedInput)`
-    height: 40px;
-    ${props =>
-    props.right &&
-    css`
-        grid-column: 2 / 3;
-        margin-bottom: 4px;
-    `}  
-`;
 
 const Site = styled.div`
     margin-right: 0.5rem;
@@ -23,14 +14,14 @@ const Site = styled.div`
     }
 `;
 
-const SiteListBlock = styled.div`
+const ItemListBlock = styled.div`
     display: flex;
     margin-top: 0.5rem;
     flex-direction: column;
     grid-column: 2 / 3;
 `;
 
-const SiteForm=styled.form`
+const ArrayForm=styled.form`
     display: flex;
     align-items: center;
     width: 100%;
@@ -49,17 +40,17 @@ const SiteItem=React.memo(({tag, onRemove})=>(
 );
 
 //React.memo를 사용하여 tags 값이 바뀔 때만 리렌더링되도록 처리
-const SiteList=React.memo(({tags, onRemove})=>{
+const ItemList=React.memo(({tags, onRemove})=>{
     return(
-    <SiteListBlock>
+    <ItemListBlock>
         {tags.map(tag=>(
             <SiteItem key={tag} tag={tag} onRemove={onRemove}/>
         ))}
-    </SiteListBlock>
+    </ItemListBlock>
 )});
 
 
-const SiteBox=({ tags, onChangeArray })=>{
+const ArrayBox=({ tags, onChangeArray, name, label })=>{
 
     const [input, setInput]=useState('');
     const [localTags, setLocalTags]=useState([]);
@@ -69,7 +60,7 @@ const SiteBox=({ tags, onChangeArray })=>{
             if(localTags.includes(tag)) return; //이미 존재한다면 추가하지 않음
             const nextTags=[...localTags, tag];
             setLocalTags(nextTags);
-            onChangeArray("sites", nextTags);
+            onChangeArray(name, nextTags);
         },
         [localTags, onChangeArray],
     );
@@ -78,7 +69,7 @@ const SiteBox=({ tags, onChangeArray })=>{
         tag=> {
             const nextTags=localTags.filter(t=> t!==tag);
             setLocalTags(nextTags);
-            onChangeArray("sites", nextTags);
+            onChangeArray(name , nextTags);
         },
         [localTags, onChangeArray],
     );
@@ -102,22 +93,23 @@ const SiteBox=({ tags, onChangeArray })=>{
     }, [tags]);
 
     return (
-        <>
-            <SiteForm onSubmit={onSubmit}>
+        <InputLabelBox>
+            <h3>{label}</h3>
+            <ArrayForm onSubmit={onSubmit}>
                 <StyledInput
                     className="input"
                     placeholder="태그를 입력하세요"
+                    name={name}
                     value={input}
                     onChange={onChange}
                 />
                 <Fab className="button" size="small" color="primary" aria-label="add" type="submit">
                     <AddIcon />
                 </Fab>
-            </SiteForm>
-            <SiteList tags={localTags} onRemove={onRemove}/>
-        </>
+            </ArrayForm>
+            <ItemList tags={localTags} onRemove={onRemove}/>
+        </InputLabelBox>
     )
-
 };
 
-export default SiteBox;
+export default ArrayBox;

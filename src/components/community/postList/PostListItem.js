@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
@@ -15,21 +14,17 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Carousel, {MyComponentUsingContext} from './Carousel';
+import Carousel from './Carousel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        //maxWidth: 345,
         marginBottom: theme.spacing(2),
-        //borderStyle: 'solid',
-        border: '1px solid',
+        border: '1.5px solid',
         borderImageSlice: 1,
         borderImage: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
-        borderImageWidth:'1.5px',
-
+        borderImageWidth: '1.5px',
     },
     media: {
-        //height: 0,
         paddingTop: '56.25%', // 16:9
     },
     expand: {
@@ -57,6 +52,9 @@ export default function PostListItem({post}) {
 
     const { publishedDate, user, tags, imgUrlList, body, _id}=post;
 
+    useEffect(()=>{
+        console.dir(imgUrlList.length);
+    }, [imgUrlList]);
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -70,12 +68,12 @@ export default function PostListItem({post}) {
                         <MoreVertIcon />
                     </IconButton>
                 }
-                //title={user.username}
+
                 title={user.username}
                 subheader={new Date(publishedDate).toLocaleDateString()}
             />
 
-            {imgUrlList.length && (
+            { imgUrlList.length > 0 && (
                 <Carousel
                     className={classes.media}
                     imgUrlList={imgUrlList}

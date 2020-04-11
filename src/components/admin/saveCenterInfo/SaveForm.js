@@ -1,31 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
-import SiteBox from './common/SiteBox';
+import ArrayBox from './common/ArrayBox';
 import PriceBox from './common/PriceBox';
 import CheckBox from './common/CheckBox';
 import BooleanSelectBox from './common/BooleanSelectBox';
-import {makeStyles} from "@material-ui/core/styles";
-import InputWithLabel from "./common/InputWithLabel";
-
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-}));
-
-const InputLabelBox=styled.label`
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    //background: skyblue;
-    width: 100%;
-    align-items: center;
-    flex: 1;
-`;
+import { InputWithLabel } from "./common/commonComponents";
 
 const SaveForm=(
     {
         title,
+        imageSource,
         contact,
         sites,
         prices,
@@ -37,17 +20,41 @@ const SaveForm=(
 }) => {
     return (
         <>
-            <InputWithLabel label="Title" name="title" value={title} onChange={onChangeField}/>
-            <InputWithLabel label="Contact" name="contact" value={contact} onChange={onChangeField}/>
-            <InputLabelBox>
-                <h3>Site</h3>
-                <SiteBox tags={sites} onChangeArray={onChangeArray}/>
-            </InputLabelBox>
-            <InputLabelBox>
-                <h3>Price</h3>
-                <PriceBox prices={prices} onChangeArray={onChangeArray}/>
-            </InputLabelBox>
-            <InputWithLabel label="Operating hours" name="time" value={time} onChange={onChangeField}/>
+            <InputWithLabel
+                label="Title"
+                name="title"
+                value={title}
+                onChange={onChangeField}
+            />
+            <ArrayBox
+                tags={imageSource}
+                onChangeArray={onChangeArray}
+                name="imageSource"
+                label="ImageSource"
+            />
+            <InputWithLabel
+                label="Contact"
+                name="contact"
+                value={contact}
+                onChange={onChangeField}
+            />
+            <ArrayBox
+                tags={sites}
+                onChangeArray={onChangeArray}
+                name="sites"
+                label="Site"
+            />
+            <PriceBox
+                label="Price"
+                prices={prices}
+                onChangeArray={onChangeArray}
+            />
+            <InputWithLabel
+                label="Operating hours"
+                name="time"
+                value={time}
+                onChange={onChangeField}
+            />
             <BooleanSelectBox
                 onChangeField={onChangeField}
                 value={hasParking}

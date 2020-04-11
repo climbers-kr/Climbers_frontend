@@ -1,8 +1,8 @@
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import React, {useCallback, useEffect, useState} from "react";
-import styled, {css} from "styled-components";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
+import styled from "styled-components";
+import { StyledInput, InputLabelBox } from './commonComponents';
 import palette from "../../../../lib/styles/palette";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
@@ -29,15 +29,6 @@ const PriceForm=styled.form`
       
     }
 `;
-const StyledInput=styled(OutlinedInput)`
-    height: 40px;
-    ${props =>
-    props.right &&
-    css`
-        grid-column: 2 / 3;
-        margin-bottom: 4px;
-    `}  
-`;
 
 const Price = styled.div`
     margin-right: 0.5rem;
@@ -54,8 +45,6 @@ const PriceListBlock = styled.div`
     flex-direction: column;
     grid-column: 2 / 3;
 `;
-
-
 
 //React.memo 를 사용하여 tag값이 바뀔 때만 리렌더링 되도록 처리
 const PriceItem=React.memo(({price, onRemove})=>(
@@ -76,7 +65,7 @@ const PriceList=React.memo(({prices, onRemove})=>
 )});
 
 
-const PriceBox=({ prices, onChangeArray })=>{
+const PriceBox=({ label, prices, onChangeArray })=>{
     const classes = useStyles();
     const [localPrices, setLocalPrices]=useState([]);
     const [state, setState] = React.useState({
@@ -137,7 +126,8 @@ const PriceBox=({ prices, onChangeArray })=>{
         });
     };
     return (
-        <>
+        <InputLabelBox>
+            <h3>{label}</h3>
             <PriceForm>
                 <FormControl className={classes.formControl} onSubmit={onSubmit}>
                     <InputLabel id="demo-simple-select-helper-label">기간</InputLabel>
@@ -157,7 +147,6 @@ const PriceBox=({ prices, onChangeArray })=>{
                         <MenuItem value="1개월(청소년)">1개월(청소년)</MenuItem>
                         <MenuItem value="3개월(성인)">3개월(성인)</MenuItem>
                     </Select>
-
                 </FormControl>
                 <StyledInput
                     className="input"
@@ -173,9 +162,7 @@ const PriceBox=({ prices, onChangeArray })=>{
             </PriceForm>
 
             <PriceList prices={localPrices} onRemove={onRemove}/>
-        </>
+        </InputLabelBox>
     )
-
 };
-
 export default PriceBox;

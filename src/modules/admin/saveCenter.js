@@ -114,6 +114,8 @@ function* saveCenterRequestSaga(action){
         }
     }
     const imgUrlList=yield select(state=> state.saveCenter.imgUrlList);
+    action.payload.imgUrlList=imgUrlList;
+    console.dir(action.payload);
 
     try{
         const response=yield call (saveAPI.saveCenter, action.payload);
@@ -133,7 +135,6 @@ function* saveCenterRequestSaga(action){
 }
 
 //사가 생성
-
 export function* saveCenterSaga(){
     yield takeLatest(SAVE_CENTER, saveCenterRequestSaga);
     yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);

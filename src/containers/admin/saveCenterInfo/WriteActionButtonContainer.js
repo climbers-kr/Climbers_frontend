@@ -9,7 +9,6 @@ const WriteActionButtonContainer= ({history}) => {
 
     const {post, postError, ...centerInfoObject}= useSelector(({saveCenter}) => ({
         imgList: saveCenter.imgQueue.imgList,
-        imgUrlList: saveCenter.imgUrlList,
         imageSource: saveCenter.imageSource,
         title: saveCenter.title,
         location: saveCenter.location,
@@ -24,7 +23,6 @@ const WriteActionButtonContainer= ({history}) => {
         post: saveCenter.post,
         postError: saveCenter.postError,
     }));
-
 
     const onPublish = (e)=> {
         e.preventDefault();
