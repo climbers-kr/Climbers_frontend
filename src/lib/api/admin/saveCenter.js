@@ -16,35 +16,6 @@ export const imageUpload=({fileObject}) => {
 //암장 정보 전체 업로드
 export const saveCenter = (data) =>
     client.post('/api/admin/saveCenter', data);
-/*
-export const saveCenter = (
-    {
-        imgUrlList,
-        imageSource,
-        title,
-        location,
-        locationDetail,
-        locationObject,
-        contact,
-        sites,
-        prices,
-        time,
-        hasParking,
-        facility
-    }) =>
-    client.post('/api/admin/saveCenter', {
-        imgUrlList,
-        imageSource,
-        title,
-        location,
-        locationDetail,
-        locationObject,
-        contact,
-        sites,
-        prices,
-        time,
-        hasParking,
-        facility});*/
 
 export const listCenters=({page, username, tag})=> {
     const queryString = qs.stringify({

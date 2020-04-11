@@ -50,8 +50,6 @@ const SiteItem=React.memo(({tag, onRemove})=>(
 
 //React.memo를 사용하여 tags 값이 바뀔 때만 리렌더링되도록 처리
 const SiteList=React.memo(({tags, onRemove})=>{
-    console.dir(tags);
-
     return(
     <SiteListBlock>
         {tags.map(tag=>(
@@ -102,7 +100,6 @@ const SiteBox=({ tags, onChangeArray })=>{
     useEffect(()=>{
         setLocalTags(tags);
     }, [tags]);
-
 
     return (
         <>

@@ -59,14 +59,12 @@ const PriceListBlock = styled.div`
 
 //React.memo 를 사용하여 tag값이 바뀔 때만 리렌더링 되도록 처리
 const PriceItem=React.memo(({price, onRemove})=>(
-    <Price onClick={()=>onRemove(price)}>{price.period}-{price.price}</Price>)
+    <Price onClick={()=>onRemove(price)}>{price.period} : {price.price}</Price>)
 );
 
 //React.memo를 사용하여 tags 값이 바뀔 때만 리렌더링되도록 처리
 const PriceList=React.memo(({prices, onRemove})=>
 {
-    console.dir(prices);
-    console.dir(prices[0])
     return(
     <PriceListBlock>
         {prices.map((price, index)=>{
@@ -85,13 +83,7 @@ const PriceBox=({ prices, onChangeArray })=>{
         period: '',
         price: '',
     });
-    useEffect(()=>{
-        console.log('prices changed');
-    }, [prices]);
 
-    useEffect(()=>{
-        console.log('onChangeArray changed');
-    }, [onChangeArray]);
 
     const insertPrice=useCallback(
         price=> {
@@ -133,11 +125,7 @@ const PriceBox=({ prices, onChangeArray })=>{
     //tags 값이 바뀔 때
     useEffect(()=>{
         setLocalPrices(prices);
-    }, [prices])
-
-    useEffect(()=>{
-        console.dir(state);
-    }, [state]);
+    }, [prices]);
 
 
     const handleChange = (event) => {

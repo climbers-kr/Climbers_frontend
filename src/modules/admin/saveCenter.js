@@ -3,7 +3,6 @@ import produce from 'immer';
 import {takeLatest, call, put, select} from 'redux-saga/effects';
 import createRequestSaga, {createRequestActionTypes,} from "../../lib/createRequestSaga";
 import * as saveAPI from '../../lib/api/admin/saveCenter';
-import * as postsAPI from "../../lib/api/community/posts";
 import {finishLoading, startLoading} from "../loading";
 
 const INITIALIZE='saveCenter/INITIALIZE';
@@ -18,10 +17,10 @@ const [
 ] = createRequestActionTypes('saveCenter/UPLOAD_QUEUE');
 /*포스트 폼 전체를 담당*/
 const [
-    WRITE_POST,
-    WRITE_POST_SUCCESS,
-    WRITE_POST_FAILURE,
-] = createRequestActionTypes('saveCenter/WRITE_POST');
+    SAVE_CENTER,
+    SAVE_CENTER_SUCCESS,
+    SAVE_CENTER_FAILURE,
+] = createRequestActionTypes('saveCenter/SAVE_CENTER');
 
 /*개별 이미지 파일 업로드 담당*/
 const [
@@ -42,40 +41,9 @@ export const changeField=createAction(CHANGE_FIELD, ({key, value}) => ({
 export const setLocation=createAction(SET_LOCATION, ({data}) => ({
     data,
 }));
-export const writePost=createAction(
-    WRITE_POST,
+export const saveCenterRequest=createAction(
+    SAVE_CENTER,
     (data)=> (data));
-
-/*
-export const writePost=createAction(
-    WRITE_POST,
-    ({
-         imgList,
-         imageSource,
-         title,
-         location,
-         locationDetail,
-         locationObject,
-         contact,
-         sites,
-         prices,
-         time,
-         hasParking,
-         facility,
-    })=> ({
-        imgList,
-        imageSource,
-        title,
-        location,
-        locationDetail,
-        locationObject,
-        contact,
-        sites,
-        prices,
-        time,
-        hasParking,
-        facility,
-}));*/
 
 //이미지 파일 리스트 업로드를 위한 큐
 function* uploadQueueSaga(imgList){
@@ -106,7 +74,7 @@ function* uploadQueueSaga(imgList){
 function* saveFileSaga(action) {
 
     try{
-        const response = yield call(postsAPI.imageUpload, action.payload);
+        const response = yield call(saveAPI.imageUpload, action.payload);
         console.dir(response);console.dir(response.data.url);
         yield put({
             type: SAVE_FILE_SUCCESS,
@@ -128,46 +96,46 @@ function* saveFileSaga(action) {
     }
 }
 
-function* writePostSaga(action){
-    console.dir(action)
-    yield put(startLoading(WRITE_POST));
-    const { imgList, body, tags } = action.payload;
+function* saveCenterRequestSaga(action){
+    console.dir(action);
+    yield put(startLoading(SAVE_CENTER));
+    const { imgList } = action.payload;
+    delete action.payload.imgList;
 
     if(imgList.length !== 0){
 
         const isUploaded=yield call (uploadQueueSaga, imgList);
         if(!isUploaded) {
             yield put({
-                type: WRITE_POST_FAILURE,
+                type: SAVE_CENTER_FAILURE,
                 payload: 'IMAGE UPLOAD QUEUE ERROR'
             });
             return -1;
         }
     }
     const imgUrlList=yield select(state=> state.write.imgUrlList);
-    //for(let i=0; i<20; i++){//createDummy
+
     try{
         const response=yield call (saveAPI.saveCenter, action.payload);
         console.dir(response);
         yield put({
-            type: WRITE_POST_SUCCESS,
+            type: SAVE_CENTER_SUCCESS,
             payload: response.data,
         });
     }catch(e){
         yield put({
-            type: WRITE_POST_FAILURE,
+            type: SAVE_CENTER_FAILURE,
             payload: e,
             error: true,
         })
     }
-    yield put(finishLoading(WRITE_POST));
-    //}//createDummy
+    yield put(finishLoading(SAVE_CENTER));
 }
 
 //사가 생성
 
 export function* saveCenterSaga(){
-    yield takeLatest(WRITE_POST, writePostSaga);
+    yield takeLatest(SAVE_CENTER, saveCenterRequestSaga);
     yield takeLatest(UPLOAD_QUEUE, uploadQueueSaga);
 }
 
@@ -249,7 +217,7 @@ const saveCenter=handleActions(
                 );
                 draft.imgUrlList[curOrder]=url;
             }),
-        [WRITE_POST]: (state, {payload: {imgList}})=>
+        [SAVE_CENTER]: (state, {payload: {imgList}})=>
             produce(state, draft=> {
                 const queue=draft.imgQueue;
                 queue.status='ready';
@@ -258,11 +226,11 @@ const saveCenter=handleActions(
                 draft.post=null;
                 draft.postError=null;
             }),
-        [WRITE_POST_SUCCESS]: (state, {payload: post})=>
+        [SAVE_CENTER_SUCCESS]: (state, {payload: post})=>
             produce(state, draft=> {
                 draft.post=post;
             }),
-        [WRITE_POST_FAILURE]: (state, {payload: postError}) => produce(state, draft=> {
+        [SAVE_CENTER_FAILURE]: (state, {payload: postError}) => produce(state, draft=> {
             draft.postError=postError;
         }),
         [UPLOAD_QUEUE_SUCCESS]: (state)=>

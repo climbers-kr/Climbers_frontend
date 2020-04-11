@@ -2,26 +2,13 @@ import React, {useEffect} from 'react';
 import WriteActionButton from '../../../components/community/writePost/WriteActionButton';
 import {useSelector, useDispatch} from "react-redux";
 import {withRouter} from 'react-router-dom';
-import {writePost} from '../../../modules/admin/saveCenter';
+import {saveCenterRequest} from '../../../modules/admin/saveCenter';
 
 const WriteActionButtonContainer= ({history}) => {
     const dispatch=useDispatch();
-    const {
-        imgUrlList,
-        imageSource,
-        title,
-        location,
-        locationDetail,
-        locationObject,
-        contact,
-        sites,
-        prices,
-        time,
-        hasParking,
-        facility,
-        post,
-        postError,
-    } = useSelector(({saveCenter}) => ({
+
+    const {post, postError, ...centerInfoObject}= useSelector(({saveCenter}) => ({
+        imgList: saveCenter.imgQueue.imgList,
         imgUrlList: saveCenter.imgUrlList,
         imageSource: saveCenter.imageSource,
         title: saveCenter.title,
@@ -38,25 +25,15 @@ const WriteActionButtonContainer= ({history}) => {
         postError: saveCenter.postError,
     }));
 
+
     const onPublish = (e)=> {
         e.preventDefault();
+
         dispatch(
-            writePost({
-                imgUrlList,
-                imageSource,
-                title,
-                location,
-                locationDetail,
-                locationObject,
-                contact,
-                sites,
-                prices,
-                time,
-                hasParking,
-                facility,
-            }),
+            saveCenterRequest(centerInfoObject),
         );
     };
+
 
     const onCancel=()=> {
         history.goBack();
