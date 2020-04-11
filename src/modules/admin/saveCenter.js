@@ -113,7 +113,7 @@ function* saveCenterRequestSaga(action){
             return -1;
         }
     }
-    const imgUrlList=yield select(state=> state.write.imgUrlList);
+    const imgUrlList=yield select(state=> state.saveCenter.imgUrlList);
 
     try{
         const response=yield call (saveAPI.saveCenter, action.payload);
@@ -166,8 +166,6 @@ const initialState={
     postError: null,
 };
 
-
-
 const saveCenter=handleActions(
     {
         [INITIALIZE]: state=> initialState,
@@ -196,7 +194,7 @@ const saveCenter=handleActions(
         [SELECT_IMAGE]: (state, { payload: selectedImg }) =>
             produce(state, draft => {
                 console.dir(selectedImg);
-                if (selectedImg.file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                if (selectedImg.file.name && selectedImg.file.name.match(/.(jpg|jpeg|png)$/i)) {
                     //파일 확장자 검증
                     draft.imgQueue.imgList.push(selectedImg);
                     draft.imgQueue.imgCount++;

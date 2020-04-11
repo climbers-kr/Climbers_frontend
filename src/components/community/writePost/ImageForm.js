@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import styled from 'styled-components';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
@@ -12,10 +12,22 @@ const PreviewContainer=styled.div`
    justify-content: center;
 `;
 
+const PreviewBox=styled.div`
+    display: flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    & > * {
+      flex: 0 0 auto;
+    }
+`;
+
 const PreviewItem=styled.div`
     width: 150px;
     height: 150px;
     position: relative;
+    margin: 3px;
 `;
 const ImgFilter=styled.div`
     width: 100%;
@@ -47,6 +59,8 @@ const Input=styled.input`
     overflow: hidden;
     width: 0;
     height: 0;
+    position: absolute;
+    top: 0;
 `;
 const useStyles = makeStyles(theme => ({
     extendedIcon: {
@@ -67,6 +81,16 @@ const useStyles = makeStyles(theme => ({
 }));
 const ImageForm=({ hasImages, imgList, onChange })=>{
     const classes = useStyles();
+    const previewBoxRef=useRef();
+
+    useEffect(()=>{
+        //이미지 추가 시 horizontal scroll 위치 맨 오른쪽으로 이동
+        if(previewBoxRef.current && hasImages){
+            const width=previewBoxRef.current.scrollWidth;
+            console.dir(width);
+            previewBoxRef.current.scrollLeft=width;
+        }
+    }, [imgList]);
 
     return (
         <>
@@ -89,12 +113,10 @@ const ImageForm=({ hasImages, imgList, onChange })=>{
                     </label>
                 </div>
             ):(
-                <PreviewContainer>
+                <PreviewBox ref={previewBoxRef}>
                     {imgList.map(object => {
                         const url=URL.createObjectURL(object.file);
-
                         return (
-
                             <PreviewItem key={object.id}>
                                 {object.done ? (
                                     <ImgFilter>
@@ -106,18 +128,20 @@ const ImageForm=({ hasImages, imgList, onChange })=>{
                             </PreviewItem>
                         );
                     })}
-                    <label>
-                        <ImgSelector>
-                            <AddIcon className={classes.addIcon}/>
-                        </ImgSelector>
-                        <Input
-                            accept="image/*"
-                            type="file"
-                            name="imgCollection"
-                            multiple onChange={onChange}
-                        />
-                    </label>
-                </PreviewContainer>
+                    <PreviewItem>
+                        <label>
+                            <ImgSelector>
+                                <AddIcon className={classes.addIcon}/>
+                            </ImgSelector>
+                            <Input
+                                accept="image/*"
+                                type="file"
+                                name="imgCollection"
+                                multiple onChange={onChange}
+                            />
+                        </label>
+                    </PreviewItem>
+                </PreviewBox>
             )}
         </>
     )

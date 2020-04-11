@@ -6,7 +6,6 @@ import CheckBox from './common/CheckBox';
 import BooleanSelectBox from './common/BooleanSelectBox';
 import {makeStyles} from "@material-ui/core/styles";
 import InputWithLabel from "./common/InputWithLabel";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -23,7 +22,6 @@ const InputLabelBox=styled.label`
     align-items: center;
     flex: 1;
 `;
-
 
 const SaveForm=(
     {

@@ -20,7 +20,8 @@ const WhiteBox=styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    &>:nth-child(2) {order: -1};
+    &>:nth-child(3) {order: -1};
+    &>:nth-child(1) {order: -1};
     &>*{
         flex:1
     };

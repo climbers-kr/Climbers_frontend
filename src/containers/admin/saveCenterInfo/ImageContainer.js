@@ -1,15 +1,13 @@
 import React, {useEffect} from 'react';
-import ImageForm from '../../../components/community/writePost/ImageForm';
+import ImageForm from '../../../components/admin/saveCenterInfo/ImageForm';
 import {useDispatch, useSelector} from "react-redux";
-import {selectImage} from "../../../modules/write";
+import {selectImage} from "../../../modules/admin/saveCenter";
 
 const ImageContainer=()=>{
-
-
-    const { hasImages, imgList, imgCount } = useSelector(({ write }) => ({
-        hasImages: write.hasImages,
-        imgList: write.imgQueue.imgList, //type: Array [{file: File, id: number, done: boolean}]
-        imgCount: write.imgQueue.imgCount,
+    const { hasImages, imgList, imgCount } = useSelector(({ saveCenter }) => ({
+        hasImages: saveCenter.hasImages,
+        imgList: saveCenter.imgQueue.imgList, //type: Array [{file: File, id: number, done: boolean}]
+        imgCount: saveCenter.imgQueue.imgCount,
     }));
 
     const dispatch = useDispatch();

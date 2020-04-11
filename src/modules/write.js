@@ -170,7 +170,7 @@ const write=handleActions(
         [SELECT_IMAGE]: (state, { payload: selectedImg }) =>
             produce(state, draft => {
                 console.dir(selectedImg);
-                if (selectedImg.file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                if (selectedImg.file.name && selectedImg.file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
                     //파일 확장자 검증
                     draft.imgQueue.imgList.push(selectedImg);
                     draft.imgQueue.imgCount++;
