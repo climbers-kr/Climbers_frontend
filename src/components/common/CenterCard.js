@@ -7,55 +7,49 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import url from '../../images/climbing.jpg';
+import Carousel from "../centers/centerList/Carousel";
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        //maxWidth: "100px",
         flex:1,
-        //padding: '1rem'
-        //margin: '0.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
     },
     media: {
-        height: 'auto',
         //paddingTop: '56.25%', // 16:9
-        width: '100%',
+        //flex:1,
+        height: '1000px',
     },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
+    content: {
+        flex: 1,
+        background: 'blue',
     },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
+
 }));
 
-export default function CenterCard() {
+export default function CenterCard({center}) {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
     return (
         <div>
             <Card className={classes.root}>
-                <img
-                    className={classes.media}
-                    src={url}
-                    title="Paella dish"
-                />
-                <CardContent>
-                    <Typography variant="body1"  component="h1">
-                        K2 climbing Center
+                { center.imgUrlList.length > 0 && (
+                    <Carousel
+                        className={classes.media}
+                        imgUrlList={center.imgUrlList}
+                        title="Paella dish"
+                    />
+                )}
+                <CardContent className={classes.content}>
+                    <Typography variant="body1" component="h1">
+                        {center.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        This impressive paella is a perfect party dish and a fun meal to cook together with your
-                        guests.
+                        {center.locationObject.query}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
@@ -65,7 +59,6 @@ export default function CenterCard() {
                     <IconButton aria-label="share">
                         <ShareIcon />
                     </IconButton>
-
                 </CardActions>
             </Card>
         </div>

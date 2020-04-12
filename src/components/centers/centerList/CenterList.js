@@ -18,6 +18,8 @@ const LoaderBlock=styled.div`
 const CenterListBlock=styled.div`
     
     display: grid;
+    column-gap: 5px;
+    row-gap: 10px;
     background: pink;
     @media(max-width: 500px) {
       grid-template-columns: repeat(2, 1fr);
