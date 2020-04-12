@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image, Dot, CarouselContext  } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Dot, CarouselContext  } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {makeStyles} from "@material-ui/core/styles";
-
+import styled from "styled-components";
+import clsx from "clsx";
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
@@ -35,30 +38,95 @@ const useStyles = makeStyles((theme) => ({
     dotBox: {
         textAlign: 'center',
 
+    },
+    icon:{
+        fontSize: '17px',
+        color: 'white',
+        //flex: 1,
+    },
+    arrowButton:{
+        position: 'absolute',
+        borderRadius: '50%',
+        backgroundColor: 'rgba( 0, 0, 0, 0.2 )',
+        height: '25px',
+        width: '25px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: 'rgba( 255, 255, 255, 0 )',
+        top: '50%',
+        transform: 'translateY(-50%)',
+    },
+    nextButton: {
+        right: 5,
+    },
+    backButton: {
+        left: 5,
     }
 }));
 
+const SlideImage=styled.div`
+    width: 100%;
+    height: 100%;
+    background-image: url(${props=> props.src});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size : cover;
+`;
+const RightArrowButton=({classes})=>(
+    <ButtonNext className={clsx(classes.arrowButton, classes.nextButton)}>
+        <ArrowForwardIos className={classes.icon}/>
+    </ButtonNext>
+);
+const LeftArrowButton=({classes})=>(
+    <ButtonBack className={clsx(classes.arrowButton, classes.backButton)}>
+        <ArrowBackIos className={classes.icon}/>
+    </ButtonBack>
+);
 
-export function DotComponentUsingContext({imgUrlList, classes}) {
+function ComponentsUsingContext({imgUrlList, classes}) {
     const carouselContext = useContext(CarouselContext);
     const [currentSlide, setCurrentSlide] = useState(carouselContext.state.currentSlide);
-    useEffect(() => {
+    useEffect(()=> {
         function onChange() {
             setCurrentSlide(carouselContext.state.currentSlide);
         }
         carouselContext.subscribe(onChange);
         return () => carouselContext.unsubscribe(onChange);
     }, [carouselContext]);
-
     const dotComponents=imgUrlList.map((image, index)=>(
         index===currentSlide ? (
             <Dot key={index} className={classes.dotSelected} slide={index}/>
         ) : (
             <Dot key={index} className={classes.dot} slide={index}/>
-            )
+        )
     ));
-    return <div className={classes.dotBox}>{dotComponents}</div>;
+    const ArrowButtons=()=>{
+        if(currentSlide===0){
+            return (
+                <RightArrowButton classes={classes}/>
+            )
+        }else if(currentSlide===imgUrlList.length-1){
+            return (
+                <LeftArrowButton classes={classes}/>
+            )
+        }else {
+            return (
+                <>
+                    <LeftArrowButton classes={classes}/>
+                    <RightArrowButton classes={classes}/>
+                </>
+            )
+        }
+    };
+    return (
+        <>
+            <div className={classes.dotBox}>{dotComponents}</div>
+            <ArrowButtons/>
+        </>
+    )
 }
+
 export default function Carousel({imgUrlList}) {
 
     const classes = useStyles();
@@ -74,18 +142,11 @@ export default function Carousel({imgUrlList}) {
                 <Slider>
                     {
                         imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}><Image src={image}/></Slide>
+                            <Slide index={index} key={index}><SlideImage src={image}/></Slide>
                         ))
                     }
                 </Slider>
-                {imgUrlList.length>1 && (
-                    <>
-                        <ButtonBack className={classes.buttonBack}>Back</ButtonBack>
-                        <ButtonNext className={classes.buttonNext}>Next</ButtonNext>
-
-                    </>
-                )}
-                {imgUrlList.length>1 && <DotComponentUsingContext imgUrlList={imgUrlList} classes={classes}/>}
+                {imgUrlList.length>1 && <ComponentsUsingContext imgUrlList={imgUrlList} classes={classes}/>}
             </CarouselProvider>
         </div>
     );

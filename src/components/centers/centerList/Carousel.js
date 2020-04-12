@@ -1,40 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image, Dot, CarouselContext  } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Dot, CarouselContext  } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {makeStyles} from "@material-ui/core/styles";
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
+import styled from 'styled-components';
+import clsx from 'clsx';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
-    },
-    buttonBack: {
-        position: 'absolute',
-        top: '50%',
-        left: 5,
-        transform: 'translateY(-50%)',
-        borderRadius: '50%',
-        backgroundColor: 'rgba( 0, 0, 0, 0.2 )',
-        height: '20px',
-        width: '20px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        border: 'rgba( 255, 255, 255, 0 )',
-    },
-    buttonNext: {
-        position: 'absolute',
-        top: '50%',
-        right: 5,
-        transform: 'translateY(-50%)',
-        borderRadius: '50%',
-        backgroundColor: 'rgba( 0, 0, 0, 0.2 )',
-        height: '20px',
-        width: '20px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        border: 'rgba( 255, 255, 255, 0 )',
     },
     dot: {
         background: '#101014',
@@ -60,21 +34,56 @@ const useStyles = makeStyles((theme) => ({
     icon:{
         fontSize: '1rem',
         color: 'white'
+    },
+    arrowButton:{
+        position: 'absolute',
+        borderRadius: '50%',
+        backgroundColor: 'rgba( 0, 0, 0, 0.2 )',
+        height: '20px',
+        width: '20px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: 'rgba( 255, 255, 255, 0 )',
+        top: '50%',
+        transform: 'translateY(-50%)',
+    },
+    nextButton: {
+        right: 5,
+    },
+    backButton: {
+        left: 5,
     }
 }));
+const SlideImage=styled.div`
+    width: 100%;
+    height: 100%;
+    background-image: url(${props=> props.src});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size : cover;
+`;
+const RightArrowButton=({classes})=>(
+    <ButtonNext className={clsx(classes.arrowButton, classes.nextButton)}>
+        <ArrowForwardIos className={classes.icon}/>
+    </ButtonNext>
+);
+const LeftArrowButton=({classes})=>(
+    <ButtonBack className={clsx(classes.arrowButton, classes.backButton)}>
+        <ArrowBackIos className={classes.icon}/>
+    </ButtonBack>
+);
 
-
-export function DotComponentUsingContext({imgUrlList, classes}) {
+function ComponentsUsingContext({imgUrlList, classes}) {
     const carouselContext = useContext(CarouselContext);
     const [currentSlide, setCurrentSlide] = useState(carouselContext.state.currentSlide);
-    useEffect(() => {
+    useEffect(()=> {
         function onChange() {
             setCurrentSlide(carouselContext.state.currentSlide);
         }
         carouselContext.subscribe(onChange);
         return () => carouselContext.unsubscribe(onChange);
     }, [carouselContext]);
-
     const dotComponents=imgUrlList.map((image, index)=>(
         index===currentSlide ? (
             <Dot key={index} className={classes.dotSelected} slide={index}/>
@@ -82,46 +91,30 @@ export function DotComponentUsingContext({imgUrlList, classes}) {
             <Dot key={index} className={classes.dot} slide={index}/>
         )
     ));
-    return <div className={classes.dotBox}>{dotComponents}</div>;
-}
-export function ArrowComponentUsingContext({imgUrlList, classes}) {
-    const carouselContext = useContext(CarouselContext);
-    const [currentSlide, setCurrentSlide] = useState(carouselContext.state.currentSlide);
-    useEffect(() => {
-        function onChange() {
-            setCurrentSlide(carouselContext.state.currentSlide);
-        }
-        carouselContext.subscribe(onChange);
-        return () => carouselContext.unsubscribe(onChange);
-    }, [carouselContext]);
-    const arrowButtons=()=>{
+    const ArrowButtons=()=>{
         if(currentSlide===0){
             return (
-                <ButtonNext className={classes.buttonNext}>
-                    <ArrowForwardIos className={classes.icon}/>
-                </ButtonNext>
+                <RightArrowButton classes={classes}/>
             )
         }else if(currentSlide===imgUrlList.length-1){
             return (
-                <ButtonBack className={classes.buttonBack}>
-                    <ArrowBackIos className={classes.icon}/>
-                </ButtonBack>
+                <LeftArrowButton classes={classes}/>
             )
         }else {
             return (
                 <>
-                    <ButtonBack className={classes.buttonBack}>
-                        <ArrowBackIos className={classes.icon}/>
-                    </ButtonBack>
-                    <ButtonNext className={classes.buttonNext}>
-                        <ArrowForwardIos className={classes.icon}/>
-                    </ButtonNext>
-
+                    <LeftArrowButton classes={classes}/>
+                    <RightArrowButton classes={classes}/>
                 </>
             )
         }
     };
-    return arrowButtons();
+    return (
+        <>
+            <div className={classes.dotBox}>{dotComponents}</div>
+            <ArrowButtons/>
+        </>
+    )
 }
 export default function Carousel({imgUrlList}) {
     const url='http://localhost:5000';
@@ -138,15 +131,12 @@ export default function Carousel({imgUrlList}) {
                 <Slider>
                     {
                         imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}><Image src={url+image}/></Slide>
+                            <Slide index={index} key={index}><SlideImage src={url+image}/></Slide>
                         ))
                     }
                 </Slider>
 
-                {imgUrlList.length>1 &&
-                        <ArrowComponentUsingContext imgUrlList={imgUrlList} classes={classes}/>
-                }
-                {imgUrlList.length>1 && <DotComponentUsingContext imgUrlList={imgUrlList} classes={classes}/>}
+                {imgUrlList.length>1 && <ComponentsUsingContext imgUrlList={imgUrlList} classes={classes}/>}
             </CarouselProvider>
         </div>
     );
