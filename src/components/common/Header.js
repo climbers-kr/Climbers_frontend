@@ -51,6 +51,10 @@ const useStyles = makeStyles(theme => ({
         textDecoration: 'none',
         color: 'white',
     },
+    menuLink: {
+        color: 'black',
+        textDecoration: 'none',
+    },
     menuItem: {
         flexGrow: 1,
         [theme.breakpoints.down('sm')]: {
@@ -192,7 +196,7 @@ const Header = ({ user, onLogout }) => {
                                             <ClickAwayListener onClickAway={handleClose}>
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                                     <MenuItem onClick={handleClose}>
-                                                        <Link variant="button" color="inherit" href="/centers" className={classes.link}>
+                                                        <Link variant="button" to="/account/edit" className={classes.menuLink}>
                                                             마이 페이지
                                                         </Link>
                                                     </MenuItem>

@@ -3,14 +3,14 @@ import {Route} from 'react-router-dom';
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import CenterListPage from "./pages/CenterListPage";
+import CenterListPage from "./pages/centers/CenterListPage";
 import CommunityPage from "./pages/community/CommunityPage";
-
 import WritePage from "./pages/community/WritePage";
-
 
 import HorizontalSlidePage from "./pages/test/HorizontalSlidePage";
 import DashboardPage from "./pages/admin/DashboardPage";
+
+import EditAccountPage from './pages/account/EditAccountPage';
 
 function App() {
     return (
@@ -26,6 +26,7 @@ function App() {
 
             <Route component={HorizontalSlidePage} path="/test"/>
             <Route component={DashboardPage} path="/dashboard"/>
+            <Route component={EditAccountPage} path="/accounts/edit"/>
         </>
     );
 }

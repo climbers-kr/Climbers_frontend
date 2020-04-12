@@ -14,8 +14,7 @@ const useStyles = makeStyles((theme) => ({
         //maxWidth: "100px",
         flex:1,
         //padding: '1rem'
-        margin: '0.5rem',
-
+        //margin: '0.5rem',
     },
     media: {
         height: 'auto',
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SlideCard() {
+export default function CenterCard() {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
@@ -44,31 +43,31 @@ export default function SlideCard() {
 
     return (
         <div>
-        <Card className={classes.root}>
-            <img
-                className={classes.media}
-                src={url}
-                title="Paella dish"
-            />
-            <CardContent>
-                <Typography variant="body1"  component="h1">
-                    K2 climbing Center
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    This impressive paella is a perfect party dish and a fun meal to cook together with your
-                    guests.
-                </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
+            <Card className={classes.root}>
+                <img
+                    className={classes.media}
+                    src={url}
+                    title="Paella dish"
+                />
+                <CardContent>
+                    <Typography variant="body1"  component="h1">
+                        K2 climbing Center
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        This impressive paella is a perfect party dish and a fun meal to cook together with your
+                        guests.
+                    </Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                    <IconButton aria-label="add to favorites">
+                        <FavoriteIcon />
+                    </IconButton>
+                    <IconButton aria-label="share">
+                        <ShareIcon />
+                    </IconButton>
 
-            </CardActions>
-        </Card>
+                </CardActions>
+            </Card>
         </div>
     );
 }
