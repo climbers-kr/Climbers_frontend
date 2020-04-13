@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Dot, CarouselContext  } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, Dot, CarouselContext  } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {makeStyles} from "@material-ui/core/styles";
-import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import styled from 'styled-components';
-import clsx from 'clsx';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
@@ -47,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
         border: 'rgba( 255, 255, 255, 0 )',
         top: '50%',
         transform: 'translateY(-50%)',
+        zIndex: 3,
     },
     nextButton: {
         right: 5,
@@ -63,16 +62,7 @@ const SlideImage=styled.div`
     background-repeat: no-repeat;
     background-size : cover;
 `;
-const RightArrowButton=({classes})=>(
-    <ButtonNext className={clsx(classes.arrowButton, classes.nextButton)}>
-        <ArrowForwardIos className={classes.icon}/>
-    </ButtonNext>
-);
-const LeftArrowButton=({classes})=>(
-    <ButtonBack className={clsx(classes.arrowButton, classes.backButton)}>
-        <ArrowBackIos className={classes.icon}/>
-    </ButtonBack>
-);
+
 
 function ComponentsUsingContext({imgUrlList, classes}) {
     const carouselContext = useContext(CarouselContext);
@@ -91,28 +81,10 @@ function ComponentsUsingContext({imgUrlList, classes}) {
             <Dot key={index} className={classes.dot} slide={index}/>
         )
     ));
-    const ArrowButtons=()=>{
-        if(currentSlide===0){
-            return (
-                <RightArrowButton classes={classes}/>
-            )
-        }else if(currentSlide===imgUrlList.length-1){
-            return (
-                <LeftArrowButton classes={classes}/>
-            )
-        }else {
-            return (
-                <>
-                    <LeftArrowButton classes={classes}/>
-                    <RightArrowButton classes={classes}/>
-                </>
-            )
-        }
-    };
+
     return (
         <>
             <div className={classes.dotBox}>{dotComponents}</div>
-            <ArrowButtons/>
         </>
     )
 }
@@ -127,6 +99,7 @@ export default function Carousel({imgUrlList}) {
                 naturalSlideHeight={70}
                 totalSlides={count}
                 dragEnabled={false}
+                isPlaying={true}
             >
                 <Slider>
                     {
