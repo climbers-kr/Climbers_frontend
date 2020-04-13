@@ -7,7 +7,7 @@ import CenterListPage from "./pages/centers/CenterListPage";
 import CommunityPage from "./pages/community/CommunityPage";
 import WritePage from "./pages/community/WritePage";
 
-import HorizontalSlidePage from "./pages/test/HorizontalSlidePage";
+import VirtualizingTest from "./pages/test/VirtualizingTest";
 import DashboardPage from "./pages/admin/DashboardPage";
 
 import EditAccountPage from './pages/account/EditAccountPage';
@@ -24,7 +24,7 @@ function App() {
             <Route component={WritePage} path="/write"/>
 
 
-            <Route component={HorizontalSlidePage} path="/test"/>
+            <Route component={VirtualizingTest} path="/test"/>
             <Route component={DashboardPage} path="/dashboard"/>
             <Route component={EditAccountPage} path="/accounts/edit"/>
         </>
