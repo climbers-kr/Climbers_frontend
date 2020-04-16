@@ -10,26 +10,31 @@ import ShareIcon from '@material-ui/icons/Share';
 import Carousel from "../centers/centerList/Carousel";
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import styled from 'styled-components';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import { withRouter } from 'react-router-dom';
-import LinkWrapperActionArea from './LinkWrapperActionArea'
+import { withRouter, Link } from 'react-router-dom';
 
 const Title=styled.h1`
-    font-size: 1.5rem;
-    //background-color: #61dafb;
+    font-size: 1em;
     margin-bottom: 0;
-  
+    flex: 1;
+    @media(max-width: 600px){
+        font-size: 1em;
+    }
 `;
 const Address=styled.p`
-    //flex: 1;
-    //background-color: #fb61d4;
+  
 `;
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flex:1,
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
+        border: '1px solid',
+        borderImageSlice: 1,
+        borderImage: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
+        borderImageWidth: '1px',
+        //boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.3)',
+
     },
     content: {
         flex: 1,
@@ -39,11 +44,19 @@ const useStyles = makeStyles((theme) => ({
         padding: 0,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-
+        [theme.breakpoints.down('xs')]: {
+            maxHeight: '110px',
+        },
+    },
+    link: {
+        textDecoration: 'none',
+        color: 'black',
+        flex: 1,
+        display: 'flex',
     },
     controls: {
         display: 'flex',
-        //background: 'blue',
+        //background: 'yellow',
         position: 'relative',
     },
     icon: {
@@ -52,37 +65,39 @@ const useStyles = makeStyles((theme) => ({
     badge: {
         position: 'absolute',
         right: 25,
+    },
+    rating:{
+        [theme.breakpoints.down('xs')]: {
+            maxHeight: '5px',
+        },
     }
-
 }));
+
 
 const CenterCard= ({center, history}) => {
     const classes = useStyles();
-    const onClick=(e)=>{
-        console.log('card clicked');
-        history.push('/')
-    }
+    const location=center.locationObject;
 
     return (
         <>
             <Card className={classes.root}>
-                <LinkWrapperActionArea>
                     { center.imgUrlList.length > 0 && (
                         <Carousel
                             imgUrlList={center.imgUrlList}
                             title="Paella dish"
                         />
                     )}
+                <Link to='/' className={classes.link}>
                     <CardContent className={classes.content}>
                         <Title>
                             {center.title}
                         </Title>
-                        <Rating name="size-small" defaultValue={2} size="small" />
+                        <Rating className={classes.rating} name="size-small" defaultValue={2} size="small" />
                         <Address>
-                            {center.locationObject.query}
+                            {location.sido} {location.sigungu} {location.bname}
                         </Address>
                     </CardContent>
-                </LinkWrapperActionArea>
+                </Link>
                 <CardActions className={classes.controls}>
                     <IconButton className={classes.icon} aria-label="add to favorites">
                         <BookmarkBorderIcon />
@@ -91,7 +106,6 @@ const CenterCard= ({center, history}) => {
                         <ShareIcon />
                     </IconButton>
                     <Badge color="secondary" badgeContent={'event'} aria-label="add" className={classes.badge} />
-
                 </CardActions>
             </Card>
         </>

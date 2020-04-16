@@ -124,7 +124,7 @@ export default function Carousel({imgUrlList}) {
     const classes = useStyles();
     const count=imgUrlList.length;
 
-
+    const url='https://climbers.herokuapp.com';
     return (
         <div className={classes.root}>
             <CarouselProvider
@@ -136,7 +136,7 @@ export default function Carousel({imgUrlList}) {
                 <Slider>
                     {
                         imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}><LazyImage src={image}/></Slide>
+                            <Slide index={index} key={index}><LazyImage src={url+image}/></Slide>
                         ))
                     }
                 </Slider>

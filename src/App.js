@@ -23,11 +23,14 @@ function App() {
             <Route component={CommunityPage} path="/community"/>
             <Route component={WritePage} path="/write"/>
 
-
+            <Route component={EditAccountPage} path="/accounts/edit"/>
             <Route component={VirtualizingTest} path="/test"/>
             <Route component={DashboardPage} path="/dashboard"/>
-            <Route component={EditAccountPage} path="/accounts/edit"/>
+            <Route path="/accounts">
+                <Route component={EditAccountPage} path="/edit"/>
+            </Route>
         </>
     );
 }
 export default App;
+// <Route component={EditAccountPage} path="/accounts/edit"/>

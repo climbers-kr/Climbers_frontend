@@ -19,13 +19,13 @@ const SortingButtonBlock=styled.div`
     @media(min-width: 1280px) {
       width: 70%;
     }
-`
+`;
 export default function CenterListTemplate({children}) {
     return (
         <CenterListTemplateBlock>
             <SortingButtonBlock>
                 <Button variant="outlined" color="primary">
-                    Primary
+                    Sort
                 </Button>
             </SortingButtonBlock>
 

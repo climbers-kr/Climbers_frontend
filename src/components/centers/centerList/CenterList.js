@@ -4,7 +4,7 @@ import CenterCard from "../../common/CenterCard";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
 const LoaderBlock=styled.div`
-    
+    //background: blue;
     display: flex;
     flex-direction: column;
     width: 90%;
@@ -16,11 +16,10 @@ const LoaderBlock=styled.div`
     }
 `;
 const CenterListBlock=styled.div`
-    
     display: grid;
     column-gap: 5px;
     row-gap: 10px;
-    //background: pink;
+    //background: skyblue;
     @media(max-width: 500px) {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -34,7 +33,7 @@ const CenterListBlock=styled.div`
 
 const useStyles = makeStyles(theme => ({
     loaderBox: {
-        background: 'red',
+        //background: 'red',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

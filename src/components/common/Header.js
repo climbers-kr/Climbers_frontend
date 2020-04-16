@@ -119,19 +119,29 @@ const Header = ({ user, onLogout }) => {
         >
             <List>
                 <ListItem button >
-                    <ListItemText primary={'암장 정보'} />
+                    <Link to="/centers">
+                        암장 정보
+                    </Link>
                 </ListItem>
                 <ListItem button >
-                    <ListItemText primary={'이벤트'} />
+                    <Link to="/events">
+                        이벤트
+                    </Link>
                 </ListItem>
                 <ListItem button >
-                    <ListItemText primary={'커뮤니티'} />
+                    <Link to="/community">
+                        커뮤니티
+                    </Link>
                 </ListItem>
                 <ListItem button >
-                    <ListItemText primary={'친구 찾기'} />
+                    <Link to="/friends">
+                        친구 찾기
+                    </Link>
                 </ListItem>
                 <ListItem button >
-                    <ListItemText primary={'중고 장터'} />
+                    <Link to="/market">
+                        중고 장터
+                    </Link>
                 </ListItem>
             </List>
 
@@ -196,7 +206,7 @@ const Header = ({ user, onLogout }) => {
                                             <ClickAwayListener onClickAway={handleClose}>
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                                     <MenuItem onClick={handleClose}>
-                                                        <Link variant="button" to="/account/edit" className={classes.menuLink}>
+                                                        <Link variant="button" to="/accounts/edit" className={classes.menuLink}>
                                                             마이 페이지
                                                         </Link>
                                                     </MenuItem>

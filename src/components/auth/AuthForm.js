@@ -16,7 +16,6 @@ import Grid from '@material-ui/core/Grid';
     회원가입 또는 로그인 폼을 보여준다
 */
 
-
 //폼 하단에 로그인 혹은 회원가입 링크를 보여줌
 const Footer=styled(Grid)`
     margin-top: 2rem;

@@ -11,11 +11,10 @@ import url from '../../images/climbing.jpg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        //maxWidth: "100px",
+        //maxWidth: "350px",
         flex:1,
         //padding: '1rem'
         margin: '0.5rem',
-
     },
     media: {
         height: 'auto',
