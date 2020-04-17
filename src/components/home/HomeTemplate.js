@@ -9,6 +9,9 @@ const HomeTemplateBlock=styled.div`
     justify-content: flex-start;
     align-items: center;
     background: #313233; 
+    @media(max-width: 600px){
+         margin-top:3rem;
+    }
 `;
 
 const Footer=styled.div`

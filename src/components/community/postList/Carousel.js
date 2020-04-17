@@ -136,7 +136,7 @@ export default function Carousel({imgUrlList}) {
                 <Slider>
                     {
                         imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}><LazyImage src={url+image}/></Slide>
+                            <Slide index={index} key={index}><LazyImage src={image}/></Slide>
                         ))
                     }
                 </Slider>

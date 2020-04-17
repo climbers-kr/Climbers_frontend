@@ -24,8 +24,8 @@ const LazyImage = ({ src, alt }) => {
     }
 
     useEffect(() => {
-        let observer
-        let didCancel = false
+        let observer;
+        let didCancel = false;
 
         if (imageRef && imageSrc !== src) {
             if (IntersectionObserver) {

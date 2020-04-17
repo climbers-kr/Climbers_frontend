@@ -8,17 +8,24 @@ import homeImage1 from '../../images/homeImage2.png';
 import {makeStyles} from "@material-ui/core/styles";
 const CarouselBox=styled.div`
     width: 100%;
-    height: 450px;
-
+    height: 30vw;
+    @media(max-width: 600px){
+         height: 50vw;
+    }
 `;
 const SlideImage=styled.div`
+position: absolute;
     width: 100%;
-    height: 450px;
+    height: 30vw;
+    @media(max-width: 600px){
+         height: 50vw;
+    }
     background-image: url(${props=> props.src});
     background-position: center;
     background-repeat: no-repeat;
     background-size : cover;
 `;
+
 const ArrowButton=styled.div`
     background-color: rgba( 0, 0, 0, 0.5);
     display: flex;
@@ -52,8 +59,11 @@ export default function MainCarousel() {
                     </ArrowButton>
                 )}
             >
+
                 <SlideImage src={homeImage1} alt="homeImage1"/>
                 <SlideImage src={homeImage2} alt="homeImage2"/>
+
+
             </Carousel>
         </CarouselBox>
 

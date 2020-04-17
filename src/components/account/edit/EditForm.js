@@ -5,12 +5,21 @@ import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+
+
+const Input=styled.input`
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 0;
+`;
+
+
 const UserImage=styled(Avatar)`
     width: 100px;
     height: 100px;
@@ -31,6 +40,11 @@ const FormTemplate=styled.div`
         width: 95%;
     }
 `;
+const ImageSelector=styled.div`
+    width: 150px;
+    height: 150px;
+    position: relative;
+`;
 
 const useStyles = makeStyles(theme => ({
     avatar: {
@@ -41,13 +55,15 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
     },
-    appbar: {
-        position: 'relative',
-        //backgroundColor: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
-    },
     paper: {
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center',
+    },
+    label:{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent:'center',
         alignItems: 'center',
     }
 }));
@@ -88,16 +104,27 @@ const EditForm=({onChange, form, onSubmit})=>{
     };
     return (
         <FormTemplate>
-            <AppBar className={classes.appbar}>
-                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="프로필 편집" {...a11yProps(0)}/>
-                    <Tab label="비밀번호 변경" {...a11yProps(1)}/>
-                </Tabs>
-            </AppBar>
+
+            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+                <Tab label="프로필 편집" {...a11yProps(0)}/>
+                <Tab label="비밀번호 변경" {...a11yProps(1)}/>
+            </Tabs>
             <TabPanel value={value} index={0}>
                 <div className={classes.paper}>
-                    <UserImage  alt="Remy Sharp"  />
-                    <Button>프로필 사진 바꾸기</Button>
+                    <ImageSelector>
+                        <label className={classes.label}>
+                            <UserImage  alt="profile-image"  />
+                            <p>프로필 사진 바꾸기</p>
+                            <Input
+                                accept="image/*"
+                                type="file"
+                                name="imgCollection"
+                                multiple
+                                onChange={onChange}
+                            />
+                        </label>
+                    </ImageSelector>
+
                     <form className={classes.form} noValidate onSubmit={onSubmit}>
                         <TextField
                             variant="outlined"
@@ -206,9 +233,6 @@ const EditForm=({onChange, form, onSubmit})=>{
                         완료
                     </Button>
                 </form>
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
             </TabPanel>
         </FormTemplate>
     );

@@ -19,6 +19,7 @@ const ImageContainer=()=>{
     }, [imgList]);
 
     const onFileChange = e => {
+        console.dir(e.target.files);
         dispatch(
             selectImage({
                 file: e.target.files[0], //type: File
