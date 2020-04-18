@@ -7,15 +7,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Rating from '@material-ui/lab/Rating';
 import ShareIcon from '@material-ui/icons/Share';
-
+import Carousel from "./Carousel";
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import styled from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
-import image from "../../images/homeImage.png";
-import image2 from "../../images/homeImage2.png";
-
-import InnerCarousel from "./InnerCarousel";
-
 
 const Title=styled.h1`
     font-size: 1em;
@@ -24,35 +19,33 @@ const Title=styled.h1`
     @media(max-width: 600px){
         font-size: 1em;
     }
-     //background-color: darkorchid;
 `;
-const Address=styled.p`
+const Address=styled.div`
+  //flex:1;
   
 `;
-const CardBox=styled.div`
-    
-    position: relative;
-    height: 100%;
-    //background-color: darkorchid;
-    
-    margin: 0 5px 0 5px;
-`;
-
-const MediaBlock=styled.div`
-    //flex: 1;
-    background: #343132;
-`;
+const ContentHeader=styled.div`
+    //height: 9vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    //background: #61dafb;
+    @media(max-width: 350px){
+       height: 10vh;
+    }
+`
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        flex:1,
         display: 'flex',
         flexDirection: 'column',
         border: '1px solid',
         borderImageSlice: 1,
         borderImage: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
         borderImageWidth: '1px',
+        //boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.3)',
         height: '100%',
-        //marginBottom:'100px',
     },
     content: {
         flex: 1,
@@ -60,26 +53,22 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         paddingLeft: '10px',
         padding: 0,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        //background: 'blue',
         [theme.breakpoints.down('xs')]: {
             maxHeight: '110px',
         },
-        //background: 'skyblue',
     },
     link: {
         textDecoration: 'none',
         color: 'black',
         flex: 1,
-        //background: 'blue',
         display: 'flex',
-        overflow: 'hidden',
+        overflow: 'hidden', //추가
     },
     controls: {
         display: 'flex',
         //background: 'yellow',
         position: 'relative',
-        //flex: 1,
     },
     icon: {
         padding: 0,
@@ -90,32 +79,35 @@ const useStyles = makeStyles((theme) => ({
     },
     rating:{
         [theme.breakpoints.down('xs')]: {
-            maxHeight: '5px',
+            //maxHeight: '5px',
         },
-    },
-
+    }
 }));
 
 
 const CenterCard= ({center, history}) => {
     const classes = useStyles();
-    //const location=center.locationObject;
-    const imgUrlList=[image, image, image2,image,image];
-    return (
-        <CardBox>
-            <Card className={classes.root}>
-                <MediaBlock>
-                    <InnerCarousel imgUrlList={imgUrlList}/>
-                </MediaBlock>
+    const location=center.locationObject;
 
-                <Link to='/' className={classes.link}>
+    return (
+        <>
+            <Card className={classes.root}>
+                    { center.imgUrlList.length > 0 && (
+                        <Carousel
+                            imgUrlList={center.imgUrlList}
+                            title="Paella dish"
+                        />
+                    )}
+                <Link to={`/centers/${center._id}`} className={classes.link}>
                     <CardContent className={classes.content}>
-                        <Title>
-                            'center.title'
-                        </Title>
-                        <Rating className={classes.rating} name="size-small" defaultValue={2} size="small" />
+                        <ContentHeader>
+                            <Title>
+                                {center.title}
+                            </Title>
+                            <Rating className={classes.rating} name="size-small" defaultValue={2} size="small" />
+                        </ContentHeader>
                         <Address>
-                            'location.sido location.sigungu location.bname'
+                            {location.sido} {location.sigungu} {location.bname}
                         </Address>
                     </CardContent>
                 </Link>
@@ -129,7 +121,7 @@ const CenterCard= ({center, history}) => {
                     <Badge color="secondary" badgeContent={'event'} aria-label="add" className={classes.badge} />
                 </CardActions>
             </Card>
-        </CardBox>
+        </>
     );
 }
 export default withRouter(CenterCard);

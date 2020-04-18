@@ -2,18 +2,20 @@ import React from 'react';
 import HeaderContainer from "../containers/common/HeaderContainer";
 import MainCarousel from '../components/home/MainCarousel';
 import HomeTemplate from "../components/home/HomeTemplate";
-import SlideView from "../components/home/SlideView";
-import CenterCarouselView from "../components/home/CenterCarouselView";
-
+import SlideViewTemplate from "../components/home/SlideViewTemplate";
+import SlideViewTemplate2 from "../components/home/centerSection/SlideViewTemplate";
+import CenterSectionContainer from '../containers/home/CenterSectionContainer';
 const HomePage=()=>{
     return (
         <>
             <HeaderContainer />
             <HomeTemplate>
                 <MainCarousel/>
-                <SlideView/>
-                <SlideView/>
-                <CenterCarouselView/>
+                <SlideViewTemplate2>
+                    <CenterSectionContainer/>
+                </SlideViewTemplate2>
+                <SlideViewTemplate/>
+                <SlideViewTemplate/>
             </HomeTemplate>
         </>
     );

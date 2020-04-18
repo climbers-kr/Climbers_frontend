@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {listCenters, scrollBottom} from '../../../modules/centers/centerList';
 import CenterList from '../../../components/centers/centerList/CenterList';
 
-const CommunityContainer=({location})=> {
+const CenterListContainer=({location})=> {
     const dispatch=useDispatch();
     const loader=useRef();
     const containerRef=useRef();
@@ -78,4 +78,4 @@ const CommunityContainer=({location})=> {
     );
 };
 
-export default withRouter(CommunityContainer);
+export default withRouter(CenterListContainer);

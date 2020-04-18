@@ -1,7 +1,6 @@
 import React from 'react';
 import HeaderContainer from "../../containers/common/HeaderContainer";
 import CenterListTemplate from '../../components/centers/centerList/CenterListTemplate';
-import CenterCard from '../../components/centers/centerList/CenterCard';
 import CenterListContainer from "../../containers/centers/centerList/CenterListContainer";
 const CenterListPage=()=>{
     return (

@@ -9,7 +9,7 @@ const [
     LIST_CENTERS,
     LIST_CENTERS_SUCCESS,
     LIST_CENTERS_FAILURE,
-]=createRequestActionTypes('centerList/LIST_POSTS');
+]=createRequestActionTypes('centerList/LIST_CENTERS');
 
 const [
     READ_MORE,

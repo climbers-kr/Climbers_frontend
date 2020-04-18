@@ -22,7 +22,7 @@ const SlideViewBlock=styled.div`
 `;
 const Responsive=styled.div`
     display: flex;
-    //width: 80%;
+    width: 100%;
     @media(min-width: 1024px){
         width: 90%;
     }
@@ -34,7 +34,7 @@ const Responsive=styled.div`
     }
 `;
 
-export default function SlideView(){
+export default function SlideViewTemplate(){
     return (
         <SlideViewSection>
             <h1 style={{color: 'white', paddingLeft: '3rem'}}>

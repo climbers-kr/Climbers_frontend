@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CenterCard from "./CenterCard";
+import CenterCard from "../../common/CenterCard";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
 const LoaderBlock=styled.div`
@@ -17,7 +17,7 @@ const LoaderBlock=styled.div`
 `;
 const CenterListBlock=styled.div`
     display: grid;
-    column-gap: 5px;
+    column-gap: 10px;
     row-gap: 10px;
     //background: skyblue;
     @media(max-width: 500px) {
@@ -52,7 +52,6 @@ const CenterList=({loading, loading2, error, centers, loader,containerRef})=>{
                         <CenterCard center={center} key={center._id}/>
                     ))
                 )}
-
             </CenterListBlock>
             <div className={classes.loaderBox}
                  ref={loader}

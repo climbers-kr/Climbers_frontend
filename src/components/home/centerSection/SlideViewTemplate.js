@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from "styled-components";
-import SlideCard from "./SlideCard";
-import CenterCarousel from './CenterCarousel';
 
 
 const SlideViewSection=styled.div`
@@ -22,7 +20,6 @@ const SlideViewBlock=styled.div`
     padding: 10px 0 10px 0;
 `;
 const Responsive=styled.div`
-    //background: white;
     display: flex;
     width: 100%;
     @media(min-width: 1024px){
@@ -36,7 +33,7 @@ const Responsive=styled.div`
     }
 `;
 
-export default function CenterCarouselView(){
+export default function SlideViewTemplate({children}){
     return (
         <SlideViewSection>
             <h1 style={{color: 'white', paddingLeft: '3rem'}}>
@@ -44,7 +41,7 @@ export default function CenterCarouselView(){
             </h1>
             <SlideViewBlock>
                 <Responsive>
-                    <CenterCarousel />
+                    {children}
                 </Responsive>
             </SlideViewBlock>
         </SlideViewSection>
