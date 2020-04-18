@@ -59,7 +59,7 @@ const LazyImage = ({ src, alt }) => {
                 observer.unobserve(imageRef)
             }
         }
-    }, [src, imageSrc, imageRef]);
+    }, [src, imageSrc, imageRef])
     return (
         <SlideImage
             ref={setImageRef}

@@ -120,7 +120,7 @@ function ComponentsUsingContext({imgUrlList, classes}) {
         </>
     )
 }
-export default function Carousel({imgUrlList}) {
+export default function InnerCarousel({imgUrlList}) {
     const url='https://climbers.herokuapp.com';
     const classes = useStyles();
     const count=imgUrlList.length;
@@ -134,13 +134,13 @@ export default function Carousel({imgUrlList}) {
                 isPlaying={true}
             >
                 <Link to='/'>
-                <Slider>
-                    {
-                        imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}><LazyImage src={url+image}/></Slide>
-                        ))
-                    }
-                </Slider>
+                    <Slider>
+                        {
+                            imgUrlList.map((image, index)=>(
+                                <Slide index={index} key={index}><LazyImage src={url+image}/></Slide>
+                            ))
+                        }
+                    </Slider>
                 </Link>
                 {imgUrlList.length>1 && <ComponentsUsingContext imgUrlList={imgUrlList} classes={classes}/>}
             </CarouselProvider>

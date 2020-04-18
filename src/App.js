@@ -11,6 +11,7 @@ import VirtualizingTest from "./pages/test/VirtualizingTest";
 import DashboardPage from "./pages/admin/DashboardPage";
 
 import EditAccountPage from './pages/account/EditAccountPage';
+import CenterPage from "./pages/centers/CenterPage";
 
 function App() {
     return (
@@ -19,7 +20,9 @@ function App() {
             <Route component={HomePage} path="/" exact/>
             <Route component={LoginPage} path="/login"/>
             <Route component={RegisterPage} path="/register"/>
-            <Route component={CenterListPage} path="/centers"/>
+            <Route component={CenterListPage} path="/centers" exact/>
+            <Route component={CenterPage} path="/centers/:centerId" />
+
             <Route component={CommunityPage} path="/community"/>
             <Route component={WritePage} path="/write"/>
 

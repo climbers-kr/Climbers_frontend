@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CenterCard from "../../common/CenterCard";
+import CenterCard from "./CenterCard";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
 const LoaderBlock=styled.div`

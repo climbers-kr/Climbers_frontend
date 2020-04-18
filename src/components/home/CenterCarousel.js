@@ -1,56 +1,68 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {CarouselProvider, Slider, Slide, Dot, CarouselContext, ButtonNext, ButtonBack} from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Dot, CarouselContext  } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {makeStyles} from "@material-ui/core/styles";
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import clsx from "clsx";
-import LazyImage from './LazyImage';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
+import image from '../../images/homeImage.png';
+import image2 from '../../images/homeImage2.png';
+import CenterCard from './CenterCard';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
+        //background: 'blue',
+        width: '100%',
+        //marginBottom: '100px',
+    },
+    buttonBack: {
+        position: 'absolute',
+        top: '50%',
+        left: 0,
+        transform: 'translateY(-50%)',
+    },
+    buttonNext: {
+        position: 'absolute',
+        top: '50%',
+        right: 0,
+        transform: 'translateY(-50%)'
     },
     dot: {
-        background: '#101014',
-        borderRadius: '75px',
-        border: '1px solid #101014',
+        background: '#3c4146',
+        //borderRadius: '75px',
+        border: '1px solid #3c4146',
         //color: 'skyblue'
         margin: '1px',
-        maxWidth: '1px',
-        opacity: '30%',
     },
     dotSelected: {
-        borderRadius: '75px',
-        background: '#101014',
-        border: '1px solid #101014',
+        background: '#B68DFF',
+        border: '1px solid #B68DFF',
+        margin: '1px'
     },
     dotBox: {
         textAlign: 'center',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
+
     },
     icon:{
-        fontSize: '1rem',
-        color: 'white'
+        fontSize: '17px',
+        color: 'white',
+        //flex: 1,
     },
     arrowButton:{
         position: 'absolute',
         borderRadius: '50%',
         backgroundColor: 'rgba( 0, 0, 0, 0.2 )',
-        height: '20px',
-        width: '20px',
+        height: '25px',
+        width: '25px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         border: 'rgba( 255, 255, 255, 0 )',
         top: '50%',
         transform: 'translateY(-50%)',
-        zIndex: 3,
     },
     nextButton: {
         right: 5,
@@ -59,14 +71,7 @@ const useStyles = makeStyles((theme) => ({
         left: 5,
     }
 }));
-const SlideImage=styled.div`
-    width: 100%;
-    height: 100%;
-    background-image: url(${props=> props.src});
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size : cover;
-`;
+
 const RightArrowButton=({classes})=>(
     <ButtonNext className={clsx(classes.arrowButton, classes.nextButton)}>
         <ArrowForwardIos className={classes.icon}/>
@@ -120,28 +125,34 @@ function ComponentsUsingContext({imgUrlList, classes}) {
         </>
     )
 }
-export default function Carousel({imgUrlList}) {
-    const url='https://climbers.herokuapp.com';
+
+export default function CenterCarousel({imgUrlList}) {
+
+    const matches = useMediaQuery('(max-width:600px)');
     const classes = useStyles();
+
+    const urlTemp='../../images/homeImage.png';
+    const url='https://climbers.herokuapp.com';
+    imgUrlList=[image, image, image2,image,image];
     const count=imgUrlList.length;
     return (
         <div className={classes.root}>
             <CarouselProvider
                 naturalSlideWidth={100}
-                naturalSlideHeight={70}
+                naturalSlideHeight={140}
                 totalSlides={count}
+                visibleSlides={matches? 3 : 4 }
                 dragEnabled={false}
-                isPlaying={true}
             >
-                <Link to='/'>
                 <Slider>
                     {
                         imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}><LazyImage src={url+image}/></Slide>
+                            <Slide index={index} key={index}>
+                                <CenterCard/>
+                            </Slide>
                         ))
                     }
                 </Slider>
-                </Link>
                 {imgUrlList.length>1 && <ComponentsUsingContext imgUrlList={imgUrlList} classes={classes}/>}
             </CarouselProvider>
         </div>

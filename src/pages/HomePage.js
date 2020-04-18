@@ -3,7 +3,7 @@ import HeaderContainer from "../containers/common/HeaderContainer";
 import MainCarousel from '../components/home/MainCarousel';
 import HomeTemplate from "../components/home/HomeTemplate";
 import SlideView from "../components/home/SlideView";
-
+import CenterCarouselView from "../components/home/CenterCarouselView";
 
 const HomePage=()=>{
     return (
@@ -13,6 +13,7 @@ const HomePage=()=>{
                 <MainCarousel/>
                 <SlideView/>
                 <SlideView/>
+                <CenterCarouselView/>
             </HomeTemplate>
         </>
     );

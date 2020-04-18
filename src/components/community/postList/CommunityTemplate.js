@@ -12,7 +12,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-
 const breakpointValues = {
     xs: 0,
     sm: 576,
@@ -134,6 +133,7 @@ export default function CommunityTemplate({children}) {
 
     const handleChange2 = (event) => {
         setAge(event.target.value);
+        console.log(event.target.value);
     };
     return (
         <div className={classes.root}>
@@ -152,13 +152,13 @@ export default function CommunityTemplate({children}) {
                         onChange={handleChange2}
                         label="Category"
                     >
-                        <MenuItem value="">
+                        <MenuItem value={0}>
                             <em>All</em>
                         </MenuItem>
-                        <MenuItem value={10}>정보</MenuItem>
-                        <MenuItem value={20}>문제</MenuItem>
-                        <MenuItem value={30}>토론</MenuItem>
-                        <MenuItem value={40}>이벤트</MenuItem>
+                        <MenuItem value={1}>정보</MenuItem>
+                        <MenuItem value={2}>문제</MenuItem>
+                        <MenuItem value={3}>일상</MenuItem>
+                        <MenuItem value={4}>유머</MenuItem>
                     </Select>
                 </FormControl>
             </div>
@@ -180,8 +180,8 @@ export default function CommunityTemplate({children}) {
                         <Tab label="All" {...a11yProps(0)} />
                         <Tab label="정보" {...a11yProps(1)} />
                         <Tab label="문제" {...a11yProps(2)} />
-                        <Tab label="토론" {...a11yProps(3)} />
-                        <Tab label="이벤트" {...a11yProps(4)} />
+                        <Tab label="일상" {...a11yProps(3)} />
+                        <Tab label="유머" {...a11yProps(4)} />
                 </Tabs>
                 </div>
 

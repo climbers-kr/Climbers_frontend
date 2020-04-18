@@ -27,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
         //borderRadius: '75px',
         border: '1px solid #3c4146',
         //color: 'skyblue'
-        margin: '1px'
-
+        margin: '1px',
     },
     dotSelected: {
         background: '#B68DFF',
