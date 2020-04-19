@@ -3,7 +3,7 @@ import createRequestSaga, {
     createRequestActionTypes
 } from "../lib/createRequestSaga";
 import {takeLatest, call, put,select} from 'redux-saga/effects';
-import * as centersAPI from '../lib/api/centers/centerList';
+import * as centersAPI from '../lib/api/centers';
 
 const [
     LIST_CENTERS,

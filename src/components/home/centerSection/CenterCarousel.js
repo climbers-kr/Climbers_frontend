@@ -8,6 +8,9 @@ import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import CenterCard from '../../common/CenterCard'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from "styled-components";
+import Skeleton from '@material-ui/lab/Skeleton';
+import SkeletonCenterCard from '../../common/SkeletonCenterCard'
+
 const CardBox=styled.div`
     position: relative;
     height: 100%;
@@ -19,18 +22,6 @@ const useStyles = makeStyles((theme) => ({
         //background: 'blue',
         width: '100%',
         //marginBottom: '100px',
-    },
-    buttonBack: {
-        position: 'absolute',
-        top: '50%',
-        left: 0,
-        transform: 'translateY(-50%)',
-    },
-    buttonNext: {
-        position: 'absolute',
-        top: '50%',
-        right: 0,
-        transform: 'translateY(-50%)'
     },
     dot: {
         background: '#3c4146',
@@ -68,9 +59,15 @@ const useStyles = makeStyles((theme) => ({
     },
     nextButton: {
         right: -30,
+        [theme.breakpoints.down('sm')]: {
+            right: -10,
+        },
     },
     backButton: {
         left: -30,
+        [theme.breakpoints.down('sm')]: {
+            left: -10,
+        },
     }
 }));
 
@@ -85,7 +82,7 @@ const LeftArrowButton=({classes})=>(
     </ButtonBack>
 );
 
-function ComponentsUsingContext({centers, classes}) {
+function ComponentsUsingContext({centers, classes, mobileM, page, visibleSlides}) {
     const carouselContext = useContext(CarouselContext);
     const [currentSlide, setCurrentSlide] = useState(carouselContext.state.currentSlide);
     useEffect(()=> {
@@ -95,19 +92,31 @@ function ComponentsUsingContext({centers, classes}) {
         carouselContext.subscribe(onChange);
         return () => carouselContext.unsubscribe(onChange);
     }, [carouselContext]);
-    const dotComponents=centers.map((image, index)=>(
-        index===currentSlide ? (
-            <Dot key={index} className={classes.dotSelected} slide={index}/>
-        ) : (
-            <Dot key={index} className={classes.dot} slide={index}/>
-        )
+
+    const slideIndex=[];
+
+    for(let i=0; i<page; i++){
+        if(i !== page-1){
+            slideIndex[i]=visibleSlides*i;
+        }else{
+            slideIndex[i]=visibleSlides*i- (visibleSlides*page- centers.length);
+        }
+    }
+    const dotComponents=slideIndex.map((slide, index)=>(
+        slide===currentSlide ? (
+                <Dot key={index} className={classes.dotSelected} slide={slide}/>
+            ) : (
+                <Dot key={index} className={classes.dot} slide={slide}/>
+            )
     ));
+
+
     const ArrowButtons=()=>{
         if(currentSlide===0){
             return (
                 <RightArrowButton classes={classes}/>
             )
-        }else if(currentSlide===centers.length-1){
+        }else if(currentSlide>=centers.length-visibleSlides||currentSlide===centers.length-1){
             return (
                 <LeftArrowButton classes={classes}/>
             )
@@ -123,47 +132,62 @@ function ComponentsUsingContext({centers, classes}) {
     return (
         <>
             <div className={classes.dotBox}>{dotComponents}</div>
-            <ArrowButtons/>
+            {!mobileM && <ArrowButtons/>}
         </>
     )
 }
 
-export default function CenterCarousel({imgUrlList, centers, loading}) {
+export default function CenterCarousel({centers, loading}) {
     const classes = useStyles();
     const mobileL = useMediaQuery('(max-width:670px)');
     const mobileM = useMediaQuery('(max-width:450px)');
     const laptop = useMediaQuery('(min-width:1200px)');
-    const totalSlide = useMemo(() => {
+    let tempArray=[0, 0, 0, 0];
+
+    const { totalSlide, visibleSlides, page} = useMemo(() => {
+        const visibleSlides=(mobileM ? 2 : (mobileL ? 3  : 4 ));
         if(centers){
-            return centers.length;
+            const totalSlide=centers.length;
+
+            const page=Math.ceil(totalSlide/visibleSlides);
+            return {totalSlide, visibleSlides, page};
+        }else {
+            return {'totalSlide': 4, visibleSlides, 'page':0};
         }
-    }, [centers]);
+    }, [centers, mobileL, mobileM, laptop]);
+
 
     return (
         <div className={classes.root}>
-            {
-                !loading && centers && (
-                    <CarouselProvider
-                        naturalSlideWidth={100}
-                        naturalSlideHeight={laptop ? 110 : (mobileM? 140 : 130)}
-                        totalSlides={totalSlide}
-                        visibleSlides={mobileM? 2 : (mobileL ? 3  : 4 )}
-                        dragEnabled={false}
-                    >
-                        <Slider>
-                            {centers.map((center, index)=>(
-                                <Slide index={index} key={index}>
-                                    <CardBox>
-                                        <CenterCard center={center}/>
-                                    </CardBox>
-                                </Slide>
-                            ))}
-                        </Slider>
-                        {centers.length>1 && <ComponentsUsingContext centers={centers} classes={classes}/>}
-                    </CarouselProvider>
-                )
-            }
-
+            <CarouselProvider
+                naturalSlideWidth={100}
+                naturalSlideHeight={laptop ? 110 : (mobileM? 140 : 130)}
+                totalSlides={totalSlide}
+                visibleSlides={visibleSlides}
+                step={visibleSlides}
+                dragStep={visibleSlides}
+                dragEnabled={false}
+            >
+                <Slider>
+                    {(loading || !centers) && tempArray.map((center, index)=>(
+                        <Slide key={index}>
+                            <CardBox>
+                                <SkeletonCenterCard center={center}/>
+                            </CardBox>
+                        </Slide>
+                    ))}
+                    {!loading && centers && centers.map((center, index)=>(
+                        <Slide index={index} key={index}>
+                            <CardBox>
+                                <CenterCard center={center}/>
+                            </CardBox>
+                        </Slide>
+                    ))}
+                </Slider>
+                { !loading && centers && centers.length>1 &&
+                    <ComponentsUsingContext centers={centers} classes={classes} mobileM={mobileM} page={page} visibleSlides={visibleSlides}/>
+                }
+            </CarouselProvider>
         </div>
     );
 }

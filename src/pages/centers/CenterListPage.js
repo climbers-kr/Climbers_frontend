@@ -1,7 +1,7 @@
 import React from 'react';
 import HeaderContainer from "../../containers/common/HeaderContainer";
 import CenterListTemplate from '../../components/centers/centerList/CenterListTemplate';
-import CenterListContainer from "../../containers/centers/centerList/CenterListContainer";
+import CenterListContainer from "../../containers/centers/CenterListContainer";
 const CenterListPage=()=>{
     return (
         <>
@@ -9,7 +9,6 @@ const CenterListPage=()=>{
             <CenterListTemplate>
                 <CenterListContainer/>
             </CenterListTemplate>
-
         </>
 
     );

@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 function LinkWrapperButton(props) {
     const { to, ...buttonProps } = props;
-    console.dir(props);
+    //console.dir(props);
     const renderLink = React.useMemo(
         () =>
             React.forwardRef((linkProps, ref) => (

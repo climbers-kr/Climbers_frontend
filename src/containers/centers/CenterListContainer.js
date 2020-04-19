@@ -2,8 +2,8 @@ import React, {useEffect, useRef} from 'react';
 import qs from 'qs';
 import {withRouter} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {listCenters, scrollBottom} from '../../../modules/centers/centerList';
-import CenterList from '../../../components/centers/centerList/CenterList';
+import {listCenters, scrollBottom} from '../../modules/centers/centerList';
+import CenterList from '../../components/centers/centerList/CenterList';
 
 const CenterListContainer=({location})=> {
     const dispatch=useDispatch();

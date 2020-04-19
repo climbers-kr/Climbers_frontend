@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import {CarouselProvider, Slider, Slide, Dot, CarouselContext, ButtonNext, ButtonBack} from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {makeStyles} from "@material-ui/core/styles";
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import clsx from "clsx";
 import LazyImage from './LazyImage';
@@ -12,6 +11,8 @@ import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
+        background: 'darkgray',
+        touchAction: 'none', //testing
     },
     dot: {
         background: '#101014',
@@ -59,14 +60,7 @@ const useStyles = makeStyles((theme) => ({
         left: 5,
     }
 }));
-const SlideImage=styled.div`
-    width: 100%;
-    height: 100%;
-    background-image: url(${props=> props.src});
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size : cover;
-`;
+
 const RightArrowButton=({classes})=>(
     <ButtonNext className={clsx(classes.arrowButton, classes.nextButton)}>
         <ArrowForwardIos className={classes.icon}/>
@@ -137,7 +131,9 @@ export default function Carousel({imgUrlList}) {
                 <Slider>
                     {
                         imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}><LazyImage src={url+image}/></Slide>
+                            <Slide index={index} key={index}>
+                                <LazyImage src={url+image}/>
+                            </Slide>
                         ))
                     }
                 </Slider>

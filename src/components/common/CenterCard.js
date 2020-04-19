@@ -9,9 +9,26 @@ import Rating from '@material-ui/lab/Rating';
 import ShareIcon from '@material-ui/icons/Share';
 import Carousel from "./Carousel";
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
+import clsx from "clsx";
+const cardStyle=css`
+    ${props=> 
+        props.coloredborder &&
+        css`
+            border: 1px solid transparent;
+            border-image: linear-gradient(to left, #77a1d3, #79cbca, #e684ae);
+            border-image-slice: 1;
+        `}
+`;
 
+const StyledCard=styled(Card)`
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    ${cardStyle}
+`;
 const Title=styled.h1`
     font-size: 1em;
     margin-bottom: 0;
@@ -31,22 +48,30 @@ const ContentHeader=styled.div`
     justify-content: space-between;
     //background: #61dafb;
     @media(max-width: 350px){
-       height: 10vh;
+       //height: 10vh;
     }
-`
+`;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flex:1,
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
+        //boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.3)',
+    },
+    borderColor: {
         border: '1px solid',
         borderImageSlice: 1,
-        borderImage: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
+        borderImage: 'linear-gradient(to top, #12c2e9, #c471ed, #f64f59)',
         borderImageWidth: '1px',
-        //boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.3)',
-        height: '100%',
-    },
+        [theme.breakpoints.down('sm')]: {
+            border: '1px solid',
+            borderImageSlice: 1,
+            borderImage: 'linear-gradient(to top, #12c2e9, #c471ed, #f64f59)',
+            borderImageWidth: '1px',
+        },
+},
     content: {
         flex: 1,
         display: 'flex',
@@ -85,19 +110,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CenterCard= ({center, history}) => {
+const CenterCard= ({center, history, coloredborder}) => {
     const classes = useStyles();
     const location=center.locationObject;
 
     return (
         <>
-            <Card className={classes.root}>
-                    { center.imgUrlList.length > 0 && (
-                        <Carousel
-                            imgUrlList={center.imgUrlList}
-                            title="Paella dish"
-                        />
-                    )}
+            <Card className={coloredborder? clsx(classes.root, classes.borderColor) : classes.root}>
+
+                { center.imgUrlList.length > 0 && (
+                    <Carousel
+                        imgUrlList={center.imgUrlList}
+                        title="Paella dish"
+                    />
+                )}
+
                 <Link to={`/centers/${center._id}`} className={classes.link}>
                     <CardContent className={classes.content}>
                         <ContentHeader>

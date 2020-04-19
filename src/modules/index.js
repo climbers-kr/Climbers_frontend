@@ -8,6 +8,7 @@ import posts, {postsSaga} from "./posts";
 import saveCenter, {saveCenterSaga} from "./admin/saveCenter";
 import centerList, {centerListSaga} from "./centers/centerList";
 import home, {homeSaga} from "./home";
+import center, {centerSaga} from "./centers/center";
 
 const rootReducer=combineReducers({
     auth,
@@ -17,6 +18,7 @@ const rootReducer=combineReducers({
     posts,
     saveCenter,
     centerList,
+    center,
     home,
 });
 
@@ -29,6 +31,7 @@ export function* rootSaga() {
         postsSaga(),
         saveCenterSaga(),
         centerListSaga(),
+        centerSaga(),
         homeSaga(),
     ]);
 }

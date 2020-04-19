@@ -1,4 +1,4 @@
-import client from '../client';
+import client from './client';
 import qs from 'qs';
 
 export const listCenters=({page, sido, sigungu})=> {
@@ -9,3 +9,5 @@ export const listCenters=({page, sido, sigungu})=> {
     });
     return client.get(`/api/centers?${queryString}`);
 };
+
+export const readCenter=id=>client.get(`/api/centers/${id}`);

@@ -7,19 +7,16 @@ const LoaderBlock=styled.div`
     //background: blue;
     display: flex;
     flex-direction: column;
-    width: 90%;
-    @media(min-width: 960px) {
-      width: 80%;
-    }
-    @media(min-width: 1280px) {
-      width: 70%;
-    }
+    //justify-content: center;
+    align-items: center;
+    width: 100%;
 `;
 const CenterListBlock=styled.div`
     display: grid;
     column-gap: 10px;
     row-gap: 10px;
     //background: skyblue;
+    width: 100%;
     @media(max-width: 500px) {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -28,6 +25,15 @@ const CenterListBlock=styled.div`
     }
     @media(min-width: 725px) {
       grid-template-columns: repeat(4, 1fr);
+    }
+    @media(min-width: 900px) {
+      row-gap: 30px;
+      column-gap: 15px
+    }
+    @media(min-width: 1200px) {
+      row-gap: 40px;
+      column-gap: 15px;
+     
     }
 `;
 
@@ -49,7 +55,11 @@ const CenterList=({loading, loading2, error, centers, loader,containerRef})=>{
             <CenterListBlock ref={containerRef}>
                 {!loading && centers && (
                     centers.map(center => (
-                        <CenterCard center={center} key={center._id}/>
+                        <CenterCard
+                            center={center}
+                            key={center._id}
+                            coloredborder
+                        />
                     ))
                 )}
             </CenterListBlock>

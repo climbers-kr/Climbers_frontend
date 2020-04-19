@@ -1,12 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {listCenters} from '../../modules/home';
 import CenterCarousel from '../../components/home/centerSection/CenterCarousel'
 
 const CenterSectionContainer=()=> {
     const dispatch=useDispatch();
-    const loader=useRef();
-    const containerRef=useRef();
 
     const {centers, error, centersLoading, sido, sigungu}=useSelector(
         ({ home, loading })=> ({
@@ -24,22 +22,12 @@ const CenterSectionContainer=()=> {
     }, [dispatch]);
 
 
-    const options = {
-        root: containerRef.current,
-        //root: null,
-        rootMargin: "10px",
-        threshold: 0
-    };
-
-
     return (
         <>
             <CenterCarousel
                 loading={centersLoading}
                 error={error}
                 centers={centers}
-                loader={loader}
-                containerRef={containerRef}
             />
         </>
     );

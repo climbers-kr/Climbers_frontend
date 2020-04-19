@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Dot, CarouselContext  } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {makeStyles} from "@material-ui/core/styles";
@@ -9,6 +9,7 @@ import LazyImage from './LazyImage';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
+        touchAction: 'none', //testing
     },
     buttonBack: {
         position: 'absolute',
@@ -124,8 +125,16 @@ export default function Carousel({imgUrlList}) {
     const count=imgUrlList.length;
 
     const url='https://climbers.herokuapp.com';
+
+    const carouselRef=useRef(null);
+/*
+    useEffect(()=>{
+        if (carouselRef.current) {
+            preventMomentumScroll(carouselRef.current);
+        }
+    }, [])*/
     return (
-        <div className={classes.root}>
+        <div className={classes.root} ref={carouselRef}>
             <CarouselProvider
                 naturalSlideWidth={100}
                 naturalSlideHeight={70}
