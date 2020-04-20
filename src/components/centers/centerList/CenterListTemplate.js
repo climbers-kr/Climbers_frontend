@@ -4,23 +4,19 @@ import Button from '@material-ui/core/Button';
 
 const CenterListTemplateBlock=styled.div`
     display: flex;
-    position: absolute;
-    top:0;
-    bottom:0;
-    right: 0;
-    left: 0;
+   
     flex-direction: column;
-    
+    min-height: 100vh;
+    width: 100%;
     background: #ECE9E6;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+    background: -webkit-linear-gradient(to bottom, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     margin-top: 4rem;
     @media(max-width: 600px){
       margin-top: 3rem;
     }
     align-items: center;
-    overflow: scroll;
+    //overflow: scroll;
 `;
 const Responsive=styled.div`
     display: flex;
