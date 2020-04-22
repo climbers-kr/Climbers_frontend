@@ -140,7 +140,7 @@ const Header = ({ user, onLogout }) => {
                 </ListItem>
                 <ListItem button >
                     <Link to="/market">
-                        중고 장터
+                        모임/대회
                     </Link>
                 </ListItem>
             </List>
@@ -180,7 +180,7 @@ const Header = ({ user, onLogout }) => {
                                 친구 찾기
                             </Link>
                             <Link variant="button" color="inherit" to="/market" className={classes.link}>
-                                중고 장터
+                                모임/대회
                             </Link>
                         </nav>
 

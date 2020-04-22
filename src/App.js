@@ -1,5 +1,7 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './components/common/CustomTheme'
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -16,22 +18,25 @@ import CenterPage from "./pages/centers/CenterPage";
 function App() {
     return (
         <>
+            <ThemeProvider theme={theme}>
+                <Route component={HomePage} path="/" exact/>
+                <Route component={LoginPage} path="/login"/>
+                <Route component={RegisterPage} path="/register"/>
+                <Route component={CenterListPage} path="/centers" exact/>
+                <Route component={CenterPage} path="/centers/:centerId" />
 
-            <Route component={HomePage} path="/" exact/>
-            <Route component={LoginPage} path="/login"/>
-            <Route component={RegisterPage} path="/register"/>
-            <Route component={CenterListPage} path="/centers" exact/>
-            <Route component={CenterPage} path="/centers/:centerId" />
+                <Route component={CommunityPage} path="/community"/>
+                <Route component={WritePage} path="/write"/>
 
-            <Route component={CommunityPage} path="/community"/>
-            <Route component={WritePage} path="/write"/>
+                <Route component={EditAccountPage} path="/accounts/edit"/>
+                <Route component={VirtualizingTest} path="/test"/>
+                <Route component={DashboardPage} path="/dashboard"/>
+                <Route path="/accounts">
+                    <Route component={EditAccountPage} path="/edit"/>
+                </Route>
+            </ThemeProvider>
 
-            <Route component={EditAccountPage} path="/accounts/edit"/>
-            <Route component={VirtualizingTest} path="/test"/>
-            <Route component={DashboardPage} path="/dashboard"/>
-            <Route path="/accounts">
-                <Route component={EditAccountPage} path="/edit"/>
-            </Route>
+
         </>
     );
 }

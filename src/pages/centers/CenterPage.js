@@ -1,12 +1,17 @@
 import React from 'react';
 import HeaderContainer from "../../containers/common/HeaderContainer";
 import CenterViewerContainer from '../../containers/centers/CenterViewerContainer'
-
+import CommunityContainer from '../../containers/community/CommunityContainer'
+import CenterViewerTemplate from '../../components/centers/centerViewer/CenterViewerTemplate'
 const CenterPage=()=>{
     return (
         <>
             <HeaderContainer/>
-            <CenterViewerContainer/>
+            <CenterViewerTemplate>
+                <CenterViewerContainer />
+            </CenterViewerTemplate>
+
+
         </>
 
     );

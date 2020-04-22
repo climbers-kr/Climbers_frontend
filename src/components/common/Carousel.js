@@ -114,7 +114,7 @@ function ComponentsUsingContext({imgUrlList, classes}) {
         </>
     )
 }
-export default function Carousel({imgUrlList}) {
+export default function Carousel({imgUrlList, to}) {
     const url='https://climbers.herokuapp.com';
     const classes = useStyles();
     const count=imgUrlList.length;
@@ -127,7 +127,7 @@ export default function Carousel({imgUrlList}) {
                 dragEnabled={false}
                 isPlaying={true}
             >
-                <Link to='/'>
+                <Link to={to}>
                 <Slider>
                     {
                         imgUrlList.map((image, index)=>(

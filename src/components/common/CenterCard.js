@@ -122,6 +122,7 @@ const CenterCard= ({center, history, coloredborder}) => {
                     <Carousel
                         imgUrlList={center.imgUrlList}
                         title="Paella dish"
+                        to={`/centers/${center._id}`}
                     />
                 )}
 

@@ -8,7 +8,7 @@ const HomeTemplateBlock=styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background: #313233; 
+    background: #111732; 
     @media(max-width: 600px){
          margin-top:3rem;
     }
