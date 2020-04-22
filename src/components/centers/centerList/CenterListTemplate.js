@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const CenterListTemplateBlock=styled.div`
     display: flex;
@@ -34,6 +35,7 @@ const Responsive=styled.div`
 const SortingButtonBlock=styled.div`
     margin: 1rem 0 1rem 0;
     align-self: flex-start;
+    display: flex;
     
 `;
 export default function CenterListTemplate({children}) {
@@ -44,6 +46,9 @@ export default function CenterListTemplate({children}) {
                     <Button variant="outlined" color="primary">
                         Sort
                     </Button>
+                    <form noValidate autoComplete="off">
+                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    </form>
                 </SortingButtonBlock>
 
                 {children}

@@ -218,11 +218,11 @@ const Header = ({ user, onLogout }) => {
                                     </Grow>
                                 )}
                             </Popper>
-                            <Button color="inherit" variant="outlined" onClick={onLogout}>Logout</Button>
+                            <Button color="secondary" variant="outlined" onClick={onLogout}>Logout</Button>
                         </>
                     ): (
                         <>
-                            <LinkWrapperButton color="inherit" variant="outlined" to="/login">Login</LinkWrapperButton>
+                            <LinkWrapperButton color="secondary" variant="outlined" to="/login">Login</LinkWrapperButton>
                         </>
                     )}
                     <Drawer anchor="top" open={state.top} onClose={toggleDrawer('top', false)}>

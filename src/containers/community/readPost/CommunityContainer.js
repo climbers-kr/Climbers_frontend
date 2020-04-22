@@ -2,15 +2,9 @@ import React, {useEffect, useRef} from 'react';
 import qs from 'qs';
 import {withRouter} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {listPosts, scrollBottom} from '../../modules/posts';
-import PostList from '../../components/community/postList/PostList';
+import {listPosts, scrollBottom} from '../../../modules/posts';
+import PostList from '../../../components/community/postList/PostList';
 import styled from 'styled-components';
-
-const TestWrapper=styled.div`
-  display: flex;
-  flex-direction: column;
-  
-`;
 
 const CommunityContainer=({location})=> {
     const dispatch=useDispatch();

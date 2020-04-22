@@ -1,14 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
 import Carousel from '../../common/Carousel';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CenterInfo from './CenterInfo';
-import CommunityContainer from "../../../containers/community/CommunityContainer";
-
+import CommunityContainer from "../../../containers/community/readPost/CommunityContainer";
 
 const CarouselWrapper=styled.div`
     border-radius: 10px;
@@ -55,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CenterViewer({center, loading, error, children, post}){
-    const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -63,28 +59,27 @@ export default function CenterViewer({center, loading, error, children, post}){
 
     return (
         <>
-                <CarouselWrapper>
-                    {center && <Carousel imgUrlList={center.imgUrlList} />}
-                </CarouselWrapper>
+            <CarouselWrapper>
+                {center && <Carousel imgUrlList={center.imgUrlList} />}
+            </CarouselWrapper>
 
-
-                {center && (
-                    <CenterInfo center={center}/>
-                )}
-                <PostListBlock>
-                    <StyledTabs
-                        value={value}
-                        onChange={handleChange}
-                        indicatorColor='secondary'
-                        textColor='secondary'
-                        centered
-                    >
-                        <StyledTab label="문제" />
-                        <StyledTab label="피드" />
-                        <StyledTab label="후기" />
-                    </StyledTabs>
-                    <CommunityContainer/>
-                </PostListBlock>
+            {center && (
+                <CenterInfo center={center}/>
+            )}
+            <PostListBlock>
+                <StyledTabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor='secondary'
+                    textColor='secondary'
+                    centered
+                >
+                    <StyledTab label="문제" />
+                    <StyledTab label="피드" />
+                    <StyledTab label="후기" />
+                </StyledTabs>
+                <CommunityContainer/>
+            </PostListBlock>
 
         </>
     )

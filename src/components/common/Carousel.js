@@ -114,6 +114,15 @@ function ComponentsUsingContext({imgUrlList, classes}) {
         </>
     )
 }
+function SliderWrapper({children, to}) {
+    return ( to ? (
+            <Link to={to}>
+                {children}
+            </Link>
+        ) : (
+            <>{children}</>
+        ))
+}
 export default function Carousel({imgUrlList, to}) {
     const url='https://climbers.herokuapp.com';
     const classes = useStyles();
@@ -127,17 +136,17 @@ export default function Carousel({imgUrlList, to}) {
                 dragEnabled={false}
                 isPlaying={true}
             >
-                <Link to={to}>
-                <Slider>
-                    {
-                        imgUrlList.map((image, index)=>(
-                            <Slide index={index} key={index}>
-                                <LazyImage src={url+image}/>
-                            </Slide>
-                        ))
-                    }
-                </Slider>
-                </Link>
+                <SliderWrapper to={to}>
+                    <Slider>
+                        {
+                            imgUrlList.map((image, index)=>(
+                                <Slide index={index} key={index}>
+                                    <LazyImage src={url+image}/>
+                                </Slide>
+                            ))
+                        }
+                    </Slider>
+                </SliderWrapper>
                 {imgUrlList.length>1 && <ComponentsUsingContext imgUrlList={imgUrlList} classes={classes}/>}
             </CarouselProvider>
         </div>

@@ -85,9 +85,9 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                     required
                     fullWidth
                     id="email"
-                    label="Email Address"
+                    label="Username"
                     name="username"
-                    autoComplete="email"
+                    autoComplete="username"
                     autoFocus
                     onChange={onChange}
                     value={form.username}

@@ -36,7 +36,7 @@ function* scrollBottomSaga(action) {
     const state=yield select();
 
     console.dir(state);
-    const isLoading=state.loading['posts/LIST_POSTS'];
+    const isLoading=state.loading['centerList/LIST_POSTS'];
     const postsState=state.posts;
     if(!isLoading && postsState.posts && postsState.lastPage!==postsState.page) {
         //Todo: lastPage 인 경우 다 읽었다고 띄우기, 스크롤 감지 멈추기
@@ -63,6 +63,7 @@ const initialState={
     sido: null, //시도
     sigungu: null, //시군구
     centers: null,
+    search: '', //암장 이름 검색
     error: null,
     lastPage: 1,
     page: 1, //Todo: backend api response 값으로 읽은 페이지 수 가져오기
