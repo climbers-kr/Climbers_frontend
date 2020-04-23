@@ -14,6 +14,7 @@ import DashboardPage from "./pages/admin/DashboardPage";
 
 import EditAccountPage from './pages/account/EditAccountPage';
 import CenterPage from "./pages/centers/CenterPage";
+import PostPage from "./pages/community/PostPage";
 
 function App() {
     return (
@@ -25,7 +26,9 @@ function App() {
                 <Route component={CenterListPage} path="/centers" exact/>
                 <Route component={CenterPage} path="/centers/:centerId" />
 
-                <Route component={CommunityPage} path="/community"/>
+                <Route component={CommunityPage} path="/community" exact/>
+                <Route component={PostPage} path="/community/@:username/:postId"/>
+
                 <Route component={WritePage} path="/write"/>
 
                 <Route component={EditAccountPage} path="/accounts/edit"/>
@@ -35,7 +38,6 @@ function App() {
                     <Route component={EditAccountPage} path="/edit"/>
                 </Route>
             </ThemeProvider>
-
 
         </>
     );

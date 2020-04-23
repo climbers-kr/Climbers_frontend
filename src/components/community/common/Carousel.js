@@ -5,11 +5,12 @@ import {makeStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
-import LazyImage from './LazyImage';
+import LazyImage from '../../common/LazyImage';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
         touchAction: 'none', //testing
+        flex: 1,
     },
     buttonBack: {
         position: 'absolute',

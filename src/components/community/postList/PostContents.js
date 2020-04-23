@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -12,7 +11,8 @@ import {green} from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Carousel from './Carousel';
+import Carousel from '../common/Carousel';
+import {withRouter} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function PostContents({post}) {
+function PostContents({post, history}) {
     const classes = useStyles();
 
     const { publishedDate, user, tags, imgUrlList, body, _id}=post;
@@ -38,6 +38,9 @@ export default function PostContents({post}) {
     useEffect(()=>{
         console.dir(imgUrlList.length);
     }, [imgUrlList]);
+
+    const onClickCommentIcon=()=>history.push(`/community/@${user.username}/${_id}`);
+
     return (
         <>
             <CardHeader
@@ -65,6 +68,9 @@ export default function PostContents({post}) {
                 <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                 </IconButton>
+                <IconButton aria-label="share" onClick={onClickCommentIcon}>
+                    <ChatBubbleOutlineIcon />
+                </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon />
                 </IconButton>
@@ -77,3 +83,5 @@ export default function PostContents({post}) {
         </>
     );
 }
+
+export default withRouter(PostContents);

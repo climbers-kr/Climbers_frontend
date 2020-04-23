@@ -135,6 +135,7 @@ export default function Carousel({imgUrlList, to}) {
                 totalSlides={count}
                 dragEnabled={false}
                 isPlaying={true}
+                interval={10000}
             >
                 <SliderWrapper to={to}>
                     <Slider>

@@ -5,6 +5,7 @@ import loading from './loading';
 import user, {userSaga} from './user';
 import write, {writeSaga} from "./write";
 import posts, {postsSaga} from "./posts";
+import post, {postSaga} from "./post";
 import saveCenter, {saveCenterSaga} from "./admin/saveCenter";
 import centerList, {centerListSaga} from "./centers/centerList";
 import home, {homeSaga} from "./home";
@@ -16,6 +17,7 @@ const rootReducer=combineReducers({
     user,
     write,
     posts,
+    post,
     saveCenter,
     centerList,
     center,
@@ -29,6 +31,7 @@ export function* rootSaga() {
         userSaga(),
         writeSaga(),
         postsSaga(),
+        postSaga(),
         saveCenterSaga(),
         centerListSaga(),
         centerSaga(),

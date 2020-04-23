@@ -6,9 +6,7 @@ export const imageUpload=({fileObject}) => {
     console.dir(fileObject);
     //fileObject -> type:File
     const formData=new FormData();
-
     formData.append('img', fileObject);
-
     //note: ex)http://localhost:5000/api/community/upload-image 으로 하니 쿠키가 제대로 안넘어감
     return client.post("/api/community/upload-image", formData);
 };
@@ -25,3 +23,5 @@ export const listPosts=({page, username, tag})=> {
     });
     return client.get(`/api/community?${queryString}`);
 };
+
+export const readPost=id=>client.get(`/api/posts/${id}`);

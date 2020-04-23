@@ -4,7 +4,7 @@
   <img src="/src/images/ClimbersLogo.png" width="400px">
 </p>
 
-#### [웹사이트](https://climbers.kr)
+#### [웹사이트](https://www.climbers.kr)
 
 ## 프로젝트 소개
 
