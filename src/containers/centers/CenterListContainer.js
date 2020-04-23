@@ -63,8 +63,8 @@ const CenterListContainer=({location})=> {
     return (
         <>
             <CenterList
-                loading={centersLoading}
-                loading2={moreCentersLoading}
+                initialLoading={centersLoading}
+                readMoreLoading={moreCentersLoading}
                 error={error}
                 centers={centers}
                 showWriteButton={user}

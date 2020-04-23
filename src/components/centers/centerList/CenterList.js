@@ -47,13 +47,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const CenterList=({loading, loading2, error, centers, loader,containerRef})=>{
+const CenterList=({initialLoading, readMoreLoading, error, centers, loader,containerRef})=>{
     const classes = useStyles();
 
     return (
         <LoaderBlock>
             <CenterListBlock ref={containerRef}>
-                {!loading && centers && (
+                {!initialLoading && centers && (
                     centers.map(center => (
                         <CenterCard
                             center={center}
@@ -66,11 +66,13 @@ const CenterList=({loading, loading2, error, centers, loader,containerRef})=>{
             <div className={classes.loaderBox}
                  ref={loader}
             >
-                {loading && (
-                    <CircularProgress />
+                {initialLoading && (
+                    <>
+                        <CircularProgress /><CircularProgress />
+                    </>
                 )}
 
-                {loading2 && (
+                {readMoreLoading && (
                     <CircularProgress />
                 )}
 

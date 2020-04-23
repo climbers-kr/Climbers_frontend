@@ -36,18 +36,18 @@ function* scrollBottomSaga(action) {
     const state=yield select();
 
     console.dir(state);
-    const isLoading=state.loading['centerList/LIST_POSTS'];
-    const postsState=state.posts;
-    if(!isLoading && postsState.posts && postsState.lastPage!==postsState.page) {
+    const isLoading=state.loading['centerList/LIST_CENTERS'];
+    const centersState=state.centers;
+    if(!isLoading && centersState.centers && centersState.lastPage!==centersState.page) {
         //Todo: lastPage 인 경우 다 읽었다고 띄우기, 스크롤 감지 멈추기
-        console.dir(postsState.lastPage);
-        console.dir(postsState.page);
+        console.dir(centersState.lastPage);
+        console.dir(centersState.page);
         console.dir(action.payload);
 
         yield call(readMoreCentersSaga, {
             payload: {
                 ...action.payload,
-                page: postsState.page+1,
+                page: centersState.page+1,
             }
         });
     }else {

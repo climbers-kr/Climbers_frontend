@@ -1,68 +1,64 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Climbers
 
-## Available Scripts
+<p align="center">
+  <img src="/src/images/ClimbersLogo.png" width="400px">
+</p>
 
-In the project directory, you can run:
+#### [웹사이트](https://climbers.kr)
 
-### `yarn start`
+## 프로젝트 소개
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+스포츠 클라이밍을 즐기는 사람들을 위해 클라이밍 센터 정보 제공, 모임/대회 주최, 커뮤니티 기능을 제공하는 커뮤니티 플랫폼 입니다.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<br>
 
-### `yarn test`
+## 웹사이트 화면
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+|             홈              |           클라이밍 센터 정보            |
+| :-------------------------: | :---------------------------: |
+| <img src=""> | <img src=""> |
 
-### `yarn build`
+|           센터 상세 페이지            |            커뮤니티            |
+| :---------------------------: | :--------------------------: |
+| <img src=""> | <img src=""> |
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+|             검색              |             소개             |
+| :---------------------------: | :--------------------------: |
+| <img src=""> | <img src=""> |
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 기술 스택
 
-### `yarn eject`
+|               UI 라이브러리                |                      라우팅                       |                  상태관리                  |                비동기 상태 관리                 |            비동기 상태 관리                 |
+| :----------------------------------------: | :-----------------------------------------------: | :----------------------------------------: | :---------------------------------------------: | :---------------------------------------------: |
+| <img src="images/react.svg" width="200px"> | <img src="images/react-router.png" width="200px"> | <img src="images/redux.png" width="200px"> | <img src="images/redux-saga.png" width="200px"> | <img src="images/redux saga.png" width="200px"> |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+|                        스타일링                        |             React UI Library             |                                                  |                                       |
+| :----------------------------------------------------: | :---------------------------------------: | :---------------------------------------------------------: | :--------------------------------------------: |
+| <img src="images/styled-components.png" width="200px"> | <img src="images/material-ui.svg" width="200px"> | <img src="images/react testing library.jpeg" width="200px"> | <img src="images/storybook.png" width="200px"> |
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+|                서버 프레임워크                |                 NoSQL                  |
+| :-----------------------------------------: | :---------------------------------------: |
+| <img src="images/figma.png" height="200px"> | <img src="images/tmdb.png" width="200px"> |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<br>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+<br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+<br>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## 프로젝트를 통해 배운 것들
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* LocalStorage를 사용하는 방법
+* Redux-Saga를 사용해서 비동기로 변하는 상태관리를 하는 방법
+* Styeld components를 사용해서 각 컴포넌트를 CSS-in-JS 방식으로 스타일링 하는 방법
+* Intersection Observer를 사용해 페이지네이션 구현하는 법
+* Lazy loading을 통해 렌더링 성능 향상 시키는 법
+* 오픈 API와 axios를 사용해서 데이터를 가져오는 방법
+* mongoDB, mongoose를 이용해 서버에 데이터를 저장하는 법
+* JWT 토큰을 사용해 사용자 인증을 하는 법
+* multer, s3를 사용해 서버에 이미지 파일을 동적으로 저장하는 법 
