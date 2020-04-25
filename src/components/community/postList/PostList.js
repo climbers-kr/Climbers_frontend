@@ -38,9 +38,8 @@ const PostList=({loading, loading2, error, posts, user, loader,containerRef})=>{
 
                     {!loading && posts && (
                         posts.map(post => (
-                            <StyledCard>
+                            <StyledCard key={post.postContent._id}>
                                 <PostListItem
-                                    key={post.postContent._id}
                                     post={post}
                                 />
                             </StyledCard>

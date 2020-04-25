@@ -4,6 +4,7 @@ import PostContents from './PostContents';
 import CommentList from './CommentList';
 import styled from "styled-components";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ListReactionContainer from "../../../containers/community/readPost/ListReactionContainer";
 
 
 const StyledCard=styled(Card)`
@@ -26,15 +27,13 @@ export default function PostListItem({ post }) {
 
     const { publishedDate, user, tags, imgUrlList, body, _id}=post.postContent;
 
-    useEffect(()=>{
-        console.dir(imgUrlList.length);
-    }, [imgUrlList]);
     return (
         <>
             <PostContents postContent={post.postContent}/>
             <CommentListBlock>
                 {post.comments && <CommentList comments={post.comments}/>}
             </CommentListBlock>
+            <ListReactionContainer postId={_id}/>
         </>
     );
 }
