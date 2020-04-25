@@ -15,6 +15,10 @@ export const imageUpload=({fileObject}) => {
 export const writePost=({imgUrlList, body, tags})=>
     client.post('/api/community/post', {imgUrlList, body, tags});
 
+export const writeComment=({postId, comment})=>
+    client.post(`/api/community/${postId}/comment`, {comment});
+
+//Get post list
 export const listPosts=({page, username, tag})=> {
     const queryString = qs.stringify({
         page,
@@ -24,4 +28,7 @@ export const listPosts=({page, username, tag})=> {
     return client.get(`/api/community?${queryString}`);
 };
 
+//Get single post
 export const readPost=id=>client.get(`/api/posts/${id}`);
+
+

@@ -10,7 +10,11 @@ const [
     LIST_POSTS_SUCCESS,
     LIST_POSTS_FAILURE,
 ]=createRequestActionTypes('posts/LIST_POSTS');
-
+const [
+    GET_POSTS_COMMENTS,
+    GET_POSTS_COMMENTS_SUCCESS,
+    GET_POSTS_COMMENTS_FAILURE,
+]=createRequestActionTypes('posts/GET_POSTS_COMMENTS');
 const [
     READ_MORE,
     READ_MORE_SUCCESS,
@@ -30,7 +34,9 @@ export const scrollBottom=createAction(SCROLL_BOTTOM,
 );
 
 const listPostsSaga=createRequestSaga(LIST_POSTS, postsAPI.listPosts);
+
 const readMorePostsSaga=createRequestSaga(READ_MORE, postsAPI.listPosts);
+
 
 function* scrollBottomSaga(action) {
     console.dir(action);
@@ -69,21 +75,55 @@ const initialState={
 
 const posts=handleActions(
     {
-        [LIST_POSTS_SUCCESS]: (state, {payload: posts, meta: response}) => ({
-            ...state,
-            posts,
-            lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
-        }),
+        [LIST_POSTS_SUCCESS]: (state, {payload: posts, meta: response}) => {
+            const postsObject=posts.map(({comments, ...post})=>(
+                {
+                    postContent: {...post},
+                    comments: comments,
+                }
+            )); //comments 배열과 그 외의 프로퍼티 분리
+
+            return {
+                ...state,
+                posts :postsObject,
+                lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
+            }
+        },
         [LIST_POSTS_FAILURE]: (state, {payload: error}) => ({
             ...state,
             error,
         }),
-        [READ_MORE_SUCCESS]: (state, {payload: posts, meta: response}) => ({
-            ...state,
-            posts: state.posts.concat(posts),
-            page: state.page+1, //test
-            lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
-        }),
+        [READ_MORE_SUCCESS]: (state, {payload: posts, meta: response}) => {
+            const postsObject=posts.map(({comments, ...post})=>(
+                {
+                    postContent: {...post},
+                    comments: comments,
+                }
+            )); //comments 배열과 그 외의 프로퍼티 분리
+            //console.dir(postsObject);
+            return {
+                ...state,
+                posts: state.posts.concat(postsObject),
+                page: state.page+1, //test
+                lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
+            }
+        },
+        /*
+        [READ_MORE_SUCCESS]: (state, {payload: posts, meta: response}) => {
+            const postsObject=posts.map((post)=>(
+                {
+                    postContent: post,
+                }
+            ));
+            console.dir(postsObject);
+            return {
+                ...state,
+                posts: state.posts.concat(postsObject),
+                page: state.page+1, //test
+                lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
+            }
+        },*/
+
     },
     initialState,
 );

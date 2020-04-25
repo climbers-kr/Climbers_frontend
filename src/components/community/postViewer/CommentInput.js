@@ -22,12 +22,18 @@ const StyledInput=styled(Input)`
 const StyledButton=styled(Button)`
 
 `;
-export default function CommentInput({comment}) {
+export default function CommentInput({comment, reaction, onChangeField, post, onSubmit}) {
     return (
         <CommentInputBlock>
             <CommentForm noValidate autoComplete="off">
-                <StyledInput placeholder="댓글 달기..." />
-                <StyledButton variant="outlined" color="secondary" disabled={true}>
+                <StyledInput
+                    placeholder="댓글 달기..."
+                    reaction={reaction}
+                    onChange={onChangeField}
+                    name="comment"
+                    value={reaction &&reaction.comment && reaction.comment[post._id]}
+                />
+                <StyledButton variant="outlined" color="secondary" disabled={false} onClick={onSubmit}>
                     게시
                 </StyledButton>
             </CommentForm>

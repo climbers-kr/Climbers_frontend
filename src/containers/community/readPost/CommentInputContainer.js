@@ -1,37 +1,62 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {listPosts, scrollBottom} from '../../../modules/posts';
-import CommentInput from '../../../components/community/postList/CommentInput';
+import {changeField} from '../../../modules/post';
+import CommentInput from '../../../components/community/postViewer/CommentInput';
+import {writeComment} from "../../../modules/post";
 
 const CommentInputContainer=()=> {
     const dispatch=useDispatch();
     const loader=useRef();
     const containerRef=useRef();
 
-    const {posts, error, postsLoading, user, morePostsLoading, page}=useSelector(
-        ({ posts, loading, user })=> ({
-            posts: posts.posts,
-            error: posts.error,
-            postsLoading: loading['posts/LIST_POSTS'],
+    const { post, error, postLoading, user, reaction}=useSelector(
+        ({ post, loading, user})=> ({
+            post: post.post,
+            reaction: post.reaction,
+            error: post.error,
+            postLoading: loading['post/READ_POST'],
             user: user.user,
-            morePostsLoading: loading['posts/READ_MORE'],
-            page: posts.page,
         }),
     );
-
+    useEffect(()=>{
+        console.log('current reaction: ', reaction);
+    }, [reaction]);
+    const onChangeField=useCallback(e=> {
+        console.log('current onChangeField: ', e.target);
+        return dispatch(changeField({ key: e.target.name, value: e.target.value}));
+    }, [dispatch, post]);
 
     useEffect(()=>{
-        console.log('current page state: ', page);
-    }, [page]);
+        console.log('current reaction state: ', reaction);
+        console.log('current reaction state2: ', reaction.comment);
+    }, [reaction]);
 
+    //const postId=post._id;
+    const onSubmit = (e)=> {
+        e.preventDefault();
+        console.log('onSubmit called');
+        if(!reaction.comment){
+            console.log('comment nono');
+            return;
+        }
+        dispatch(
+            writeComment({
+                postId: post._id,
+                comment: reaction.comment,
+            }),
+        );
+    };
 
     return (
         <>
             <CommentInput
                 error={error}
-                posts={posts}
-                showWriteButton={user}
-                loader={loader}
+                post={post}
+                user={user}
+                onChangeField={onChangeField}
+                reaction={reaction}
+                onSubmit={onSubmit}
+
             />
         </>
     );

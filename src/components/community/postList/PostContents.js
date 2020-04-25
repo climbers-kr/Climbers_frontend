@@ -30,13 +30,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function PostContents({post, history}) {
+/*
+* const TagItem=React.memo(({tag, onRemove}) => (
+    <Tag onClick={()=> onRemove(tag)}>#{tag}</Tag>
+));
+* */
+function PostContents({postContent, history}) {
     const classes = useStyles();
 
-    const { publishedDate, user, tags, imgUrlList, body, _id}=post;
+    const { publishedDate, user, tags, imgUrlList, body, _id}=postContent;
 
     useEffect(()=>{
-        console.dir(imgUrlList.length);
+        //console.dir(imgUrlList.length);
     }, [imgUrlList]);
 
     const onClickCommentIcon=()=>history.push(`/community/@${user.username}/${_id}`);
@@ -83,5 +88,5 @@ function PostContents({post, history}) {
         </>
     );
 }
-
+//export default withRouter(React.memo(PostContents));
 export default withRouter(PostContents);

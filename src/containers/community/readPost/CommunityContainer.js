@@ -1,10 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import qs from 'qs';
 import {withRouter} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {listPosts, scrollBottom} from '../../../modules/posts';
 import PostList from '../../../components/community/postList/PostList';
-import styled from 'styled-components';
+
 
 const CommunityContainer=({location})=> {
     const dispatch=useDispatch();
@@ -41,14 +41,12 @@ const CommunityContainer=({location})=> {
         threshold: 0
     };
 
-
-        useEffect(()=>{
+    useEffect(()=>{
         const io = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 // 관찰 대상이 viewport 안에 들어온 경우 image 로드
                 if (entry.isIntersecting) {
                     console.log(entry);
-
                     const {tag, username}=qs.parse(location.search, {
                         ignoreQueryPrefix: true,
                     });
@@ -71,11 +69,8 @@ const CommunityContainer=({location})=> {
                 showWriteButton={user}
                 loader={loader}
                 containerRef={containerRef}
-
             />
         </>
-
-
     );
 };
 

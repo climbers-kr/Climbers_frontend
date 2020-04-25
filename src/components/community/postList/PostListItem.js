@@ -1,49 +1,40 @@
 import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
-import {green} from '@material-ui/core/colors';
 import PostContents from './PostContents';
-import CommentInputContainer from "../../../containers/community/readPost/CommentInputContainer";
+import CommentList from './CommentList';
+import styled from "styled-components";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        marginBottom: theme.spacing(2),
-        border: '1.5px solid',
-        borderImageSlice: 1,
-        borderImage: 'linear-gradient(to left, #77a1d3, #79cbca, #e684ae);',
-        borderImageWidth: '1.5px',
-    },
-    media: {
-        paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
-    avatar: {
-        backgroundColor: green[500],
-    },
-}));
 
-export default function PostListItem({post}) {
-    const classes = useStyles();
+const StyledCard=styled(Card)`
+    margin-bottom: 10px;
+    border: 1.5px solid transparent;
+    border-image: linear-gradient(to left, #77a1d3, #79cbca, #e684ae);
+    border-image-slice: 1;
+    border-image-width: 1.5px;
+`;
+const CommentListBlock=styled.div`
+    width: 100%;
+    //background-color: #61dafb;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+   
+`;
+export default function PostListItem({ post }) {
 
-    const { publishedDate, user, tags, imgUrlList, body, _id}=post;
+
+    const { publishedDate, user, tags, imgUrlList, body, _id}=post.postContent;
 
     useEffect(()=>{
         console.dir(imgUrlList.length);
     }, [imgUrlList]);
     return (
-        <Card className={classes.root}>
-            <PostContents post={post}/>
-            <CommentInputContainer/>
-        </Card>
+        <>
+            <PostContents postContent={post.postContent}/>
+            <CommentListBlock>
+                {post.comments && <CommentList comments={post.comments}/>}
+            </CommentListBlock>
+        </>
     );
 }

@@ -6,7 +6,6 @@ import CommentInput from "../../../components/community/postViewer/CommentInput"
 
 const PostCommentContainer=({match, history})=>{
     //처음 마운트될 때 포스트 읽기 api 요청
-    console.log(match.params)
     const {postId} = match.params;
     const dispatch=useDispatch();
     const {post, error, loading, user}=useSelector(({post, loading, user})=>({

@@ -44,7 +44,7 @@ const StyledCardContent=styled.div`
         flex:1;
     }
 `;
-const CommentsListBlock=styled.div`
+const CommentListBlock=styled.div`
     width: 100%;
     @media(min-width: 800px){
         width: 50%;
@@ -72,7 +72,26 @@ const IconWrapper=styled.div`
 const StyledAvatar=styled(Avatar)`
     margin: 10px;
 `;
-export default function PostViewer({post, children, loading, error}) {
+
+const Comment=styled.div`
+    backgroud: skyblue;
+    display: flex;
+`
+const CommentItem=React.memo(({comment, onRemove}) => (
+    <Comment onClick={()=> onRemove(comment)}>
+        <StyledAvatar/>
+        #{comment}
+    </Comment>
+));
+
+const CommentList=React.memo(({comments, onRemove})=> (
+    <>
+        {comments.map(comment=> (
+            <CommentItem key={comment} tag={comment} onRemove={onRemove} />
+        ))}
+    </>
+));
+export default function PostViewer({post, children, loading, error, comments}) {
 
     //에러 발생 시
     if(error){
@@ -107,17 +126,9 @@ export default function PostViewer({post, children, loading, error}) {
                     {body}
                 </Typography>
             </StyledCardContent>
-            <CommentsListBlock>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {body}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {body}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {body}
-                </Typography>
-            </CommentsListBlock>
+            <CommentListBlock>
+                {comments && <CommentList variant="body2" color="textSecondary" component="p" />}
+            </CommentListBlock>
             <IconButtonBlock>
                 <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
