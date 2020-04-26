@@ -12,10 +12,10 @@ const [
     LIST_POSTS_FAILURE,
 ]=createRequestActionTypes('posts/LIST_POSTS');
 const [
-    GET_POSTS_COMMENTS,
-    GET_POSTS_COMMENTS_SUCCESS,
-    GET_POSTS_COMMENTS_FAILURE,
-]=createRequestActionTypes('posts/GET_POSTS_COMMENTS');
+    WRITE_COMMENT,
+    WRITE_COMMENT_SUCCESS,
+    WRITE_COMMENT_FAILURE,
+]=createRequestActionTypes('posts/WRITE_COMMENT');
 const [
     READ_MORE,
     READ_MORE_SUCCESS,
@@ -40,13 +40,17 @@ const readMorePostsSaga=createRequestSaga(READ_MORE, postsAPI.listPosts);
 
 export const changeField = createAction(
     CHANGE_FIELD,
-    ({ id, key, value })=>({
-        id, //postId
+    ({ index, key, value })=>({
+        index,
         key, //comment, like
         value, //실제 바꾸려는 값
     }),
 );
-
+export const writeComment=createAction(WRITE_COMMENT, ({index, postId, comment})=> ({
+    index,
+    postId,
+    comment,
+}));
 function* scrollBottomSaga(action) {
     console.dir(action);
     const state=yield select();
@@ -70,14 +74,42 @@ function* scrollBottomSaga(action) {
         console.log('로딩 중');
     }
 }
+
+function* writeCommentSaga(action) {
+    //Note: reaction 로딩 상태는 loading 모듈이 아닌 posts 배열 각각의 요소 내부에서 관리
+    try{
+        const response = yield call(postsAPI.writeComment, action.payload);
+        console.dir(response);
+        yield put({
+            type: WRITE_COMMENT_SUCCESS,
+            payload: {
+                index: action.payload.index,
+                comments: response.data,
+            },
+            meta: response,
+        });
+    }catch (e) {
+        console.dir(e);
+
+        yield put({
+            type: WRITE_COMMENT_FAILURE,
+            payload: {
+                index: action.payload.index,
+                postError: e,
+            },
+            error: true,
+        });
+    }
+}
 export function* postsSaga(){
     yield takeLatest(LIST_POSTS, listPostsSaga);
     yield takeLatest(SCROLL_BOTTOM, scrollBottomSaga);
+    yield takeLatest(WRITE_COMMENT, writeCommentSaga);
 }
 
 const initialState={
+    //Note: reaction 로딩 상태는 loading 모듈이 아닌 posts 배열 각각의 요소 내부에서 관리
     posts: null,
-    reaction: {},
     error: null,
     lastPage: 1,
     page: 1, //Todo: backend api response 값으로 읽은 페이지 수 가져오기
@@ -92,7 +124,6 @@ const posts=handleActions(
                     comments: comments,
                 }
             )); //comments 배열과 그 외의 프로퍼티 분리
-
             return {
                 ...state,
                 posts :postsObject,
@@ -109,8 +140,7 @@ const posts=handleActions(
                     postContent: {...post},
                     comments: comments,
                 }
-            )); //comments 배열과 그 외의 프로퍼티 분리
-            //console.dir(postsObject);
+            ));
             return {
                 ...state,
                 posts: state.posts.concat(postsObject),
@@ -118,12 +148,34 @@ const posts=handleActions(
                 lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
             }
         },
-        [CHANGE_FIELD]: (state, { payload: { id, key, value }}) =>
+        [CHANGE_FIELD]: (state, { payload: { index, key, value }}) =>
             produce(state, draft => {
-                draft.reaction[id]={
+                draft.posts[index].reaction={
                     [key]: value,
-                } //예 state.reaction.commentInput 바꾼다
+                }
             }),
+        //Note: reaction 로딩 상태는 loading 모듈이 아닌 posts 배열 각각의 요소 내부에서 관리
+        [WRITE_COMMENT]: (state, {payload: {index}})=>
+            produce(state, draft=> {
+                draft.posts[index].commentsLoading=true; //로딩 시작
+            }),
+        [WRITE_COMMENT_SUCCESS]: (state, {payload: {index, comments}})=>
+            produce(state, draft=> {
+                console.dir(index);
+                console.dir(comments);
+                draft.posts[index].comments=comments;
+                draft.posts[index].reaction={
+                    comments: "",
+                };
+                draft.posts[index].commentsLoading=false; //로딩 끝
+            }),
+        [WRITE_COMMENT_FAILURE]: (state, {payload: {index, postError}}) =>
+            produce(state, draft=> {
+                console.log(index);
+                console.log(postError);
+                draft.posts[index].commentsLoading=false; //로딩 끝
+                draft.error=postError;
+        }),
 
     },
     initialState,

@@ -2,50 +2,54 @@ import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {changeField} from '../../../modules/posts';
 import CommentInput from '../../../components/community/postList/CommentInput';
-import {writeComment} from "../../../modules/post";
+import {writeComment} from "../../../modules/posts";
 
-const ListReactionContainer=({postId})=> {
+const ListReactionContainer=({ index, post})=> {
     const dispatch=useDispatch();
     const loader=useRef();
     const containerRef=useRef();
 
-    const { posts, error, user, reaction}=useSelector(
-        ({ posts, loading, user})=> ({
-            posts: posts.posts,
-            reaction: posts.reaction,
-            error: posts.error,
+
+    const {  error, submitCommentLoading, user}=useSelector(
+        ({ loading, user})=> ({
+            //submitCommentLoading: loading['posts/WRITE_COMMENT'],
+            //submitCommentLoading: post.commentsLoading || false,
             user: user.user,
+            //posts: posts.posts,
+            //error: posts.error,
+
         }),
     );
 
     const onChangeField=useCallback(e=> {
-        console.log('current onChangeField: ', e.target);
-        return dispatch(changeField({ id: postId, key: e.target.name, value: e.target.value}));
+        //console.log('current onChangeField: ', e.target);
+        return dispatch(changeField({ index: index, key: e.target.name, value: e.target.value}));
     }, [dispatch]);
 
 
     const submitComment=(input)=>{
-            dispatch(
-                writeComment({
-                    postId: postId,
-                    comment: input,
-                }),
-            );
-        };
-
+        dispatch(
+            writeComment({
+                index: index,
+                postId: post.postContent._id,
+                comment: input,
+            }),
+        );
+    };
 
     return (
         <>
             <CommentInput
                 error={error}
                 onChangeField={onChangeField}
-                postId={postId}
-                reaction={reaction[postId]}
-                //onSubmitWrapper={onSubmitWrapper}
+                user={user}
                 submitComment={submitComment}
+                loading={post.commentsLoading || false}
+                //loading={submitCommentLoading}
             />
         </>
     );
 };
 
-export default ListReactionContainer;
+export default React.memo(ListReactionContainer);
+//export default ListReactionContainer;

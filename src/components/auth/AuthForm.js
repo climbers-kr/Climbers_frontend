@@ -120,14 +120,6 @@ const AuthForm=({ type, form, onChange, onSubmit, error })=> {
                         value={form.passwordConfirm}
                     />
                 )}
-                {type === 'login' ? (
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
-                ) : (
-                    undefined
-                )}
 
                 {error && <ErrorMessage>{error}</ErrorMessage>}
                 <Button

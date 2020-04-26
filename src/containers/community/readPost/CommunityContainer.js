@@ -21,7 +21,6 @@ const CommunityContainer=({location})=> {
             page: posts.page,
         }),
     );
-
     useEffect(()=> {
         const {tag, username, page}=qs.parse(location.search, {
             ignoreQueryPrefix: true,

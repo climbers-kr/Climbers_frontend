@@ -1,25 +1,24 @@
 import styled from "styled-components";
-import React, {useEffect} from "react";
-
-
+import React from "react";
 
 const CommentItemBlock=styled.div`
     display: flex;
     margin: 0;
     padding: 0;
-`
+`;
 
 const Commenter=styled.p`
-    font-weight: 550;
+    font-weight: 500;
     padding: 0 10px;
-    margin: 5px;
+    margin: 0;
 `;
 const CommentText=styled.p`
     flex: 3;
-    margin: 5px;
-`
-const CommentItem=(({comment, onRemove}) => (
-    <CommentItemBlock onClick={()=> onRemove(comment)}>
+    font-weight: 100;
+    margin: 0;
+`;
+const CommentItem=(({comment}) => (
+    <CommentItemBlock>
         <Commenter>{comment.commenter.username}</Commenter>
         <CommentText>{comment.comment}</CommentText>
     </CommentItemBlock>
@@ -27,17 +26,13 @@ const CommentItem=(({comment, onRemove}) => (
 
 function CommentList({ comments }) {
 
-    //console.dir(post.postComment)
-
     return (
-
         <>
             { comments.map((comment) =>
                 (<CommentItem comment={comment} key={comment._id}/>)
             )}
 
         </>
-
     );
 }
 export default CommentList;
