@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 const TextForm=({onChangeField, body})=>{
     const classes = useStyles();
     return (
-        <form>
+        <>
                 <TextField
                     margin="normal"
                     fullWidth
@@ -38,7 +38,7 @@ const TextForm=({onChangeField, body})=>{
                     value={body}
                     multiline
                 />
-        </form>
+        </>
     )
 };
 

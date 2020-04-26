@@ -34,12 +34,24 @@ const WhiteBox=styled(Container)`
     background: white;
     border-radius: 2px;
     display: flex;
+    //flex-wrap: wrap;
+    justify-content: space-between;
     flex-direction: column;
+    width: 80%;
+   
+    
+    @media(max-width: 400px) {
+        width: 95%;
+    }
+    @media(min-width: 900px) {
+        width: 60%;
+        max-width: 600px;
+    }
 `;
 const WriteTemplate=( {children} )=>{
     return(
         <WriteTemplateBlock>
-            <WhiteBox maxWidth="sm">
+            <WhiteBox >
                 {children}
             </WhiteBox>
         </WriteTemplateBlock>

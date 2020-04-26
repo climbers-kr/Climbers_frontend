@@ -12,18 +12,19 @@ export const imageUpload=({fileObject}) => {
 };
 
 //포스트 전체 업로드
-export const writePost=({imgUrlList, body, tags})=>
-    client.post('/api/community/post', {imgUrlList, body, tags});
+export const writePost=({imgUrlList, body, tags, centerTag, category})=>
+    client.post('/api/community/post', {imgUrlList, body, tags, centerTag, category});
 
 export const writeComment=({postId, comment})=>
     client.post(`/api/community/${postId}/comment`, {comment});
 
 //Get post list
-export const listPosts=({page, username, tag})=> {
+export const listPosts=({page, username, tag, category})=> {
     const queryString = qs.stringify({
         page,
         username,
         tag,
+        category,
     });
     return client.get(`/api/community?${queryString}`);
 };

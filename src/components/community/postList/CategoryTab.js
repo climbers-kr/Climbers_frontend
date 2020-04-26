@@ -121,7 +121,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function CommunityTemplate({children, CategoryTabContainer}) {
+export default function CategoryTab({children}) {
     const classes = useStyles(theme);
     const [value, setValue] = React.useState(0);
 
@@ -136,14 +136,52 @@ export default function CommunityTemplate({children, CategoryTabContainer}) {
         console.log(event.target.value);
     };
     return (
-        <div className={classes.root}>
-            <CategoryTabContainer/>
-            <div className={classes.postList}>
-                {children}
+        <>
+            <div className={classes.topBox}>
+                <LinkWrapperFab color="primary" aria-label="add" variant="extended" to="/write">
+                    새 게시글
+                </LinkWrapperFab>
+                <FormControl variant="outlined">
+                    <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        value={age}
+                        onChange={handleChange2}
+                        label="Category"
+                    >
+                        <MenuItem value={0}>
+                            <em>All</em>
+                        </MenuItem>
+                        <MenuItem value={1}>정보</MenuItem>
+                        <MenuItem value={2}>문제</MenuItem>
+                        <MenuItem value={3}>일상</MenuItem>
+                        <MenuItem value={4}>유머</MenuItem>
+                    </Select>
+                </FormControl>
             </div>
-            <div className={classes.rightBox}>
-                <AlignItemList/>
+            <div className={classes.leftBox}>
+                <div className={classes.tabBox}>
+                    <LinkWrapperFab className={classes.fab} color="primary" aria-label="add" variant="extended" to="/write">
+                        새 게시글
+                    </LinkWrapperFab>
+                    <Tabs
+                        orientation="vertical"
+                        variant="scrollable"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="Vertical tabs example"
+                        className={classes.tabs}
+                    >
+                        <Tab label="All" {...a11yProps(0)} />
+                        <Tab label="정보" {...a11yProps(1)} />
+                        <Tab label="문제" {...a11yProps(2)} />
+                        <Tab label="일상" {...a11yProps(3)} />
+                        <Tab label="유머" {...a11yProps(4)} />
+                    </Tabs>
+                </div>
             </div>
-        </div>
+        </>
+
     );
 }

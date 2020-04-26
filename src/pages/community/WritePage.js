@@ -6,6 +6,7 @@ import WriteActionButtonContainer from "../../containers/community/writePost/Wri
 import TagBoxContainer from "../../containers/community/writePost/TagBoxContainer";
 import {useSelector} from "react-redux";
 import {withRouter} from 'react-router-dom';
+import CategorySelectorContainer from "../../containers/community/writePost/CategorySelectorContainer";
 
 const WritePage=({history})=>{
 
@@ -22,6 +23,7 @@ const WritePage=({history})=>{
         <WriteTemplate>
             <ImageContainer/>
             <TextContainer/>
+            <CategorySelectorContainer/>
             <TagBoxContainer/>
             <WriteActionButtonContainer/>
         </WriteTemplate>

@@ -40,10 +40,12 @@ export const changeField=createAction(CHANGE_FIELD, ({key, value}) => ({
     value,
 }));
 
-export const writePost=createAction(WRITE_POST, ({imgList, body, tags})=> ({
+export const writePost=createAction(WRITE_POST, ({imgList, body, tags , centerTag, category})=> ({
     imgList,
     body,
     tags,
+    centerTag,
+    category,
 }));
 //이미지 파일 리스트 업로드를 위한 큐
 function* uploadQueueSaga(imgList){
@@ -99,10 +101,9 @@ function* saveFileSaga(action) {
 function* writePostSaga(action){
     console.dir(action)
     yield put(startLoading(WRITE_POST));
-    const { imgList, body, tags } = action.payload;
+    const { imgList, body, tags, centerTag, category } = action.payload;
 
     if(imgList.length !== 0){
-
         const isUploaded=yield call (uploadQueueSaga, imgList);
         if(!isUploaded) {
             yield put({
@@ -118,7 +119,9 @@ function* writePostSaga(action){
         const response=yield call (postsAPI.writePost, {
             imgUrlList,
             body,
-            tags
+            tags,
+            centerTag,
+            category,
         });
         console.dir(response);
         yield put({
@@ -153,6 +156,7 @@ const initialState={
         queueError: null,
     },
     body: '',
+    category: '일상',
     tags: [],
     imgUrlList: [],
     hasImages: false, //선택된 이미지 파일이 있는지

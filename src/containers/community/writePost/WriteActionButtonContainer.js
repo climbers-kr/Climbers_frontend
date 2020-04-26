@@ -6,10 +6,12 @@ import {writePost} from '../../../modules/write';
 
 const WriteActionButtonContainer= ({history}) => {
     const dispatch=useDispatch();
-    const { imgList, body, tags, post, postError}=useSelector(({write})=> ({
+    const { imgList, body, tags, centerTag, category, post, postError}=useSelector(({write})=> ({
         imgList: write.imgQueue.imgList,
         body: write.body,
         tags: write.tags,
+        centerTag: write.centerTag,
+        category: write.category,
         post: write.post,
         postError: write.postError,
     }));
@@ -21,6 +23,8 @@ const WriteActionButtonContainer= ({history}) => {
                 imgList,
                 body,
                 tags,
+                centerTag,
+                category,
             }),
         );
     };
@@ -31,8 +35,7 @@ const WriteActionButtonContainer= ({history}) => {
 
     useEffect(()=> {
         if(post) {
-            const {_id, user}=post;
-            history.push(`/@${user.username}/${_id}`);
+            history.push('/community');
         }else{
             console.log('no post');
         }
