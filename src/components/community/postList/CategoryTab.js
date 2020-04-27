@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {createMuiTheme, makeStyles} from '@material-ui/core/styles';
+import styled from 'styled-components';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import AlignItemList from '../../common/AlignItemList';
 import LinkWrapperFab from "../../common/LinkedFab";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import palette from '../../../lib/styles/palette';
 
 const breakpointValues = {
     xs: 0,
@@ -20,73 +18,35 @@ const breakpointValues = {
     xl: 1200,
 };
 const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
 
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
-
+const TopBox=styled.div`
+    display: none;
+    @media(max-width: 959px){
+        background-color: ${palette.gray[0]};
+        position: -webkit-sticky; /* 사파리 브라우저 지원 */
+        position: sticky;
+        top: 4rem;
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        &>* {
+            flex:1;
+            max-width: 180px;
+            margin: 10px;
+        }
+    }
+    @media(max-width: 600px){
+        top: 3rem;
+        padding-top: 0.7rem;
+    }                
+`;
 const useStyles = makeStyles(theme => ({
-    root: {
-        marginTop: '6rem',
-        display: 'flex',
-        flexDirection: 'row',
-        //background: 'skyblue',
-        [theme.breakpoints.down('sm')]: {
-            flexDirection: 'column',
-            width: '80%',
-            maxWidth: '650px',
-            margin: 'auto',
-            marginTop: '6rem',
-        },
-        [theme.breakpoints.down('xs')]: {
-            marginTop: '4rem',
-            flexDirection: 'column',
-            width: '100%',
-        },
-    },
     leftBox:{
         display: 'flex',
         flex: 1,
         justifyContent: 'flex-end',
         [theme.breakpoints.down('sm')]: {
             display: 'none',
-        },
-    },
-    topBox: {
-        display: 'none',
-        [theme.breakpoints.down('sm')]: {
-            display: 'flex',
-            justifyContent: 'space-around',
-            paddingBottom: '0.7rem',
-            '&>*':{
-                flex:1,
-                maxWidth: '180px',
-            }
         },
     },
     tabBox: {
@@ -102,15 +62,6 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
 
     },
-    postList: {
-        //backgroundColor: 'skyBlue',
-        flex: 1,
-        //display: 'flex',
-        justifyContent: 'center',
-        marginRight: '1rem',
-        marginLeft: '1rem',
-
-    },
     rightBox: {
         //backgroundColor: 'gray',
         flex: 1,
@@ -121,23 +72,19 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function CategoryTab({children}) {
+export default function CategoryTab({ onChangeCategory, category}) {
     const classes = useStyles(theme);
-    const [value, setValue] = React.useState(0);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-        console.log(value);
+    const handleSelectTab = (event, newValue) => {
+        onChangeCategory(newValue);
     };
-    const [age, setAge] = React.useState('');
 
-    const handleChange2 = (event) => {
-        setAge(event.target.value);
-        console.log(event.target.value);
+    const handleSelectChange = (event) => {
+        onChangeCategory(event.target.value);
     };
     return (
         <>
-            <div className={classes.topBox}>
+            <TopBox>
                 <LinkWrapperFab color="primary" aria-label="add" variant="extended" to="/write">
                     새 게시글
                 </LinkWrapperFab>
@@ -146,20 +93,20 @@ export default function CategoryTab({children}) {
                     <Select
                         labelId="demo-simple-select-outlined-label"
                         id="demo-simple-select-outlined"
-                        value={age}
-                        onChange={handleChange2}
+                        value={category}
+                        onChange={handleSelectChange}
                         label="Category"
                     >
-                        <MenuItem value={0}>
+                        <MenuItem value="">
                             <em>All</em>
                         </MenuItem>
-                        <MenuItem value={1}>정보</MenuItem>
-                        <MenuItem value={2}>문제</MenuItem>
-                        <MenuItem value={3}>일상</MenuItem>
-                        <MenuItem value={4}>유머</MenuItem>
+                        <MenuItem value="정보">정보</MenuItem>
+                        <MenuItem value="문제">문제</MenuItem>
+                        <MenuItem value="일상">일상</MenuItem>
+                        <MenuItem value="유머">유머</MenuItem>
                     </Select>
                 </FormControl>
-            </div>
+            </TopBox>
             <div className={classes.leftBox}>
                 <div className={classes.tabBox}>
                     <LinkWrapperFab className={classes.fab} color="primary" aria-label="add" variant="extended" to="/write">
@@ -168,20 +115,19 @@ export default function CategoryTab({children}) {
                     <Tabs
                         orientation="vertical"
                         variant="scrollable"
-                        value={value}
-                        onChange={handleChange}
+                        value={category}
+                        onChange={handleSelectTab}
                         aria-label="Vertical tabs example"
                         className={classes.tabs}
                     >
-                        <Tab label="All" {...a11yProps(0)} />
-                        <Tab label="정보" {...a11yProps(1)} />
-                        <Tab label="문제" {...a11yProps(2)} />
-                        <Tab label="일상" {...a11yProps(3)} />
-                        <Tab label="유머" {...a11yProps(4)} />
+                        <Tab label="All" value={""} />
+                        <Tab label="정보" value={"정보"} />
+                        <Tab label="문제" value={"문제"} />
+                        <Tab label="일상" value={"일상"} />
+                        <Tab label="유머" value={"유머"} />
                     </Tabs>
                 </div>
             </div>
         </>
-
     );
 }

@@ -22,22 +22,26 @@ const [
     READ_MORE_FAILURE,
 ]=createRequestActionTypes('posts/READ_MORE');
 
+const SELECT_CATEGORY='posts/SELECT_CATEGORY';
 const SCROLL_BOTTOM='posts/SCROLL_BOTTOM';
+const UNLOAD_POSTS='posts/UNLOAD_POSTS'; //포스트 페이지에서 벗어날 때 데이터 비우기
+const CHANGE_FIELD='posts/CHANGE_FIELD';
 
 export const listPosts=createAction(
     LIST_POSTS,
-    ({tag, username, page}) => ({tag, username, page}),
+    ({tag, username, category}) => ({tag, username, category}),
 );
-const CHANGE_FIELD='posts/CHANGE_FIELD';
 
 export const scrollBottom=createAction(SCROLL_BOTTOM,
-    ({tag, username}) => ({tag, username}),
+    ({tag, username, category}) => ({tag, username, category}),
 );
 
 const listPostsSaga=createRequestSaga(LIST_POSTS, postsAPI.listPosts);
 
 const readMorePostsSaga=createRequestSaga(READ_MORE, postsAPI.listPosts);
 
+export const selectCategory=createAction(SELECT_CATEGORY,
+    (category) => (category));
 export const changeField = createAction(
     CHANGE_FIELD,
     ({ index, key, value })=>({
@@ -51,6 +55,9 @@ export const writeComment=createAction(WRITE_COMMENT, ({index, postId, comment})
     postId,
     comment,
 }));
+
+export const unloadPosts=createAction(UNLOAD_POSTS);
+
 function* scrollBottomSaga(action) {
     console.dir(action);
     const state=yield select();
@@ -110,6 +117,7 @@ export function* postsSaga(){
 const initialState={
     //Note: reaction 로딩 상태는 loading 모듈이 아닌 posts 배열 각각의 요소 내부에서 관리
     posts: null,
+    category: '',
     error: null,
     lastPage: 1,
     page: 1, //Todo: backend api response 값으로 읽은 페이지 수 가져오기
@@ -117,6 +125,13 @@ const initialState={
 
 const posts=handleActions(
     {
+        [SELECT_CATEGORY]: (state, {payload: category}) => {
+            console.log(category)
+            return {
+                ...state,
+                category: category,
+            }
+        },
         [LIST_POSTS_SUCCESS]: (state, {payload: posts, meta: response}) => {
             const postsObject=posts.map(({comments, ...post})=>(
                 {
@@ -127,6 +142,7 @@ const posts=handleActions(
             return {
                 ...state,
                 posts :postsObject,
+                page: 1, //페이지 초기화
                 lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
             }
         },
@@ -148,6 +164,10 @@ const posts=handleActions(
                 lastPage: parseInt(response.headers['last-page'], 10), //문자열을 숫자로 변환
             }
         },
+        [READ_MORE_FAILURE]: (state, {payload: error}) => ({
+            ...state,
+            error,
+        }),
         [CHANGE_FIELD]: (state, { payload: { index, key, value }}) =>
             produce(state, draft => {
                 draft.posts[index].reaction={
@@ -176,6 +196,11 @@ const posts=handleActions(
                 draft.posts[index].commentsLoading=false; //로딩 끝
                 draft.error=postError;
         }),
+        [UNLOAD_POSTS]: (state)=> (
+            {
+                ...state,
+            }
+        ),
 
     },
     initialState,

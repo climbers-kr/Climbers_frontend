@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
 
+
 const GlobalStyle = createGlobalStyle`
 	body {
 		padding: 0;

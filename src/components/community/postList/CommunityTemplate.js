@@ -1,17 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {createMuiTheme, makeStyles} from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import AlignItemList from '../../common/AlignItemList';
-import LinkWrapperFab from "../../common/LinkedFab";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import {createGlobalStyle} from 'styled-components';
+import palette from '../../../lib/styles/palette';
 
+const GlobalStyle = createGlobalStyle`
+	body {
+		padding: 0;
+		margin: 0;
+		background-color: ${palette.gray[0]};
+	}
+`;
 const breakpointValues = {
     xs: 0,
     sm: 576,
@@ -20,35 +19,7 @@ const breakpointValues = {
     xl: 1200,
 };
 const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
 
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -77,40 +48,6 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
-    topBox: {
-        display: 'none',
-        [theme.breakpoints.down('sm')]: {
-            display: 'flex',
-            justifyContent: 'space-around',
-            paddingBottom: '0.7rem',
-            '&>*':{
-                flex:1,
-                maxWidth: '180px',
-            }
-        },
-    },
-    tabBox: {
-        //background: 'gray',
-        position: 'fixed',
-        width: '15%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
-    tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`,
-        width: '100%',
-
-    },
-    postList: {
-        //backgroundColor: 'skyBlue',
-        flex: 1,
-        //display: 'flex',
-        justifyContent: 'center',
-        marginRight: '1rem',
-        marginLeft: '1rem',
-
-    },
     rightBox: {
         //backgroundColor: 'gray',
         flex: 1,
@@ -121,29 +58,18 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function CommunityTemplate({children, CategoryTabContainer}) {
+export default function CommunityTemplate({children}) {
     const classes = useStyles(theme);
-    const [value, setValue] = React.useState(0);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-        console.log(value);
-    };
-    const [age, setAge] = React.useState('');
-
-    const handleChange2 = (event) => {
-        setAge(event.target.value);
-        console.log(event.target.value);
-    };
     return (
-        <div className={classes.root}>
-            <CategoryTabContainer/>
-            <div className={classes.postList}>
+        <>
+            <GlobalStyle/>
+            <div className={classes.root}>
                 {children}
+                <div className={classes.rightBox}>
+                    <AlignItemList/>
+                </div>
             </div>
-            <div className={classes.rightBox}>
-                <AlignItemList/>
-            </div>
-        </div>
+        </>
     );
 }

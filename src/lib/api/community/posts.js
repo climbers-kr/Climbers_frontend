@@ -26,6 +26,7 @@ export const listPosts=({page, username, tag, category})=> {
         tag,
         category,
     });
+    console.log(queryString)
     return client.get(`/api/community?${queryString}`);
 };
 

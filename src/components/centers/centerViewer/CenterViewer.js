@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CenterInfo from './CenterInfo';
-import CommunityContainer from "../../../containers/community/readPost/CommunityContainer";
+import CommunityContainer from "../../../containers/community/readPost/PostListContainer";
 
 const CarouselWrapper=styled.div`
     border-radius: 10px;
@@ -80,7 +80,6 @@ export default function CenterViewer({center, loading, error, children, post}){
                 </StyledTabs>
                 <CommunityContainer/>
             </PostListBlock>
-
         </>
     )
 }
