@@ -14,9 +14,11 @@ const CommunityPage=({match})=>{
             <CommunityTemplate CategoryTabContainer={CategoryTabContainer}>
                 <CategoryTabContainer/>
                 <PostListContainer/>
+
+                <Route path={`${match.path}/@:username/:postId`} component={PostPage}/>
             </CommunityTemplate>
         </>
 
     );
 };
-export default CommunityPage;
+export default withRouter(CommunityPage);

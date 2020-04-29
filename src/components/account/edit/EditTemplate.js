@@ -8,37 +8,40 @@ const FullScreen=styled.div`
     right: 0;
     left: 0;
     justify-content: center;
-    background: #f4f4f4;
-`;
-const Responsive=styled.div`
-    //background-color: #61dafb;
-    display: flex;
     align-items: center;
-    justify-content: center;
+    background: #f4f4f4;
     margin-top: 4rem;
-    width: 100%;
+`;
+const FormTemplate=styled.div`
+    display: flex;
+    position: absolute;
+    background-color: #ff8be6;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //max-width: 500px;
+    width: 600px;
     @media(max-width: 600px){
-        width: 100%;
+        width: 95%;
     }
-    @media(min-width: 1024px){
-        width: 90%;
-    }
-    @media(min-width: 1440px){
-        width: 80%;
-    }
-    @media(min-width: 2560px){
-        width: 70%;
-    }
+`;
+const FormHeader=styled.div`
+    border-bottom: 0.1px solid #c7c7c7;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
 `;
 
 const EditTemplate=({children})=>{
     return (
         <FullScreen>
-            <Responsive>
+            <FormTemplate>
+                <FormHeader>
+                    <p>프로필 편집</p>
+                </FormHeader>
                 {children}
-            </Responsive>
+            </FormTemplate>
         </FullScreen>
-
     );
 };
 export default EditTemplate;

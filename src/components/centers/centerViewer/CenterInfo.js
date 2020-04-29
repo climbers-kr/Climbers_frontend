@@ -98,11 +98,6 @@ export default function CenterInfo({center, loading, error, children}){
                                 {site}
                             </a>
                         ))}
-                        { center.sites.map((site, index)=>(
-                            <a key={index} href={site}>
-                                {site}
-                            </a>
-                        ))}
                     </div>
                 </div>
                 <div className={classes.textWrapper}>

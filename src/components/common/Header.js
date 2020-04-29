@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
     },
     link: {
-        margin: theme.spacing(1, 1.5),
+        margin: theme.spacing(1, 3),
         textDecoration: 'none',
         color: 'white',
     },
@@ -61,7 +61,6 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
-
 }));
 
 
@@ -117,15 +116,10 @@ const Header = ({ user, onLogout }) => {
             onClick={toggleDrawer(side, false)}
             onKeyDown={toggleDrawer(side, false)}
         >
-            <List>
+            <List className={classes.list}>
                 <ListItem button >
                     <Link to="/centers">
                         암장 정보
-                    </Link>
-                </ListItem>
-                <ListItem button >
-                    <Link to="/events">
-                        이벤트
                     </Link>
                 </ListItem>
                 <ListItem button >
@@ -143,8 +137,12 @@ const Header = ({ user, onLogout }) => {
                         모임/대회
                     </Link>
                 </ListItem>
+                <ListItem button >
+                    <Link to="/events">
+                        이벤트
+                    </Link>
+                </ListItem>
             </List>
-
         </div>
     );
 
@@ -152,26 +150,21 @@ const Header = ({ user, onLogout }) => {
         <>
             <AppBar className={classes.appBar}>
                 <Toolbar>
-                        <IconButton
-                            edge="start"
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="menu"
-                            onClick={toggleDrawer('top', true)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-
-
+                    <IconButton
+                        edge="start"
+                        className={classes.menuButton}
+                        color="inherit"
+                        aria-label="menu"
+                        onClick={toggleDrawer('top', true)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Link className={classes.title} to="/" >
                         <img src={url} alt="logo" width="112" height="28" />
                     </Link>
                         <nav className={classes.menuItem}>
                             <Link to="/centers" className={classes.link}>
                                 암장 정보
-                            </Link>
-                            <Link to="/events" className={classes.link}>
-                                이벤트
                             </Link>
                             <Link to="/community" className={classes.link}>
                                 커뮤니티
@@ -182,8 +175,10 @@ const Header = ({ user, onLogout }) => {
                             <Link variant="button" color="inherit" to="/market" className={classes.link}>
                                 모임/대회
                             </Link>
+                            <Link to="/events" className={classes.link}>
+                                이벤트
+                            </Link>
                         </nav>
-
 
                     {user ? (
                         <>
@@ -206,8 +201,14 @@ const Header = ({ user, onLogout }) => {
                                             <ClickAwayListener onClickAway={handleClose}>
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                                     <MenuItem onClick={handleClose}>
+                                                        <Link variant="button" to="/user/edit" className={classes.menuLink}>
+                                                            프로필
+                                                        </Link>
+                                                    </MenuItem>
+                                                    <Divider />
+                                                    <MenuItem onClick={handleClose}>
                                                         <Link variant="button" to="/accounts/edit" className={classes.menuLink}>
-                                                            마이 페이지
+                                                            Setting
                                                         </Link>
                                                     </MenuItem>
                                                     <MenuItem onClick={handleClose}>My account</MenuItem>

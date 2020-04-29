@@ -3,7 +3,7 @@ import {createMuiTheme, makeStyles} from '@material-ui/core/styles';
 import styled from 'styled-components';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import LinkWrapperFab from "../../common/LinkedFab";
+import WritePostButton from '../common/WritePostButton'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -85,9 +85,7 @@ export default function CategoryTab({ onChangeCategory, category}) {
     return (
         <>
             <TopBox>
-                <LinkWrapperFab color="primary" aria-label="add" variant="extended" to="/write">
-                    새 게시글
-                </LinkWrapperFab>
+                <WritePostButton />
                 <FormControl variant="outlined">
                     <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
                     <Select
@@ -109,9 +107,7 @@ export default function CategoryTab({ onChangeCategory, category}) {
             </TopBox>
             <div className={classes.leftBox}>
                 <div className={classes.tabBox}>
-                    <LinkWrapperFab className={classes.fab} color="primary" aria-label="add" variant="extended" to="/write">
-                        새 게시글
-                    </LinkWrapperFab>
+                    <WritePostButton />
                     <Tabs
                         orientation="vertical"
                         variant="scrollable"

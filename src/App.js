@@ -1,46 +1,51 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
+import {Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './components/common/CustomTheme'
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import CenterListPage from "./pages/centers/CenterListPage";
-import CommunityPage from "./pages/community/CommunityPage";
-import WritePage from "./pages/community/WritePage";
-
+import Community from './pages/community';
+import Account from './pages/account';
+import User from './pages/user';
+import Centers from './pages/centers';
 import VirtualizingTest from "./pages/test/VirtualizingTest";
 import DashboardPage from "./pages/admin/DashboardPage";
-
-import EditAccountPage from './pages/account/EditAccountPage';
-import CenterPage from "./pages/centers/CenterPage";
-import PostPage from "./pages/community/PostPage";
 
 function App() {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Route component={HomePage} path="/" exact/>
-                <Route component={LoginPage} path="/login"/>
-                <Route component={RegisterPage} path="/register"/>
-                <Route component={CenterListPage} path="/centers" exact/>
-                <Route component={CenterPage} path="/centers/:centerId" />
+                <Switch>
+                    <Route component={HomePage} path="/" exact />
 
-                <Route component={CommunityPage} path="/community" exact/>
-                <Route component={PostPage} path="/community/@:username/:postId"/>
+                    <Route component={LoginPage} path="/login" />
 
-                <Route component={WritePage} path="/write"/>
+                    <Route component={RegisterPage} path="/register" />
 
-                <Route component={EditAccountPage} path="/accounts/edit"/>
-                <Route component={VirtualizingTest} path="/test"/>
-                <Route component={DashboardPage} path="/dashboard"/>
-                <Route path="/accounts">
-                    <Route component={EditAccountPage} path="/edit"/>
-                </Route>
+                    <Route component={Centers} path="/centers" />
+
+                    <Route component={Community} path="/community" />
+
+                    <Route component={VirtualizingTest} path="/test" />
+
+                    <Route component={DashboardPage} path="/dashboard" />
+
+                    <Route component={User} path="/user" />
+
+                    <Route component={Account} path="/accounts" />
+
+                    <Route
+                        render={({location})=>(
+                            <div>
+                                <h2>이 페이지는 존재하지 않습니다.</h2>
+                                <p>{location.pathname}</p>
+                            </div>
+                        )}
+                    />
+                </Switch>
             </ThemeProvider>
-
         </>
     );
 }
 export default App;
-// <Route component={EditAccountPage} path="/accounts/edit"/>
