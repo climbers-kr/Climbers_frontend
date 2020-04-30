@@ -6,7 +6,7 @@ import AuthForm from '../../components/auth/AuthForm';
 import {check} from '../../modules/user';
 
 
-const LoginForm = ({ history }) => {
+const LoginFormContainer = ({ history }) => {
     const [error, setError] = useState(null);
 
     const dispatch = useDispatch();
@@ -79,4 +79,4 @@ const LoginForm = ({ history }) => {
     );
 };
 
-export default withRouter(LoginForm);
+export default withRouter(LoginFormContainer);

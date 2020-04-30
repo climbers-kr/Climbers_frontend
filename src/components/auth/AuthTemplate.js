@@ -36,6 +36,10 @@ const WhiteBox=styled(Container)`
     padding: 2rem;
     background: white;
     border-radius: 2px;
+    @media(max-width: 500px){
+      //padding: 1rem;
+      padding: 1rem 0;
+    }
 `;
 
 const AuthTemplate=( {children} )=>{

@@ -158,6 +158,7 @@ const initialState={
         queueError: null,
     },
     username: '',
+    phone: '',
     name: '',
     sex: '',
     lv: '',

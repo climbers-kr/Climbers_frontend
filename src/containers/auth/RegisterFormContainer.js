@@ -1,21 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeField, initializeForm, register} from "../../modules/auth";
-import AuthForm from '../../components/auth/AuthForm';
+import {changeField, initializeForm, register, goNextStep, checkUsername} from "../../modules/auth";
+import RegisterForm from '../../components/auth/RegisterForm';
 import {check} from '../../modules/user';
 import {withRouter} from 'react-router-dom';
+import isMobilePhone from 'validator/lib/isMobilePhone';
+import {debounce} from "lodash";
 
-
-const RegisterForm = ({ history }) => {
+const RegisterFormContainer = ({ history }) => {
     const [error, setError] = useState(null);
 
     const dispatch = useDispatch();
-    const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
+    const { form, step, auth, authError, user, usernameValidation } = useSelector(({ auth, user }) => ({
         form: auth.register,
+        usernameValidation: auth.usernameValidation,
+        step: auth.step,
         auth: auth.auth,
         authError: auth.authError,
         user: user.user,
     }));
+    const debounceCheckUsername = useRef(debounce((value, name) => {
+        console.log("called debounceSomethingFunc");
+        if(name === 'username' && value !== ''){
+            console.log(value);
+            dispatch(checkUsername({username: value}));
+        }
+    }, 700)).current;
     //인풋 변경 이벤트 핸들러
     const onChange = e => {
         const { value, name } = e.target;
@@ -25,13 +35,18 @@ const RegisterForm = ({ history }) => {
                 key: name,
                 value
             })
-        )
+        );
+        debounceCheckUsername(value, name);
+        //debounceCheckUsername();
     };
 
-    //폼 등록 이벤트 핸들러
     const onSubmit = e => {
         e.preventDefault();
-        const { username, password, passwordConfirm } = form;
+        const { phone, username, password, passwordConfirm } = form;
+        if(!isMobilePhone(phone,'ko-KR')){
+            setError('올바른 연락처를 입력해주세요.');
+            return;
+        }
         //하나라도 비어 있다면
         if([username, password, passwordConfirm].includes('')) {
             setError('빈 칸을 모두 입력하세요.');
@@ -43,9 +58,12 @@ const RegisterForm = ({ history }) => {
             changeField({ form: 'register', key: 'passwordConfirm', value: '' });
             return;
         }
-        dispatch(register({ username, password }));
+        //dispatch(checkUsername(username))
+        dispatch(goNextStep());
     };
-
+    useEffect(()=>{
+        console.dir(isMobilePhone(form.phone,'ko-KR'));
+    }, [form.phone])
     //컴포넌트가 처음 렌더링 될 때 form 을 초기화 함
     useEffect(() => {
         dispatch(initializeForm('register'));
@@ -59,6 +77,9 @@ const RegisterForm = ({ history }) => {
             console.dir(authError);
             if(authError.response.status === 409) {
                 setError('이미 존재하는 계정명입니다.');
+                return;
+            }else {
+                setError('잘못된 사용자 이름입니다. 영문자, 숫자를 사용한 형식만 가능합니다.');
                 return;
             }
             //기타 이유
@@ -88,14 +109,16 @@ const RegisterForm = ({ history }) => {
     }, [history, user]);
 
     return (
-        <AuthForm
+        <RegisterForm
             type="register"
             form={form}
             onChange={onChange}
             onSubmit={onSubmit}
+            usernameValidation={usernameValidation}
             error={error}
+            step={step}
         />
     );
 };
 
-export default withRouter(RegisterForm);
+export default withRouter(RegisterFormContainer);

@@ -29,7 +29,9 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
+const StyledButton=styled(Button)`
+    margin: 10px;
+`;
 const InputLabelBox=styled.label`
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -130,15 +132,16 @@ const EditForm=({onChange, form, onSubmit, profileInfo, username, lv})=>{
                         list={selectListLv}
                         value={lv}
                     />
-                    <Button
+                    <StyledButton
                         type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={onSubmit}
                     >
-                        완료
-                    </Button>
+                        저장
+                    </StyledButton>
                 </form>
             </div>
         </>

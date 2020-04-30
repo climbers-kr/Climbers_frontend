@@ -8,6 +8,10 @@ export const login=({username, password})=>
 export const register=({username, password})=>
     client.post('/api/auth/register', {username, password});
 
+//사용자 이름 중복 확인
+export const checkDuplicate=({username})=>
+    client.post('/api/auth/checkDuplicate', {username});
+
 //로그인 상태 확인
 export const check=()=>client.get('/api/auth/check');
 
