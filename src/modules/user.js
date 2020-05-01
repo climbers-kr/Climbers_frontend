@@ -22,7 +22,7 @@ export const logout = createAction(LOGOUT);
 function* checkSaga(action) {
     yield put(startLoading(CHECK)); //로딩 시작
     try{
-        const response =  yield call(authAPI.check, action.payload);
+        const response = yield call(authAPI.check, action.payload);
         yield put({
             type: CHECK_SUCCESS,
             payload: response.data,

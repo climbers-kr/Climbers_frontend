@@ -1,20 +1,28 @@
 import {createAction, handleActions} from 'redux-actions';
 import produce from 'immer';
-import {takeLatest} from 'redux-saga/effects';
+import {takeLatest, call, put} from 'redux-saga/effects';
 import createRequestSaga, {
     createRequestActionTypes
 } from "../lib/createRequestSaga";
 import * as authAPI from '../lib/api/auth';
+import * as postsAPI from "../lib/api/community/posts";
 
 
 const CHANGE_FIELD='auth/CHANGE_FIELD';
 const INITIALIZE_FORM='auth/INITIALIZE_FORM';
 
-const NEXT_STEP='auth/NEXT_STEP';
-
-
 const [CHECK_USERNAME, CHECK_USERNAME_SUCCESS, CHECK_USERNAME_FAILURE] = createRequestActionTypes(
     'auth/CHECK_USERNAME',
+);
+const [CHECK_PHONE, CHECK_PHONE_SUCCESS, CHECK_PHONE_FAILURE] = createRequestActionTypes(
+    'auth/CHECK_PHONE',
+);
+const [NEXT_STEP, NEXT_STEP_SUCCESS, NEXT_STEP_FAILURE] = createRequestActionTypes(
+    'auth/NEXT_STEP',
+);
+
+const [PHONE_AUTH, PHONE_AUTH_SUCCESS, PHONE_AUTH_FAILURE] = createRequestActionTypes(
+    'auth/PHONE_AUTH',
 );
 
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes(
@@ -41,6 +49,8 @@ export const checkUsername=createAction(CHECK_USERNAME, username => username);
 
 export const goNextStep = createAction(NEXT_STEP);
 
+export const requestPhoneAuth = createAction(PHONE_AUTH, phone => phone);
+
 export const register = createAction(REGISTER, ({ username, password }) => ({
     username,
     password,
@@ -51,13 +61,40 @@ export const login = createAction(LOGIN, ({username, password}) => ({
     password,
 }));
 
-//사가 생성
-const checkUsernameSaga = createRequestSaga(CHECK_USERNAME, authAPI.checkDuplicate);
+function* goNextStepSaga(action) {
+    console.log("goNextStepSaga called", action)
+    //Todo: action.payload 에 들어가야 할것- phone
+    try{
+        const response=yield call (requestPhoneAuthSaga, action);
+
+        console.dir(response);
+
+        //Todo: step=2 변경
+        //Todo: call request phone validation api
+        return true;
+
+    }catch(e){
+        console.error(e);
+        /*
+        yield put({
+            type: SAVE_FILE_FAILURE,
+            payload: e,
+            error: true,
+        });*/
+        return false;
+    }
+}
+
+const checkUsernameSaga = createRequestSaga(CHECK_USERNAME, authAPI.checkUserConflict);
+//const checkPhoneConflictSaga = createRequestSaga(CHECK_PHONE, authAPI.checkPhoneConflict);
+const requestPhoneAuthSaga= createRequestSaga(PHONE_AUTH, authAPI.requestPhoneAuth);
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 
 export function* authSaga() {
     yield takeLatest(CHECK_USERNAME, checkUsernameSaga);
+    //yield takeLatest(NEXT_STEP, goNextStepSaga);
+    yield takeLatest(PHONE_AUTH, requestPhoneAuthSaga);
     yield takeLatest(REGISTER, registerSaga);
     yield takeLatest(LOGIN, loginSaga);
 }
@@ -68,7 +105,7 @@ const initialState = {
         username: '',
         password: '',
         passwordConfirm: '',
-        validationCode: null,
+        validationCode: '',
     },
     login: {
         username: '',
@@ -95,26 +132,25 @@ const auth=handleActions(
         //회원가입 성공
         [CHECK_USERNAME_SUCCESS]: (state) =>
             produce(state, draft => {
+                draft.usernameValidationError=null;
                 draft.usernameValidation=true;
         }),
         //회원가입 실패
         [CHECK_USERNAME_FAILURE]: (state, { payload: error }) =>
             produce(state, draft => {
                 draft.usernameValidation=false;
-                console.dir(error)
-                draft.authError=error;
-                /*
-                const errorStatus=error.response.status;
-                if(errorStatus===409){
-                    draft.authError="이미 사용하고 있는 사용자 이름 입니다."
-                } else {
-                    draft.authError='잘못된 사용자 이름입니다. 영문자, 숫자를 사용한 형식만 가능합니다.'
-                }*/
+                draft.usernameValidationError=error;
             }),
-        [NEXT_STEP]: (state, { payload: auth }) => ({
-            ...state,
-            step: 2,
-        }),
+        [NEXT_STEP]: (state, { payload: auth }) =>
+            produce(state, draft => {
+                draft.step=2;
+                draft.authError=null;
+            }),
+        [PHONE_AUTH_SUCCESS]: (state, { payload: response }) =>
+            produce(state, draft => {
+                draft.usernameValidationError=null;
+                draft.usernameValidation=true;
+            }),
         //회원가입 성공
         [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
             ...state,
