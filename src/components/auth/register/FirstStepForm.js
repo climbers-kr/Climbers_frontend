@@ -18,7 +18,7 @@ const Footer=styled.div`
     }
 `;
 
-export default function FirstStepForm({onChange, form, usernameError, onSubmit, classes}){
+export default function FirstStepForm({onChange, form, usernameError, onSubmit, classes, error}){
     //const classes = useStyles();
     return (
         <form onSubmit={onSubmit} className={classes.form}>
@@ -86,6 +86,7 @@ export default function FirstStepForm({onChange, form, usernameError, onSubmit, 
                 onChange={onChange}
                 value={form.passwordConfirm}
             />
+            {error && <ErrorMessage>{error}</ErrorMessage>}
             <Button
                 type="submit"
                 fullWidth

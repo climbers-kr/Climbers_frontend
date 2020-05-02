@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import React, {useEffect} from "react";
 import AskModal from "../../common/AskModal";
+import ErrorMessage from "../ErrorMessage";
 
 export default function SecondStepForm(
     {
@@ -13,7 +14,8 @@ export default function SecondStepForm(
         onChangeNumberButtonClick,
         onSubmitValidationCode,
         changeNumber,
-        classes
+        classes,
+        error
     }) {
     const [modalVisible, setModalVisible]=React.useState(false);
     const onRepeatRequestClick=(e)=>{
@@ -29,7 +31,7 @@ export default function SecondStepForm(
     return (
         <>
             {!changeNumber ? (
-                <form onSubmit={onSubmitValidationCode}>
+                <form className={classes.form} onSubmit={onSubmitValidationCode}>
                     <Typography className={classes.helpText} variant="h6">
                         문자 메시지로 전송된 코드를 입력하세요
                     </Typography>
@@ -111,22 +113,21 @@ export default function SecondStepForm(
                     </Button>
                 </>
             )}
+            {error && <ErrorMessage>{error}</ErrorMessage>}
         </>
     )
 };
 const Timer=({form, classes})=>{
     //sms 인증번호 timeout 설정
     const [timer, setTimer]=React.useState('');
-    const [intervalId, setIntervalId]=React.useState(null);
-    useEffect(()=>{
-        console.dir(intervalId)
-    }, [intervalId])
+    const intervals = {};
+    const intervalId=React.useRef(0);
     useEffect(()=> {
-        //let prevInterval;
+        intervalId.current++;
         if(form.validationCodeTimer) {
             const Interval=setInterval(()=>{
-                setIntervalId(Interval);
-                console.log("interval setting");
+                intervals[intervalId]=Interval;
+
                 const distance = 1000*60*5 - (new Date().getTime()-form.validationCodeTimer);
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = ('0'+ Math.floor((distance % (1000 * 60)) / 1000).toString()).slice(-2);
@@ -135,14 +136,12 @@ const Timer=({form, classes})=>{
 
                 if(distance < 0){
                     clearInterval(Interval);
-                    console.log('완료')
                     setTimer('인증 시간 초과');
                 }
             }, 1000)
         }
         return () => {
-            console.log('뒷정리')
-            clearInterval(intervalId)
+            clearInterval(intervals[intervalId]);
         };
     }, [form.validationCodeTimer]);
     return (

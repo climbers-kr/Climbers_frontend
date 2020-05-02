@@ -91,6 +91,7 @@ const RegisterForm=(
                         form={form}
                         usernameError={usernameError}
                         classes={classes}
+                        error={error}
                     />
                 )}
                 { (step===2) && (
@@ -102,9 +103,9 @@ const RegisterForm=(
                         onSubmitValidationCode={onSubmitValidationCode}
                         changeNumber={changeNumber}
                         classes={classes}
+                        error={error}
                     />
                 )}
-                {error && <ErrorMessage>{error}</ErrorMessage>}
             </>
         </div>
     );

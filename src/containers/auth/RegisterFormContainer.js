@@ -39,6 +39,7 @@ const RegisterFormContainer = ({ history }) => {
     }));
     //컴포넌트가 처음 렌더링 될 때 form 을 초기화 함
     useEffect(() => {
+        console.log('initialize')
         dispatch(initializeForm('register'));
     }, [dispatch]);
 
@@ -82,6 +83,12 @@ const RegisterFormContainer = ({ history }) => {
             setError('비밀번호가 일치하지 않습니다.');
             return;
         }
+        const passRule = new RegExp( /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/);
+
+        if(!passRule.test(password)) {
+            setError('비밀번호는 영문자, 숫자를 포함한 8~20자의 문자열만 가능합니다');
+            return;
+        }
         setError(null);
         dispatch(goNextStep());
         dispatch(requestPhoneAuth({ phone: phone }));
@@ -118,8 +125,6 @@ const RegisterFormContainer = ({ history }) => {
         if(!validationCode){
             setError('인증번호를 입력해주세요.');
             return;
-
-            //dispatch(requestPhoneAuth({ phone: phone }));
         }
         setError(null);
         dispatch(register({ phone, username, name, password, validationCode }));
@@ -131,7 +136,7 @@ const RegisterFormContainer = ({ history }) => {
                 //계정명이 이미 존재할 때
                 setUsernameError('이미 존재하는 계정명입니다.');
             }else {
-                setUsernameError('잘못된 사용자 이름입니다. 4~20자의 영문자, 숫자를 사용한 형식만 가능합니다.');
+                setUsernameError('4~20자의 영문자, 숫자를 사용한 형식만 가능합니다 (첫 글자는 영문).');
             }
         }else{
             //FIX BUG. 로그인 에러 발생한 상태에서 회원가입 폼으로 넘어가면 authError가 존재한 상태로 넘어가게 된다.
@@ -144,7 +149,6 @@ const RegisterFormContainer = ({ history }) => {
         if(authError) {
             console.log('계정명이 이미 존재할 때');
             //계정명이 이미 존재할 때
-            console.dir(authError);
             if(authError.response.status === 409) {
                 setError('이미 존재하는 계정명입니다.');
                 return;
@@ -156,13 +160,11 @@ const RegisterFormContainer = ({ history }) => {
             setError('회원가입 실패');
             return;
         }else{
-            console.dir("testsetestst");
             //FIX BUG. 로그인 에러 발생한 상태에서 회원가입 폼으로 넘어가면 authError가 존재한 상태로 넘어가게 된다.
             setError('');
         }
         if(auth) {
             console.log('회원가입 성공');
-            console.log(auth);
             dispatch(check());
         }
     }, [auth, authError, dispatch]);
