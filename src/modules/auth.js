@@ -5,8 +5,6 @@ import createRequestSaga, {
     createRequestActionTypes
 } from "../lib/createRequestSaga";
 import * as authAPI from '../lib/api/auth';
-import * as postsAPI from "../lib/api/community/posts";
-
 
 const CHANGE_FIELD='auth/CHANGE_FIELD';
 const INITIALIZE_FORM='auth/INITIALIZE_FORM';
@@ -14,12 +12,12 @@ const INITIALIZE_FORM='auth/INITIALIZE_FORM';
 const [CHECK_USERNAME, CHECK_USERNAME_SUCCESS, CHECK_USERNAME_FAILURE] = createRequestActionTypes(
     'auth/CHECK_USERNAME',
 );
-const [CHECK_PHONE, CHECK_PHONE_SUCCESS, CHECK_PHONE_FAILURE] = createRequestActionTypes(
-    'auth/CHECK_PHONE',
-);
+
 const [NEXT_STEP, NEXT_STEP_SUCCESS, NEXT_STEP_FAILURE] = createRequestActionTypes(
     'auth/NEXT_STEP',
 );
+
+const BACK_STEP = 'auth/BACK_STEP';
 
 const [PHONE_AUTH, PHONE_AUTH_SUCCESS, PHONE_AUTH_FAILURE] = createRequestActionTypes(
     'auth/PHONE_AUTH',
@@ -49,11 +47,16 @@ export const checkUsername=createAction(CHECK_USERNAME, username => username);
 
 export const goNextStep = createAction(NEXT_STEP);
 
+export const goBackStep = createAction(BACK_STEP);
+
 export const requestPhoneAuth = createAction(PHONE_AUTH, phone => phone);
 
-export const register = createAction(REGISTER, ({ username, password }) => ({
+export const register = createAction(REGISTER, ({ phone, username, name, password, validationCode }) => ({
+    phone,
     username,
+    name,
     password,
+    validationCode,
 }));
 
 export const login = createAction(LOGIN, ({username, password}) => ({
@@ -61,32 +64,7 @@ export const login = createAction(LOGIN, ({username, password}) => ({
     password,
 }));
 
-function* goNextStepSaga(action) {
-    console.log("goNextStepSaga called", action)
-    //Todo: action.payload 에 들어가야 할것- phone
-    try{
-        const response=yield call (requestPhoneAuthSaga, action);
-
-        console.dir(response);
-
-        //Todo: step=2 변경
-        //Todo: call request phone validation api
-        return true;
-
-    }catch(e){
-        console.error(e);
-        /*
-        yield put({
-            type: SAVE_FILE_FAILURE,
-            payload: e,
-            error: true,
-        });*/
-        return false;
-    }
-}
-
 const checkUsernameSaga = createRequestSaga(CHECK_USERNAME, authAPI.checkUserConflict);
-//const checkPhoneConflictSaga = createRequestSaga(CHECK_PHONE, authAPI.checkPhoneConflict);
 const requestPhoneAuthSaga= createRequestSaga(PHONE_AUTH, authAPI.requestPhoneAuth);
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
@@ -103,9 +81,11 @@ const initialState = {
     register: {
         phone: '',
         username: '',
+        name: '',
         password: '',
         passwordConfirm: '',
         validationCode: '',
+        validationCodeTimer: '',
     },
     login: {
         username: '',
@@ -114,6 +94,7 @@ const initialState = {
     step: 1,
     usernameValidation: false,
     usernameValidationError: null,
+    smsValidationError: null,
     auth: null,
     authError: null,
 };
@@ -141,10 +122,18 @@ const auth=handleActions(
                 draft.usernameValidation=false;
                 draft.usernameValidationError=error;
             }),
-        [NEXT_STEP]: (state, { payload: auth }) =>
+        [NEXT_STEP]: (state) =>
             produce(state, draft => {
                 draft.step=2;
                 draft.authError=null;
+            }),
+        [BACK_STEP]: (state) =>
+            produce(state, draft => {
+                draft.step=1;
+            }),
+        [PHONE_AUTH]:(state) =>
+            produce(state, draft => {
+                draft.register.validationCodeTimer=new Date().getTime();
             }),
         [PHONE_AUTH_SUCCESS]: (state, { payload: response }) =>
             produce(state, draft => {

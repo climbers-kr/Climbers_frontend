@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {changeField, initializeForm, login} from "../../modules/auth";
-import AuthForm from '../../components/auth/AuthForm';
+import LoginForm from '../../components/auth/login/LoginForm';
 import {check} from '../../modules/user';
 
 
@@ -69,7 +69,7 @@ const LoginFormContainer = ({ history }) => {
     }, [history, user]);
 
     return (
-        <AuthForm
+        <LoginForm
             type="login"
             form={form}
             onChange={onChange}

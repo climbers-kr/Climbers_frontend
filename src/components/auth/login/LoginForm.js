@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from 'react-router-dom';
-import palette from '../../lib/styles/palette';
+import palette from '../../../lib/styles/palette';
 import Button from "@material-ui/core/Button";
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(3, 0, 2),
     },
 }));
-const AuthForm=({ type, form, onChange, onSubmit, error, step })=> {
+const LoginForm=({ type, form, onChange, onSubmit, error, step })=> {
     const classes = useStyles();
     const text=textMap[type];
     const [value, setValue] = React.useState();
@@ -228,4 +228,4 @@ const AuthForm=({ type, form, onChange, onSubmit, error, step })=> {
     );
 };
 
-export default AuthForm;
+export default LoginForm;

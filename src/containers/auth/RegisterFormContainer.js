@@ -1,7 +1,15 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeField, initializeForm, register, goNextStep, checkUsername, requestPhoneAuth} from "../../modules/auth";
-import RegisterForm from '../../components/auth/RegisterForm';
+import {
+    changeField,
+    initializeForm,
+    register,
+    goNextStep,
+    goBackStep,
+    checkUsername,
+    requestPhoneAuth
+} from "../../modules/auth";
+import RegisterForm from '../../components/auth/register/RegisterForm';
 import {check} from '../../modules/user';
 import {withRouter} from 'react-router-dom';
 import isMobilePhone from 'validator/lib/isMobilePhone';
@@ -92,13 +100,35 @@ const RegisterFormContainer = ({ history }) => {
             setChangeNumber(true);
         }
     };
+    const onRepeatRequestPhoneAuth=()=>{
+        const { phone } = form;
+        dispatch(requestPhoneAuth({ phone: phone }));
+    };
+    const onSubmitValidationCode= e =>{
+        //step2- sms 인증번호 입력 후 제출
+        e.preventDefault();
 
+        const { phone, username, name, password, passwordConfirm, validationCode } = form;
+        //하나라도 비어 있다면
+        if([phone, username, password, passwordConfirm].includes('')) {
+            setError('빈 칸을 모두 입력하세요.');
+            dispatch(goBackStep()); //폼 state 초기화 대비
+            return;
+        }
+        if(!validationCode){
+            setError('인증번호를 입력해주세요.');
+            return;
+
+            //dispatch(requestPhoneAuth({ phone: phone }));
+        }
+        setError(null);
+        dispatch(register({ phone, username, name, password, validationCode }));
+    };
     //회원가입 성공/실패 처리
     useEffect(()=> {
         if(usernameValidationError) {
-            //계정명이 이미 존재할 때
-            console.dir(usernameValidationError);
             if(usernameValidationError.response.status === 409) {
+                //계정명이 이미 존재할 때
                 setUsernameError('이미 존재하는 계정명입니다.');
             }else {
                 setUsernameError('잘못된 사용자 이름입니다. 4~20자의 영문자, 숫자를 사용한 형식만 가능합니다.');
@@ -111,7 +141,6 @@ const RegisterFormContainer = ({ history }) => {
     }, [usernameValidation, usernameValidationError, dispatch]);
 
     useEffect(()=> {
-        /*
         if(authError) {
             console.log('계정명이 이미 존재할 때');
             //계정명이 이미 존재할 때
@@ -119,8 +148,8 @@ const RegisterFormContainer = ({ history }) => {
             if(authError.response.status === 409) {
                 setError('이미 존재하는 계정명입니다.');
                 return;
-            }else {
-                setError('잘못된 사용자 이름입니다. 영문자, 숫자를 사용한 형식만 가능합니다.');
+            }else if(authError.response.status === 401){
+                setError('잘못된 인증번호 입니다.');
                 return;
             }
             //기타 이유
@@ -130,7 +159,7 @@ const RegisterFormContainer = ({ history }) => {
             console.dir("testsetestst");
             //FIX BUG. 로그인 에러 발생한 상태에서 회원가입 폼으로 넘어가면 authError가 존재한 상태로 넘어가게 된다.
             setError('');
-        }*/
+        }
         if(auth) {
             console.log('회원가입 성공');
             console.log(auth);
@@ -160,7 +189,9 @@ const RegisterFormContainer = ({ history }) => {
             error={error}
             usernameError={usernameError}
             step={step}
+            onRepeatRequestPhoneAuth={onRepeatRequestPhoneAuth}
             onChangeNumberButtonClick={onChangeNumberButtonClick}
+            onSubmitValidationCode={onSubmitValidationCode}
             changeNumber={changeNumber}
         />
     );

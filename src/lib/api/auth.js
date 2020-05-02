@@ -5,16 +5,12 @@ export const login=({username, password})=>
     client.post('/api/auth/login', {username, password});
 
 //회원가입
-export const register=({username, password})=>
-    client.post('/api/auth/register', {username, password});
+export const register=({phone, username, name, password, validationCode})=>
+    client.post('/api/auth/register', {phone, username, name, password, validationCode});
 
 //사용자 이름 중복 확인
 export const checkUserConflict=({username})=>
     client.post('/api/auth/checkUserConflict', {username});
-
-//전화번호 중복 확인
-export const checkPhoneConflict=({phone})=>
-    client.post('/api/auth/checkPhoneConflict', {phone});
 
 //전화번호 인증 요청
 export const requestPhoneAuth=({phone})=>
