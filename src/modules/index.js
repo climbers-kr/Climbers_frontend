@@ -10,7 +10,8 @@ import saveCenter, {saveCenterSaga} from "./admin/saveCenter";
 import centerList, {centerListSaga} from "./centers/centerList";
 import home, {homeSaga} from "./home";
 import center, {centerSaga} from "./centers/center";
-import userProfile, {userProfileSaga} from './accounts/userProfile'
+import userProfileEdit, {userProfileEditSaga} from './accounts/userProfileEdit';
+import userProfile, {userProfileSaga} from "./accounts/userProfile";
 
 const rootReducer=combineReducers({
     auth,
@@ -23,9 +24,9 @@ const rootReducer=combineReducers({
     centerList,
     center,
     home,
+    userProfileEdit,
     userProfile,
 });
-
 
 export function* rootSaga() {
     yield all([
@@ -38,9 +39,9 @@ export function* rootSaga() {
         centerListSaga(),
         centerSaga(),
         homeSaga(),
+        userProfileEditSaga(),
         userProfileSaga(),
     ]);
 }
-
 
 export default rootReducer;

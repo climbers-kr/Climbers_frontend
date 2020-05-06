@@ -24,6 +24,9 @@ const UserProfileTemplateBlock=styled.div`
       margin-top: 3rem;
       justify-content: center;
     }
+    @media(min-width: 900px){
+      width: 80%;
+    }
     @media(min-width: 1200px){
       width: 1000px;
     }

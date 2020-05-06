@@ -34,4 +34,5 @@ export const listPosts=({page, username, tag, category})=> {
 //Get single user profile
 export const loadProfile= id => client.get(`/api/users/${id}`);
 
-
+//Get single user profile
+export const loadProfileByUsername= username => client.get(`/api/users/${username}`);

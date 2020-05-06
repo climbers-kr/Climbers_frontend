@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import ImageSelector from '../../../components/account/edit/ImageSelector';
 import {useDispatch, useSelector} from "react-redux";
-import {selectImage, loadProfile} from "../../../modules/accounts/userProfile";
+import {selectImage, loadProfile} from "../../../modules/accounts/userProfileEdit";
 
 const ImageSelectorContainer=()=>{
 

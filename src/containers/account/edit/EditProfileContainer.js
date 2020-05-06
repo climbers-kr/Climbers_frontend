@@ -1,7 +1,7 @@
 import React, {useEffect, useCallback} from 'react';
 import EditForm from '../../../components/account/edit/EditForm'
 import {useDispatch, useSelector} from "react-redux";
-import { loadProfile, changeField} from "../../../modules/accounts/userProfile";
+import { loadProfile, changeField} from "../../../modules/accounts/userProfileEdit";
 import {writePost} from "../../../modules/write";
 const EditProfileContainer=({history})=>{
     const dispatch = useDispatch();
