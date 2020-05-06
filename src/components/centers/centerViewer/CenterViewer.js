@@ -38,7 +38,6 @@ const StyledTabs=styled(Tabs)`
 
 const StyledTab=styled(Tab)`
     color: rgb(255,255,255);
-    
 `;
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -164,6 +164,11 @@ const initialState={
     lv: '',
     introduction: '',
     location: '',
+    joinedCenter: [],
+    visitedCenter: [],
+    winning: [],
+    schedule: [], //참석 예정인 모임, 대회
+    postNumber: 0, //작성한 post 수
     tags: [],
     profileImgUrl: null,
     post: null,

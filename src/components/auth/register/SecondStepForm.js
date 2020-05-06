@@ -56,6 +56,7 @@ export default function SecondStepForm(
                     >
                         인증 코드 재전송
                     </Button>
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                     <Grid container className={classes.gridButtonBox}>
                         <Grid item xs={4}>
                             <Button
@@ -103,6 +104,7 @@ export default function SecondStepForm(
                         onChange={onChange}
                         value={form.phone}
                     />
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                     <Button
                         variant="contained"
                         color="primary"
@@ -113,7 +115,7 @@ export default function SecondStepForm(
                     </Button>
                 </>
             )}
-            {error && <ErrorMessage>{error}</ErrorMessage>}
+
         </>
     )
 };

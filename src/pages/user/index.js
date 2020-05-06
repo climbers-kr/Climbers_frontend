@@ -5,7 +5,7 @@ import UserProfilePage from "./UserProfilePage";
 const User=({match})=>{
     return (
         <Switch>
-            <Route component={UserProfilePage} path={`${match.path}/:userId`} exact/>
+            <Route component={UserProfilePage} path={`${match.path}/:username`} exact/>
         </Switch>
 
     );

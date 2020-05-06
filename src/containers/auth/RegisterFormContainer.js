@@ -94,13 +94,14 @@ const RegisterFormContainer = ({ history }) => {
         dispatch(requestPhoneAuth({ phone: phone }));
     };
     const onChangeNumberButtonClick=()=>{
+        setError(null);
         if(changeNumber){
             const { phone } = form;
             if(!isMobilePhone(phone,'ko-KR')){
                 setError('올바른 연락처를 입력해주세요.');
                 return;
             }
-            setError(null);
+            //Todo: 전화번호 변경 확인 모달
             dispatch(requestPhoneAuth({ phone: phone }));
             setChangeNumber(false);
         }else {

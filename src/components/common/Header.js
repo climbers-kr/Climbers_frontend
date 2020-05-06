@@ -201,7 +201,7 @@ const Header = ({ user, onLogout }) => {
                                             <ClickAwayListener onClickAway={handleClose}>
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                                     <MenuItem onClick={handleClose}>
-                                                        <Link variant="button" to="/user/edit" className={classes.menuLink}>
+                                                        <Link variant="button" to={`/user/${user.username}`} className={classes.menuLink}>
                                                             프로필
                                                         </Link>
                                                     </MenuItem>
