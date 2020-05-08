@@ -1,8 +1,9 @@
 import React, {useEffect, useCallback} from 'react';
-import EditForm from '../../../components/account/edit/EditForm'
+import EditForm from '../../../components/account/edit/EditForm';
+import {withRouter} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import { loadProfile, changeField} from "../../../modules/accounts/userProfileEdit";
-import {writePost} from "../../../modules/write";
+
 const EditProfileContainer=({history})=>{
     const dispatch = useDispatch();
     const {
@@ -21,54 +22,26 @@ const EditProfileContainer=({history})=>{
         location: userProfile.location,
     }));
 
-    useEffect((user)=>{
+    //로그인 되어 있지 않으면 홈으로
+    useEffect(()=>{
         if(user){
             console.dir(user);
-            const {_id} = user;
-            dispatch(loadProfile(_id));
+            dispatch(loadProfile());
+        }else {
+            history.push('/');
         }
-        //언마운트 될 때 리덕스에서 form 데이터 없애기
-        return ()=>{
-            //dispatch(unloadPost());
-        };
     }, [dispatch]);
-    const { imgList, body, tags, centerTag, category, post, postError}=useSelector(({write})=> ({
-        imgList: write.imgQueue.imgList,
-        body: write.body,
-        tags: write.tags,
-        centerTag: write.centerTag,
-        category: write.category,
-        post: write.post,
-        postError: write.postError,
-    }));
+
 
     const onPublish = (e)=> {
         e.preventDefault();
-        dispatch(
-            writePost({
-                imgList,
-                body,
-                tags,
-                centerTag,
-                category,
-            }),
-        );
     };
 
     const onCancel=()=> {
         history.goBack();
     };
 
-    useEffect(()=> {
-        if(post) {
-            history.push('/community');
-        }else{
-            console.log('no post');
-        }
-        if(postError){
-            console.log(postError);
-        }
-    }, [history, post, postError]);
+
     //인풋 변경 이벤트 핸들러
     const onChange = useCallback(e => {
         const { value, name } = e.target;
@@ -86,11 +59,11 @@ const EditProfileContainer=({history})=>{
                 user={user}
                 onChange={onChange}
                 name={name}
-                username={user.username}
+                username={user && user.username}
                 lv={lv}
             />
 
         </>
     )
 };
-export default EditProfileContainer;
+export default withRouter(EditProfileContainer);

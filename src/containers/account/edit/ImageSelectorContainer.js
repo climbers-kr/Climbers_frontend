@@ -10,11 +10,11 @@ const ImageSelectorContainer=()=>{
         imgQueue,
         selectedImg,
         imageToUpload
-    } = useSelector(({ user, userProfile }) => ({
+    } = useSelector(({ user, userProfileEdit }) => ({
         user: user.user,
-        imgQueue: userProfile.imgQueue,
-        selectedImg: userProfile.imgQueue.selectedImg, //type: Array [{file: File, id: number, done: boolean}]
-        imageToUpload: userProfile.imgQueue.imageToUpload,
+        imgQueue: userProfileEdit.imgQueue,
+        selectedImg: userProfileEdit.imgQueue.selectedImg, //type: Array [{file: File, id: number, done: boolean}]
+        imageToUpload: userProfileEdit.imgQueue.imageToUpload,
     }));
 
     const dispatch = useDispatch();

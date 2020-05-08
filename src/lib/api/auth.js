@@ -21,3 +21,10 @@ export const check=()=>client.get('/api/auth/check');
 
 //로그아웃
 export const logout=()=>client.post('/api/auth/logout');
+
+//get 프로필
+export const loadProfile=()=>client.get('/api/auth/load-profile');
+
+export const updateProfileImg = ()=> client.post('/api/auth/update-profile-img');
+
+export const updateProfile = ()=> client.post('/api/auth/update-profile');

@@ -4,7 +4,7 @@ import createRequestSaga, {
 } from "../../lib/createRequestSaga";
 import { takeLatest, takeEvery, take, call, put, select } from 'redux-saga/effects';
 import {finishLoading, startLoading} from "../loading";
-import * as usersAPI from "../../lib/api/user";
+import * as authAPI from "../../lib/api/auth";
 import produce from "immer";
 
 const INITIALIZE='userProfileEdit/INITIALIZE';
@@ -23,10 +23,10 @@ const [
 ] = createRequestActionTypes('userProfileEdit/UPLOAD_QUEUE');
 /*포스트 폼 전체를 담당*/
 const [
-    WRITE_POST,
-    WRITE_POST_SUCCESS,
-    WRITE_POST_FAILURE,
-] = createRequestActionTypes('userProfileEdit/WRITE_POST');
+    UPDATE_PROFILE,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_FAILURE,
+] = createRequestActionTypes('userProfileEdit/UPDATE_PROFILE');
 
 
 /*개별 이미지 파일 업로드 담당*/
@@ -40,14 +40,14 @@ export const initialize=createAction(INITIALIZE);
 
 export const selectImage = createAction(SELECT_IMAGE, selectedImg => selectedImg);
 
-export const loadProfile=createAction(LOAD_PROFILE, id => id);
+export const loadProfile=createAction(LOAD_PROFILE);
 
 export const changeField=createAction(CHANGE_FIELD, ({key, value}) => ({
     key,
     value,
 }));
 
-export const writePost=createAction(WRITE_POST, ({imgList, body, tags , centerTag, category})=> ({
+export const writePost=createAction(UPDATE_PROFILE, ({imgList, body, tags , centerTag, category})=> ({
     imgList,
     body,
     tags,
@@ -79,7 +79,7 @@ function* uploadQueueSaga(selectedImg){
 //개별 파일 업로드
 function* saveFileSaga(action) {
     try{
-        const response = yield call(usersAPI.imageUpload, action.payload);
+        const response = yield call(authAPI.updateProfileImg, action.payload);
         console.dir(response);console.dir(response.data.url);
         yield put({
             type: SAVE_FILE_SUCCESS,
@@ -101,25 +101,25 @@ function* saveFileSaga(action) {
     }
 }
 
-function* writePostSaga(action){
+function* updateProfileSaga(action){
     console.dir(action)
-    yield put(startLoading(WRITE_POST));
+    yield put(startLoading(UPDATE_PROFILE));
     const { imgList, body, tags, centerTag, category } = action.payload;
 
     if(imgList.length !== 0){
         const isUploaded=yield call (uploadQueueSaga, imgList);
         if(!isUploaded) {
             yield put({
-                type: WRITE_POST_FAILURE,
+                type: UPDATE_PROFILE_FAILURE,
                 payload: 'IMAGE UPLOAD QUEUE ERROR'
             });
             return -1;
         }
     }
     const imgUrlList=yield select(state=> state.write.imgUrlList);
-    //for(let i=0; i<20; i++){//createDummy
+
     try{
-        const response=yield call (usersAPI.writePost, {
+        const response=yield call (authAPI.updateProfile, {
             imgUrlList,
             body,
             tags,
@@ -128,20 +128,20 @@ function* writePostSaga(action){
         });
         console.dir(response);
         yield put({
-            type: WRITE_POST_SUCCESS,
+            type: UPDATE_PROFILE_SUCCESS,
             payload: response.data,
         });
     }catch(e){
         yield put({
-            type: WRITE_POST_FAILURE,
+            type: UPDATE_PROFILE_FAILURE,
             payload: e,
             error: true,
         })
     }
-    yield put(finishLoading(WRITE_POST));
-    //}//createDummy
+    yield put(finishLoading(UPDATE_PROFILE));
+
 }
-const loadProfileSaga=createRequestSaga(LOAD_PROFILE, usersAPI.loadProfile);
+const loadProfileSaga=createRequestSaga(LOAD_PROFILE, authAPI.loadProfile);
 
 export function* userProfileEditSaga() {
     yield takeLatest(LOAD_PROFILE, loadProfileSaga);
@@ -164,23 +164,23 @@ const initialState={
     lv: '',
     introduction: '',
     location: '',
-    joinedCenter: [],
-    visitedCenter: [],
-    winning: [],
-    schedule: [], //참석 예정인 모임, 대회
-    postNumber: 0, //작성한 post 수
-    tags: [],
     profileImgUrl: null,
-    post: null,
-    postError: null,
+    profile: null,
+    profileError: null,
 };
 
 const userProfileEdit=handleActions(
     {
         [INITIALIZE]: state=> initialState,
-        [LOAD_PROFILE_SUCCESS]: (state, {payload: {key, value}})=>({
+        [LOAD_PROFILE_SUCCESS]: (state, {payload: profile})=>({
             ...state,
-            [key]: value, //특정 key 값을 업데이트
+            phone: profile.phone,
+            name: profile.name,
+            sex: profile.sex,
+            lv: profile.lv,
+            introduction: profile.introduction,
+            location: profile.location,
+            profileImgUrl: profile.profileImgUrl,
         }),
         [CHANGE_FIELD]: (state, {payload: {key, value}})=>({
             ...state,
@@ -214,7 +214,7 @@ const userProfileEdit=handleActions(
                 );
                 draft.imgUrlList[curOrder]=url;*/
             }),
-        [WRITE_POST]: (state, {payload: {imgList}})=>
+        [UPDATE_PROFILE]: (state, {payload: {imgList}})=>
             produce(state, draft=> {
                 const queue=draft.imgQueue;
                 queue.status='ready';
@@ -223,11 +223,11 @@ const userProfileEdit=handleActions(
                 draft.post=null;
                 draft.postError=null;
             }),
-        [WRITE_POST_SUCCESS]: (state, {payload: post})=>
+        [UPDATE_PROFILE_SUCCESS]: (state, {payload: post})=>
             produce(state, draft=> {
                 draft.post=post;
             }),
-        [WRITE_POST_FAILURE]: (state, {payload: postError}) => produce(state, draft=> {
+        [UPDATE_PROFILE_FAILURE]: (state, {payload: postError}) => produce(state, draft=> {
             draft.postError=postError;
         }),
         [UPLOAD_QUEUE_SUCCESS]: (state)=>
