@@ -37,7 +37,7 @@ function* scrollBottomSaga(action) {
 
     console.dir(state);
     const isLoading=state.loading['centerList/LIST_CENTERS'];
-    const centersState=state.centers;
+    const centersState=state.centerList;
     if(!isLoading && centersState.centers && centersState.lastPage!==centersState.page) {
         //Todo: lastPage 인 경우 다 읽었다고 띄우기, 스크롤 감지 멈추기
         console.dir(centersState.lastPage);

@@ -124,7 +124,7 @@ function SliderWrapper({children, to}) {
         ))
 }
 export default function Carousel({imgUrlList, to}) {
-    const url='https://climbers.herokuapp.com';
+    //const url='https://climbers.herokuapp.com';
     const classes = useStyles();
     const count=imgUrlList.length;
     return (
@@ -142,7 +142,7 @@ export default function Carousel({imgUrlList, to}) {
                         {
                             imgUrlList.map((image, index)=>(
                                 <Slide index={index} key={index}>
-                                    <LazyImage src={url+image}/>
+                                    <LazyImage src={image}/>
                                 </Slide>
                             ))
                         }
