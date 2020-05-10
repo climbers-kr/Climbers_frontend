@@ -38,19 +38,21 @@ const SortingButtonBlock=styled.div`
     display: flex;
     
 `;
+const StyledTextField=styled(TextField)`
+    margin: 0 1rem;
+`;
 export default function CenterListTemplate({children}) {
     return (
         <CenterListTemplateBlock>
             <Responsive>
                 <SortingButtonBlock>
-                    <Button variant="outlined" color="primary">
-                        Sort
+                    <Button size="small" variant="outlined" color="primary">
+                        지역 설정
                     </Button>
                     <form noValidate autoComplete="off">
-                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                        <StyledTextField id="outlined-basic" size="small" label="센터 이름으로 검색" variant="outlined" />
                     </form>
                 </SortingButtonBlock>
-
                 {children}
             </Responsive>
         </CenterListTemplateBlock>

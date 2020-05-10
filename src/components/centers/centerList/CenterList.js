@@ -68,7 +68,7 @@ const CenterList=({initialLoading, readMoreLoading, error, centers, loader,conta
             >
                 {initialLoading && (
                     <>
-                        <CircularProgress /><CircularProgress />
+                        <CircularProgress/>
                     </>
                 )}
 
