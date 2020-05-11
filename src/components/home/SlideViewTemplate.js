@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components";
-import SlideCard from "./SlideCard";
 
 
 const SlideViewSection=styled.div`
@@ -19,33 +18,35 @@ const SlideViewBlock=styled.div`
     background: linear-gradient(to bottom, #4BC0C8, #C779D0, #FEAC5E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     justify-content: center;
     padding: 10px 0 10px 0;
+    touch-action: none; //testing
 `;
 const Responsive=styled.div`
     display: flex;
-    width: 100%;
+    width: 90%;
     @media(min-width: 1024px){
         width: 90%;
     }
     @media(min-width: 1440px){
-        width: 80%;
+        //width: 75%;
+        max-width: 1100px;
     }
-    @media(min-width: 2560px){
-        width: 70%;
-    }
+    
+`;
+const Header=styled.h1`
+    color: white;
+    margin: 0 0 1vw 5vw;
+    font-size: large;
 `;
 
-export default function SlideViewTemplate(){
+export default function SlideViewTemplate({children, label}){
     return (
         <SlideViewSection>
-            <h1 style={{color: 'white', paddingLeft: '3rem'}}>
-                클라이밍 센터 추천
-            </h1>
+            <Header>
+                {label}
+            </Header>
             <SlideViewBlock>
                 <Responsive>
-                    <SlideCard/>
-                    <SlideCard/>
-                    <SlideCard/>
-                    <SlideCard/>
+                    {children}
                 </Responsive>
             </SlideViewBlock>
         </SlideViewSection>
