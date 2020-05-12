@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import ImageSelector from '../../../components/account/edit/ImageSelector';
 import {useDispatch, useSelector} from "react-redux";
-import {selectImage, loadProfile} from "../../../modules/accounts/userProfileEdit";
+import {selectImage, loadProfile, saveImage, selectImageCancel} from "../../../modules/accounts/userProfileEdit";
 
 const ImageSelectorContainer=()=>{
 
@@ -31,20 +31,30 @@ const ImageSelectorContainer=()=>{
     }, [dispatch, user]);
 
 
-    const onFileChange = e => {
+    const onSelectImage = e => {
         console.dir(e.target.files);
         dispatch(
-            selectImage({
-                file: e.target.files[0], //type: File
-            })
+            selectImage(
+                e.target.files[0], //type: File
+            )
         );
     };
+    const onSelectImageCancel = () => {
+        dispatch(
+            selectImageCancel()
+        );
+    };
+    const onSubmit= e => {
+        dispatch(saveImage())
+    }
 
     return (
         <>
             <ImageSelector
                 imgQueue={imgQueue}
-                onChange={onFileChange}
+                onChange={onSelectImage}
+                onSubmit={onSubmit}
+                onSelectImageCancel={onSelectImageCancel}
             />
 
         </>

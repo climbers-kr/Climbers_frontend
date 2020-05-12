@@ -1,18 +1,23 @@
-import React from 'react';
+import React, {useEffect, useCallback} from 'react';
 import styled from 'styled-components';
 import Avatar from "@material-ui/core/Avatar";
-import {makeStyles} from "@material-ui/core/styles";
+import SelectProfileModal from './SelectProfileModal';
 
-
-const Input=styled.input`
+const StyledLabel=styled.label`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top : 4px;
+`;
+const StyledInput=styled.input`
     overflow: hidden;
     width: 0;
     height: 0;
     position: absolute;
     top: 0;
 `;
-
-
 const UserImage=styled(Avatar)`
     width: 100px;
     height: 100px;
@@ -21,64 +26,43 @@ const UserImage=styled(Avatar)`
         height: 70px;
     }
 `;
-const FormTemplate=styled.div`
-    display: flex;
-    position: absolute;
-    background-color: white;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 500px;
-    @media(max-width: 600px){
-        width: 95%;
-    }
+const ErrorMessage=styled.p`
+    color: red;
 `;
 
-const useStyles = makeStyles(theme => ({
-    avatar: {
-        width: '100px',
-        height: '100px',
-    },
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-    },
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    label:{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent:'center',
-        alignItems: 'center',
-    }
-}));
+const ImageSelector=({onChange,imgQueue, error, form, onSubmit, onSelectImageCancel})=>{
+    const [modal, setModal]=React.useState(false);
+    useEffect(()=>{
+        if(imgQueue.selectedImg){
+            setModal(true);
+        }else{
+            setModal(false);
+        }
+    }, [imgQueue])
 
-
-
-
-const ImageSelector=({onChange, form, onSubmit})=>{
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+    const onCancel=()=>{
+        onSelectImageCancel();
+        setModal(false);
     };
     return (
         <>
-            <>
-                <label className={classes.label}>
-                    <UserImage  alt="profile-image"  />
-                    <p>프로필 사진 바꾸기</p>
-                    <Input
-                        accept="image/*"
-                        type="file"
-                        name="imgCollection"
-                        onChange={onChange}
-                    />
-                </label>
-            </>
+            { imgQueue.selectError && <ErrorMessage>5MB 이하의 jpg, jpeg, png, gif 파일만 가능합니다.</ErrorMessage> }
+            <StyledLabel>
+                <UserImage  alt="profile-image"  />
+                <p>프로필 사진 변경</p>
+                <StyledInput
+                    accept="image/*"
+                    type="file"
+                    name="imgCollection"
+                    onChange={onChange}
+                />
+            </StyledLabel>
+            <SelectProfileModal
+                visible={modal}
+                onCancel={onCancel}
+                selectedImg={imgQueue.selectedImg}
+                onSubmit={onSubmit}
+            />
         </>
     );
 };

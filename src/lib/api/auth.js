@@ -25,6 +25,10 @@ export const logout=()=>client.post('/api/auth/logout');
 //get 프로필
 export const loadProfile=()=>client.get('/api/auth/load-profile');
 
-export const updateProfileImg = ()=> client.post('/api/auth/update-profile-img');
+export const updateProfileImg = ({fileObject})=> {
+    const formData=new FormData();
+    formData.append('img', fileObject);
+    return client.post('/api/auth/update-profile-img', formData);
+};
 
 export const updateProfile = ()=> client.post('/api/auth/update-profile');

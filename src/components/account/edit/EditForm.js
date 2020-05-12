@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        background: 'skyblue',
+        justifyContent: 'center',
         width: '100%',
     },
     form: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const StyledButton=styled(Button)`
-    margin: 10px;
+    margin: 10px auto;
 `;
 const InputLabelBox=styled.label`
     display: grid;

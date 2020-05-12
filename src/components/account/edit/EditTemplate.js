@@ -29,7 +29,7 @@ const FormHeader=styled.div`
     border-bottom: 0.1px solid #c7c7c7;
     width: 100%;
     text-align: center;
-    margin-bottom: 1rem;
+    //margin-bottom: 1rem;
 `;
 
 const EditTemplate=({children})=>{
