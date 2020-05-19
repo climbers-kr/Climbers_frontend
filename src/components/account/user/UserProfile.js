@@ -68,7 +68,7 @@ function UserProfile({userProfile, loading}){
             { (!userProfile || loading) ? <ProfileSkeleton/> : (
                 <>
                     <UserImageWrapper>
-                        <Avatar className="userImage"/>
+                        <Avatar className="userImage" alt="profile-image" src={userProfile.profileImgUrl}/>
                     </UserImageWrapper>
                     <UserInfoBox>
                         <InfoItemWrapper>

@@ -30,7 +30,7 @@ const ErrorMessage=styled.p`
     color: red;
 `;
 
-const ImageSelector=({onChange,imgQueue, error, form, onSubmit, onSelectImageCancel})=>{
+const ImageSelector=({onChange,imgQueue, profileImgUrl, error, form, onSubmit, onSelectImageCancel})=>{
     const [modal, setModal]=React.useState(false);
     useEffect(()=>{
         if(imgQueue.selectedImg){
@@ -48,7 +48,7 @@ const ImageSelector=({onChange,imgQueue, error, form, onSubmit, onSelectImageCan
         <>
             { imgQueue.selectError && <ErrorMessage>5MB 이하의 jpg, jpeg, png, gif 파일만 가능합니다.</ErrorMessage> }
             <StyledLabel>
-                <UserImage  alt="profile-image"  />
+                <UserImage alt="profile-image" src={profileImgUrl} />
                 <p>프로필 사진 변경</p>
                 <StyledInput
                     accept="image/*"

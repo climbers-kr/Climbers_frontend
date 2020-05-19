@@ -4,17 +4,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectImage, loadProfile, saveImage, selectImageCancel} from "../../../modules/accounts/userProfileEdit";
 
 const ImageSelectorContainer=()=>{
-
     const {
         user,
         imgQueue,
-        selectedImg,
-        imageToUpload
+        profileImgUrl,
     } = useSelector(({ user, userProfileEdit }) => ({
         user: user.user,
         imgQueue: userProfileEdit.imgQueue,
-        selectedImg: userProfileEdit.imgQueue.selectedImg, //type: Array [{file: File, id: number, done: boolean}]
-        imageToUpload: userProfileEdit.imgQueue.imageToUpload,
+        profileImgUrl: userProfileEdit.profileImgUrl,
     }));
 
     const dispatch = useDispatch();
@@ -23,7 +20,6 @@ const ImageSelectorContainer=()=>{
             const {_id} = user;
             dispatch(loadProfile(_id));
         }
-
         //언마운트 될 때 리덕스에서 form 데이터 없애기
         return ()=>{
             //dispatch(unloadPost());
@@ -44,14 +40,15 @@ const ImageSelectorContainer=()=>{
             selectImageCancel()
         );
     };
-    const onSubmit= e => {
-        dispatch(saveImage())
-    }
+    const onSubmit= () => {
+        dispatch(saveImage());
+    };
 
     return (
         <>
             <ImageSelector
                 imgQueue={imgQueue}
+                profileImgUrl={profileImgUrl}
                 onChange={onSelectImage}
                 onSubmit={onSubmit}
                 onSelectImageCancel={onSelectImageCancel}
