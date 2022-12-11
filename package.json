@@ -18,7 +18,7 @@
     "nuka-carousel": "^4.6.6",
     "prop-types": "^15.7.2",
     "pure-react-carousel": "^1.27.0",
-    "qs": "^6.9.3",
+    "qs": "^6.5.3",
     "react": "^16.13.0",
     "react-daum-postcode": "^1.8.4",
     "react-dom": "^16.13.1",
